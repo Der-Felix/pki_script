@@ -1,0 +1,62 @@
+name: CI & PKI Verification
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    name: Lint & End-to-End Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openssl shellcheck bsdextrautils
+
+      - name: Validate OpenSSL Version
+        run: |
+          openssl version
+
+      - name: Run ShellCheck
+        run: |
+          shellcheck -e SC1091 -e SC2034 -e SC2155 lib/*.sh pki.sh build.sh completions/pki.bash
+
+      - name: Test Environment Diagnostics (Doctor)
+        run: |
+          chmod +x pki.sh build.sh pki
+          ./pki.sh doctor
+
+      - name: Test Standalone Build
+        run: |
+          ./build.sh
+          chmod +x dist/pki-standalone.sh
+          ./dist/pki-standalone.sh doctor
+
+      - name: Test PKI Initialization
+        run: |
+          ./pki.sh --dir /tmp/test-pki init \
+            --org "CI-Test-Lab" \
+            --intermediate server-ca \
+            --intermediate client-ca \
+            --no-pass
+
+      - name: Test Batch Certificate Issuance
+        run: |
+          export PKI_P12_PASS="ci-test-password"
+          ./pki.sh --dir /tmp/test-pki batch examples/network-auth-8021x.conf
+          ./pki.sh --dir /tmp/test-pki batch examples/webserver.conf
+          ./pki.sh --dir /tmp/test-pki batch examples/wildcard.conf
+
+      - name: Test Certificate Verification
+        run: |
+          ./pki.sh --dir /tmp/test-pki verify laptop-felix-8021x
+          ./pki.sh --dir /tmp/test-pki verify web01 --host web01.homelab.lan
+          ./pki.sh --dir /tmp/test-pki list
+          ./pki.sh --dir /tmp/test-pki check --days 30

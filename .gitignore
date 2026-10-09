@@ -1,0 +1,52 @@
+# ==============================================================================
+# Git Ignore Configuration for OpenSSL PKI Suite
+# Prevents accidental commitment of private keys, CA repositories, and secrets.
+# ==============================================================================
+
+# Generated PKI directory and databases
+/pki/
+**/pki/
+/publish/
+/backups/
+pki.conf
+.req.cnf
+
+# Private keys, certificates, bundles, and CRLs generated during operations
+# (Keep .conf files in examples/ intact)
+*.key
+*.p12
+*.pfx
+*.der
+*.crt
+*.crl
+*.csr
+*.tsq
+*.tsr
+key.pem
+key-plain.pem
+cert.pem
+chain.pem
+fullchain.pem
+ca-bundle.pem
+combined.pem
+cert.meta
+GUIDE.txt
+ANLEITUNG.txt
+
+# Backup files and archives
+*.bak
+*.tmp
+*.swp
+*~
+*.tar.gz
+*.zip
+
+# Operating System and Editor files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace

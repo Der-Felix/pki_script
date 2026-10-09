@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Kurz-Wrapper fuer pki.sh
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
+exec "$SCRIPT_DIR/pki.sh" "$@"
