@@ -5,56 +5,170 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OpenSSL Homelab PKI Suite &bull; Modular X.509 Infrastructure</title>
   <meta name="description" content="A modular, production-grade, file-based OpenSSL 3.x PKI generator and management suite for homelabs, clusters, and enterprise networks.">
-    <link rel="stylesheet" href="style.css?v=2.0.2">
+  <link rel="stylesheet" href="style.css?v=2.0.3">
   <style>
 /* ==============================================================================
-   OpenSSL PKI Suite - Matte Dark Minimalist Design System
-   Sleek, modern, matte tones with silky micro-animations
+   OpenSSL PKI Suite - Modern Matte Dark Documentation System
+   Powered by Animate.css (v4.1.1) scroll-triggered animations & 3-column layout
    ============================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
+/* === Animate.css v4.1.1 (Extracted Core & Keyframes) === */
 :root {
+  --animate-duration: 1s;
+  --animate-delay: 1s;
+  --animate-repeat: 1;
+
   /* Matte Dark Palette */
   --bg-canvas: #090b0e;
   --bg-surface: #0f1319;
   --bg-card: #141922;
-  --bg-card-hover: #1a202c;
+  --bg-card-hover: #19202c;
   --bg-code: #07090c;
-  --bg-elevated: #1f2633;
+  --bg-elevated: #1f2736;
   
   /* Borders */
   --border-subtle: rgba(255, 255, 255, 0.08);
   --border-medium: rgba(255, 255, 255, 0.15);
   --border-focus: #38bdf8;
-  --border-glow: rgba(56, 189, 248, 0.25);
+  --border-glow: rgba(56, 189, 248, 0.28);
   
   /* Typography */
-  --text-main: #e2e8f0;
+  --text-main: #cbd5e1;
   --text-heading: #f8fafc;
   --text-muted: #828fa3;
-  --text-dim: #505c70;
+  --text-dim: #4e5b6e;
   
   /* Accent Colors */
   --accent-cyan: #38bdf8;
-  --accent-cyan-bg: rgba(56, 189, 248, 0.1);
+  --accent-cyan-bg: rgba(56, 189, 248, 0.12);
   --accent-cyan-hover: #7dd3fc;
   --accent-blue: #60a5fa;
   --accent-emerald: #34d399;
-  --accent-emerald-bg: rgba(52, 211, 153, 0.1);
+  --accent-emerald-bg: rgba(52, 211, 153, 0.12);
   --accent-amber: #fbbf24;
-  --accent-amber-bg: rgba(251, 191, 36, 0.1);
+  --accent-amber-bg: rgba(251, 191, 36, 0.12);
   --accent-rose: #f43f5e;
-  --accent-rose-bg: rgba(244, 63, 94, 0.1);
 
-  /* Layout */
+  /* Layout dimensions */
   --sidebar-w: 280px;
+  --toc-w: 240px;
   --header-h: 60px;
   
-  /* Transitions */
-  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  /* Curves */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --transition-fast: 0.18s ease;
   --transition-smooth: 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Animate.css Base */
+.animate__animated {
+  animation-duration: var(--animate-duration);
+  animation-fill-mode: both;
+}
+.animate__fast {
+  animation-duration: 0.75s;
+}
+.animate__faster {
+  animation-duration: 0.45s;
+}
+.animate__slow {
+  animation-duration: 1.6s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate__animated {
+    animation-duration: 1ms !important;
+    transition-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+  }
+  .scroll-animate {
+    opacity: 1 !important;
+  }
+}
+
+/* Animate.css Keyframes */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate__fadeIn { animation-name: fadeIn; }
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -28px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+.animate__fadeInDown { animation-name: fadeInDown; }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+.animate__fadeInUp { animation-name: fadeInUp; }
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translate3d(-24px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+.animate__fadeInLeft { animation-name: fadeInLeft; }
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translate3d(24px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+.animate__fadeInRight { animation-name: fadeInRight; }
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale3d(0.92, 0.92, 0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
+}
+.animate__zoomIn { animation-name: zoomIn; }
+
+@keyframes pulse {
+  0% { transform: scale3d(1, 1, 1); }
+  50% { transform: scale3d(1.05, 1.05, 1.05); }
+  to { transform: scale3d(1, 1, 1); }
+}
+.animate__pulse { animation-name: pulse; animation-timing-function: ease-in-out; }
+
+/* Scroll-triggered elements stay invisible until triggered */
+.scroll-animate {
+  opacity: 0;
+  will-change: opacity, transform;
+}
+.scroll-animate.animate__animated {
+  opacity: 1;
 }
 
 /* Base Reset */
@@ -73,6 +187,8 @@ html {
 body {
   font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background-color: var(--bg-canvas);
+  background-image: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.05) 0%, transparent 60%);
+  background-repeat: no-repeat;
   color: var(--text-main);
   line-height: 1.65;
   font-size: 14.5px;
@@ -82,7 +198,7 @@ body {
   flex-direction: column;
 }
 
-/* Custom Matte Scrollbar */
+/* Matte Scrollbar */
 ::-webkit-scrollbar {
   width: 7px;
   height: 7px;
@@ -115,7 +231,7 @@ header.app-header {
   left: 0;
   right: 0;
   height: var(--header-h);
-  background-color: rgba(9, 11, 14, 0.92);
+  background-color: rgba(9, 11, 14, 0.94);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--border-subtle);
@@ -151,8 +267,8 @@ header.app-header {
 .logo-shield {
   width: 28px;
   height: 28px;
-  background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(96, 165, 250, 0.05));
-  border: 1px solid rgba(56, 189, 248, 0.35);
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.25), rgba(96, 165, 250, 0.08));
+  border: 1px solid rgba(56, 189, 248, 0.4);
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -163,11 +279,34 @@ header.app-header {
 .version-pill {
   font-size: 0.72rem;
   font-weight: 600;
-  padding: 2px 7px;
+  padding: 2px 8px;
   background: rgba(255, 255, 255, 0.05);
   color: var(--text-muted);
   border: 1px solid var(--border-subtle);
   border-radius: 12px;
+}
+
+.pulse-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pulse-badge::before {
+  content: '';
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--accent-emerald);
+  box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.5);
+  animation: pulseDot 2s infinite;
+}
+
+@keyframes pulseDot {
+  0% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.5); }
+  70% { box-shadow: 0 0 0 6px rgba(52, 211, 153, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); }
 }
 
 .header-right {
@@ -189,7 +328,7 @@ header.app-header {
   padding: 6px 12px 6px 34px;
   font-size: 13px;
   color: var(--text-main);
-  width: 210px;
+  width: 220px;
   transition: all var(--transition-smooth);
 }
 
@@ -197,7 +336,7 @@ header.app-header {
   outline: none;
   border-color: var(--accent-cyan);
   box-shadow: 0 0 0 3px var(--border-glow);
-  width: 280px;
+  width: 290px;
   background-color: var(--bg-card);
 }
 
@@ -212,7 +351,7 @@ header.app-header {
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-radius: 8px;
-  padding: 6px 12px;
+  padding: 6px 14px;
   color: var(--text-main) !important;
   font-size: 13px;
   font-weight: 500;
@@ -229,15 +368,16 @@ header.app-header {
   border-color: var(--border-medium);
 }
 
-/* Layout */
+/* Three-Column Application Layout */
 .app-layout {
   display: flex;
   margin-top: var(--header-h);
   min-height: calc(100vh - var(--header-h));
   position: relative;
+  justify-content: flex-start;
 }
 
-/* Sidebar */
+/* Left Sidebar (Navigation Tree) */
 aside.app-sidebar {
   position: fixed;
   top: var(--header-h);
@@ -294,13 +434,93 @@ aside.app-sidebar {
   font-weight: 600;
 }
 
-/* Main Content Area */
+/* Center Documentation Stream */
 main.app-main {
   margin-left: var(--sidebar-w);
-  padding: 40px 48px 100px;
-  max-width: 1040px;
-  width: calc(100% - var(--sidebar-w));
+  padding: 40px 52px 100px;
+  flex: 1;
+  max-width: 960px;
+  min-width: 0;
   box-sizing: border-box;
+}
+
+/* Right Sidebar (Table of Contents / Jump to section) */
+aside.toc-sidebar {
+  width: var(--toc-w);
+  padding: 40px 20px 100px 16px;
+  position: sticky;
+  top: var(--header-h);
+  height: calc(100vh - var(--header-h));
+  overflow-y: auto;
+  border-left: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.toc-title {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--text-dim);
+  letter-spacing: 0.8px;
+  margin-bottom: 10px;
+}
+
+.toc-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.toc-link {
+  display: block;
+  font-size: 12.8px;
+  color: var(--text-muted);
+  padding: 4px 8px;
+  border-radius: 5px;
+  border-left: 2px solid transparent;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.toc-link:hover {
+  color: var(--text-heading);
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.toc-link.active {
+  color: var(--accent-cyan);
+  border-left-color: var(--accent-cyan);
+  background: var(--accent-cyan-bg);
+  font-weight: 600;
+}
+
+.toc-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 14px;
+  margin-top: auto;
+  font-size: 12px;
+}
+
+.toc-card-title {
+  font-weight: 700;
+  color: var(--text-heading);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.toc-card p {
+  color: var(--text-muted);
+  font-size: 11.5px;
+  margin-bottom: 10px;
 }
 
 /* Hero Section */
@@ -318,8 +538,8 @@ main.app-main {
   font-weight: 600;
   color: var(--accent-cyan);
   background: var(--accent-cyan-bg);
-  border: 1px solid rgba(56, 189, 248, 0.2);
-  padding: 3px 10px;
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  padding: 3px 12px;
   border-radius: 20px;
   margin-bottom: 16px;
 }
@@ -330,7 +550,7 @@ main.app-main {
   color: var(--text-heading);
   letter-spacing: -0.8px;
   line-height: 1.2;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .hero-title span {
@@ -359,11 +579,17 @@ main.app-main {
   color: var(--text-muted);
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
-  padding: 4px 10px;
+  padding: 4px 12px;
   border-radius: 6px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  transition: all var(--transition-fast);
+}
+
+.meta-chip:hover {
+  border-color: var(--border-medium);
+  color: var(--text-heading);
 }
 
 /* Typography & Headings */
@@ -411,7 +637,7 @@ li {
   margin: 20px 0;
   background-color: var(--bg-surface);
   border: 1px solid var(--border-subtle);
-  border-left: 3px solid var(--accent-cyan);
+  border-left: 4px solid var(--accent-cyan);
   transition: transform var(--transition-fast);
 }
 
@@ -420,10 +646,10 @@ li {
 }
 
 .callout-header {
-  font-weight: 600;
+  font-weight: 700;
   font-size: 14px;
   color: var(--text-heading);
-  margin-bottom: 4px;
+  margin-bottom: 6px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -455,6 +681,11 @@ li {
   padding: 24px;
   margin: 28px 0;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  transition: border-color var(--transition-fast);
+}
+
+.builder-box:hover {
+  border-color: rgba(56, 189, 248, 0.3);
 }
 
 .builder-header {
@@ -562,7 +793,7 @@ li {
   color: var(--text-muted);
   font-size: 11.5px;
   font-family: inherit;
-  padding: 4px 9px;
+  padding: 4px 10px;
   border-radius: 5px;
   cursor: pointer;
   display: inline-flex;
@@ -575,6 +806,12 @@ li {
   color: var(--text-heading);
   background: var(--bg-elevated);
   border-color: var(--border-medium);
+}
+
+.btn-copy.copied {
+  color: var(--accent-emerald) !important;
+  border-color: var(--accent-emerald) !important;
+  background: var(--accent-emerald-bg) !important;
 }
 
 pre {
@@ -591,7 +828,7 @@ code.inline {
   font-family: 'JetBrains Mono', monospace;
   background-color: var(--bg-surface);
   border: 1px solid var(--border-subtle);
-  padding: 2px 5px;
+  padding: 2px 6px;
   border-radius: 4px;
   font-size: 0.88em;
   color: var(--accent-cyan);
@@ -602,7 +839,7 @@ code.inline {
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-radius: 12px;
-  padding: 24px;
+  padding: 26px;
   margin: 24px 0;
   display: flex;
   flex-direction: column;
@@ -614,7 +851,7 @@ code.inline {
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   border-radius: 10px;
-  padding: 14px 20px;
+  padding: 14px 22px;
   text-align: center;
   min-width: 220px;
   transition: all var(--transition-smooth);
@@ -623,7 +860,7 @@ code.inline {
 .arch-node:hover {
   transform: translateY(-2px);
   border-color: var(--accent-cyan);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
 }
 
 .arch-node-title {
@@ -649,6 +886,17 @@ code.inline {
   justify-content: center;
 }
 
+.flow-line {
+  stroke: rgba(56, 189, 248, 0.65);
+  stroke-width: 2;
+  stroke-dasharray: 6 4;
+  animation: flowDash 1.5s linear infinite;
+}
+
+@keyframes flowDash {
+  to { stroke-dashoffset: -28; }
+}
+
 .arch-leaf-row {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
@@ -665,6 +913,12 @@ code.inline {
   font-size: 12px;
   text-align: center;
   color: var(--text-muted);
+  transition: all var(--transition-fast);
+}
+
+.arch-leaf:hover {
+  border-color: var(--accent-cyan);
+  color: var(--text-heading);
 }
 
 /* Interactive Preset Grid */
@@ -688,7 +942,7 @@ code.inline {
 .preset-box:hover {
   border-color: rgba(56, 189, 248, 0.4);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
   background-color: var(--bg-card);
 }
 
@@ -855,7 +1109,7 @@ tr:hover td {
 /* Footer */
 footer.app-footer {
   margin-left: var(--sidebar-w);
-  padding: 30px 56px;
+  padding: 30px 52px;
   border-top: 1px solid var(--border-subtle);
   font-size: 13px;
   color: var(--text-dim);
@@ -875,81 +1129,16 @@ footer.app-footer a:hover {
   color: var(--accent-cyan);
 }
 
-/* Animations & Micro-interactions */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
+/* Responsive Breakpoints */
+@media (max-width: 1250px) {
+  aside.toc-sidebar {
+    display: none;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  main.app-main {
+    max-width: 100%;
   }
 }
 
-@keyframes pulseGlow {
-  0%, 100% {
-    box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.35);
-  }
-  50% {
-    box-shadow: 0 0 0 5px rgba(56, 189, 248, 0);
-  }
-}
-
-@keyframes flowDash {
-  to {
-    stroke-dashoffset: -28;
-  }
-}
-
-@keyframes subtleFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-3px); }
-}
-
-.logo-shield {
-  animation: subtleFloat 4s ease-in-out infinite;
-}
-
-.hero-box {
-  animation: fadeInUp 0.6s var(--ease-spring) both;
-}
-
-section {
-  animation: fadeInUp 0.5s var(--ease-spring) both;
-}
-
-.pulse-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.pulse-badge::before {
-  content: '';
-  display: inline-block;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background-color: var(--accent-emerald);
-  box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.4);
-  animation: pulseGlow 2.5s infinite;
-}
-
-.flow-line {
-  stroke: rgba(56, 189, 248, 0.65);
-  stroke-width: 2;
-  stroke-dasharray: 6 4;
-  animation: flowDash 1.5s linear infinite;
-}
-
-.btn-copy.copied {
-  color: var(--accent-emerald) !important;
-  border-color: var(--accent-emerald) !important;
-  background: var(--accent-emerald-bg) !important;
-}
-
-/* Responsive */
 @media (max-width: 900px) {
   aside.app-sidebar {
     transform: translateX(-100%);
@@ -993,8 +1182,8 @@ section {
   <!-- Top App Navigation Bar -->
   <header class="app-header">
     <div class="brand-wrapper">
-      <button id="mobile-toggle-btn" class="mobile-toggle btn-icon" aria-label="Toggle Navigation">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      <button id="mobile-toggle-btn" class="mobile-toggle" aria-label="Toggle Navigation">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
       </button>
       <a href="#" class="brand-logo">
         <div class="logo-shield">
@@ -1019,7 +1208,7 @@ section {
   </header>
 
   <div class="app-layout">
-    <!-- Sidebar Navigation -->
+    <!-- Left Sidebar: Navigation Tree -->
     <aside class="app-sidebar">
       <div class="sidebar-section">
         <div class="sidebar-heading">Getting Started</div>
@@ -1036,8 +1225,6 @@ section {
         <ul class="sidebar-nav">
           <li><a href="#presets" class="sidebar-link">12 Production Presets</a></li>
           <li><a href="#san-rules" class="sidebar-link">SAN Enforcement & Standards</a></li>
-          <li><a href="#quick-dns" class="sidebar-link">1-Click DNS Discovery</a></li>
-          <li><a href="#external-csr" class="sidebar-link">External CSR Signing</a></li>
         </ul>
       </div>
 
@@ -1045,18 +1232,14 @@ section {
         <div class="sidebar-heading">Enterprise Deployments</div>
         <ul class="sidebar-nav">
           <li><a href="#network-8021x" class="sidebar-link">802.1X EAP-TLS (Wi-Fi / LAN)</a></li>
-          <li><a href="#radius-server" class="sidebar-link">FreeRADIUS Server Setup</a></li>
           <li><a href="#webservers" class="sidebar-link">Web Ingress (Nginx / Caddy)</a></li>
           <li><a href="#hypervisors" class="sidebar-link">Proxmox VE & TrueNAS</a></li>
-          <li><a href="#vpn-setup" class="sidebar-link">OpenVPN & IPsec IKEv2</a></li>
-          <li><a href="#mtls-cluster" class="sidebar-link">mTLS & Cluster Nodes</a></li>
         </ul>
       </div>
 
       <div class="sidebar-section">
         <div class="sidebar-heading">Operations & Security</div>
         <ul class="sidebar-nav">
-          <li><a href="#verification" class="sidebar-link">4-Point Chain Verification</a></li>
           <li><a href="#client-trust" class="sidebar-link">Client Trust Stores</a></li>
           <li><a href="#revocation-crl" class="sidebar-link">Revocation & CRLs</a></li>
           <li><a href="#backup-recovery" class="sidebar-link">Disaster Recovery & Storage</a></li>
@@ -1065,32 +1248,32 @@ section {
       </div>
     </aside>
 
-    <!-- Main Content Stream -->
+    <!-- Center Content: Main Documentation -->
     <main class="app-main">
 
       <!-- Hero Section -->
       <div class="hero-box">
-        <div class="hero-pill">
+        <div class="hero-pill animate__animated animate__fadeInDown animate__faster">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
           OpenSSL 3.x Native &bull; RFC 5280 Strict
         </div>
-        <h1 class="hero-title">Zero-compromise PKI for <span>Homelab & Enterprise</span></h1>
-        <p class="hero-sub">A modular, file-based Public Key Infrastructure engine. Designed for air-gapped Root CAs, delegated intermediate authorities, Apple/RFC-compliant leaf certificates, 802.1X EAP-TLS, and automated headless deployment.</p>
+        <h1 class="hero-title animate__animated animate__fadeInDown">Zero-compromise PKI for <span>Homelab & Enterprise</span></h1>
+        <p class="hero-sub animate__animated animate__fadeIn">A modular, file-based Public Key Infrastructure engine. Designed for air-gapped Root CAs, delegated intermediate authorities, Apple/RFC-compliant leaf certificates, 802.1X EAP-TLS, and automated headless deployment.</p>
 
         <div class="hero-badges">
-          <span class="meta-chip">
+          <span class="meta-chip scroll-animate" data-animate="zoomIn" data-delay="0">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
             2-Tier CA Hierarchy
           </span>
-          <span class="meta-chip">
+          <span class="meta-chip scroll-animate" data-animate="zoomIn" data-delay="80">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
             Automated Chain Bundles
           </span>
-          <span class="meta-chip">
+          <span class="meta-chip scroll-animate" data-animate="zoomIn" data-delay="160">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
             PKCS#12 (.p12) Protected
           </span>
-          <span class="meta-chip">
+          <span class="meta-chip scroll-animate" data-animate="zoomIn" data-delay="240">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
             Zero External Dependencies
           </span>
@@ -1098,34 +1281,34 @@ section {
       </div>
 
       <!-- Section: Overview -->
-      <section id="overview">
+      <section id="overview" class="scroll-animate" data-animate="fadeInUp" data-threshold="0.08">
         <h2 class="section-header">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
           Overview & Design Philosophy
         </h2>
-        <p>Most homelab PKI tutorials either rely on single self-signed certificates (which must be re-imported everywhere when expired) or heavyweight GUI tools like Smallstep or Vault that introduce unnecessary daemon dependencies and database locks.</p>
-        <p>This suite is written in pure POSIX/Bash with clean modularization across <strong>17 libraries</strong> under <code class="inline">lib/</code>. It utilizes standard Unix file layouts, OpenSSL 3.x cryptographic algorithms, and produces universally compatible output formats including <code class="inline">fullchain.pem</code>, <code class="inline">combined.pem</code>, and encrypted <code class="inline">cert.p12</code> bundles alongside ready-to-paste <code class="inline">GUIDE.txt</code> instructions.</p>
+        <p>Most homelab PKI setups either rely on single self-signed certificates (which break constantly and must be manually trusted on every device upon renewal) or heavyweight GUI platforms (Vault, Smallstep) that introduce daemon dependencies, Postgres databases, and resource overhead.</p>
+        <p>This suite is built in clean POSIX/Bash across <strong>17 specialized libraries</strong> under <code class="inline">lib/</code>. It utilizes standard Unix directory layouts, OpenSSL 3.x modern cryptography, and delivers complete bundles: <code class="inline">fullchain.pem</code>, <code class="inline">combined.pem</code>, password-protected <code class="inline">cert.p12</code> archives, and auto-generated copy-paste deployment instructions (<code class="inline">GUIDE.txt</code>).</p>
 
-        <div class="callout callout-success">
+        <div class="callout callout-success scroll-animate" data-animate="fadeInLeft" data-delay="50">
           <div class="callout-header">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
             Why File-Based PKI?
           </div>
-          <p>Everything is stored transparently on disk in clean directories. You can back it up with git, rsync, restic, or Borg, inspect certificates with plain OpenSSL commands, and run it reliably on air-gapped USB sticks, Raspberry Pis, or bare-metal servers without any background daemon runtime.</p>
+          <p>All state is stored cleanly on disk. You can audit certificates with plain OpenSSL commands, back up the directory with Git, rsync, restic, or Borg, and run on offline Raspberry Pis, air-gapped flash drives, or cloud instances with zero background services consuming memory.</p>
         </div>
       </section>
 
       <!-- Section: PKI Architecture -->
-      <section id="architecture">
+      <section id="architecture" class="scroll-animate" data-animate="fadeInUp" data-threshold="0.08">
         <h2 class="section-header">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
           Two-Tier CA Architecture & Security
         </h2>
-        <p>In a production security model, the <strong>Root CA must never issue leaf certificates directly</strong>. If a Root CA key is leaked or compromised, every certificate authority trust store across your phones, tablets, servers, and switches must be purged and re-provisioned.</p>
+        <p>In a production security model, the <strong>Root CA must never issue leaf certificates directly</strong>. If a Root CA private key is ever exposed, every certificate trust anchor across your laptops, phones, switches, and servers must be manually wiped and replaced.</p>
 
         <!-- Visual Hierarchy Diagram -->
-        <div class="arch-diagram">
-          <div class="arch-node" style="border-color: rgba(56, 189, 248, 0.4);">
+        <div class="arch-diagram scroll-animate" data-animate="zoomIn" data-threshold="0.15">
+          <div class="arch-node" style="border-color: rgba(56, 189, 248, 0.45);">
             <div class="arch-node-title">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
               Root CA (Offline / Storage)
@@ -1178,10 +1361,10 @@ section {
       </section>
 
       <!-- Section: Interactive CLI Playground -->
-      <section id="playground">
+      <section id="playground" class="scroll-animate" data-animate="fadeInUp" data-threshold="0.08">
         <h2 class="section-header">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
-          Interactive Command Playground
+          Interactive Command Generator
         </h2>
         <p>Select your deployment profile and input your parameters. The builder constructs the exact production-ready CLI command with automated SAN parsing:</p>
 
@@ -1259,7 +1442,7 @@ section {
       </section>
 
       <!-- Section: 30-Second Quickstart -->
-      <section id="quickstart">
+      <section id="quickstart" class="scroll-animate" data-animate="fadeInUp" data-threshold="0.08">
         <h2 class="section-header">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
           30-Second Quickstart
@@ -1321,7 +1504,7 @@ chmod +x pki.sh build.sh pki completions/pki.bash
       </section>
 
       <!-- Section: Presets -->
-      <section id="presets">
+      <section id="presets" class="scroll-animate" data-animate="fadeInUp" data-threshold="0.08">
         <h2 class="section-header">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
           12 Production Presets
@@ -1330,7 +1513,7 @@ chmod +x pki.sh build.sh pki completions/pki.bash
 
         <div class="preset-grid">
           <!-- server -->
-          <div class="preset-box">
+          <div class="preset-box scroll-animate" data-animate="fadeInUp" data-delay="0">
             <div class="preset-box-top">
               <span class="preset-name">server</span>
               <span class="preset-tag">TLS Server</span>
@@ -1345,7 +1528,7 @@ chmod +x pki.sh build.sh pki completions/pki.bash
           </div>
 
           <!-- wildcard -->
-          <div class="preset-box">
+          <div class="preset-box scroll-animate" data-animate="fadeInUp" data-delay="50">
             <div class="preset-box-top">
               <span class="preset-name">wildcard</span>
               <span class="preset-tag">TLS Server</span>
@@ -1360,7 +1543,7 @@ chmod +x pki.sh build.sh pki completions/pki.bash
           </div>
 
           <!-- client -->
-          <div class="preset-box">
+          <div class="preset-box scroll-animate" data-animate="fadeInUp" data-delay="100">
             <div class="preset-box-top">
               <span class="preset-name">client</span>
               <span class="preset-tag">Client Auth</span>
@@ -1375,7 +1558,7 @@ chmod +x pki.sh build.sh pki completions/pki.bash
           </div>
 
           <!-- server-client -->
-          <div class="preset-box">
+          <div class="preset-box scroll-animate" data-animate="fadeInUp" data-delay="150">
             <div class="preset-box-top">
               <span class="preset-name">server-client</span>
               <span class="preset-tag">Dual Purpose</span>
@@ -1390,7 +1573,7 @@ chmod +x pki.sh build.sh pki completions/pki.bash
           </div>
 
           <!-- radius-server -->
-          <div class="preset-box">
+          <div class="preset-box scroll-animate" data-animate="fadeInUp" data-delay="200">
             <div class="preset-box-top">
               <span class="preset-name">radius-server</span>
               <span class="preset-tag">AAA Auth</span>
@@ -1405,7 +1588,7 @@ chmod +x pki.sh build.sh pki completions/pki.bash
           </div>
 
           <!-- vpn-server -->
-          <div class="preset-box">
+          <div class="preset-box scroll-animate" data-animate="fadeInUp" data-delay="250">
             <div class="preset-box-top">
               <span class="preset-name">vpn-server</span>
               <span class="preset-tag">VPN Gateway</span>
@@ -1420,7 +1603,7 @@ chmod +x pki.sh build.sh pki completions/pki.bash
           </div>
 
           <!-- vpn-client -->
-          <div class="preset-box">
+          <div class="preset-box scroll-animate" data-animate="fadeInUp" data-delay="300">
             <div class="preset-box-top">
               <span class="preset-name">vpn-client</span>
               <span class="preset-tag">VPN Client</span>
@@ -1435,7 +1618,7 @@ chmod +x pki.sh build.sh pki completions/pki.bash
           </div>
 
           <!-- smime -->
-          <div class="preset-box">
+          <div class="preset-box scroll-animate" data-animate="fadeInUp" data-delay="350">
             <div class="preset-box-top">
               <span class="preset-name">smime</span>
               <span class="preset-tag">Email Sec</span>
@@ -1450,7 +1633,7 @@ chmod +x pki.sh build.sh pki completions/pki.bash
           </div>
 
           <!-- codesign -->
-          <div class="preset-box">
+          <div class="preset-box scroll-animate" data-animate="fadeInUp" data-delay="400">
             <div class="preset-box-top">
               <span class="preset-name">codesign</span>
               <span class="preset-tag">Signing</span>
@@ -1467,14 +1650,14 @@ chmod +x pki.sh build.sh pki completions/pki.bash
       </section>
 
       <!-- Section: SAN Enforcement -->
-      <section id="san-rules">
+      <section id="san-rules" class="scroll-animate" data-animate="fadeInUp" data-threshold="0.08">
         <h2 class="section-header">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
           Strict SAN Enforcement (Why CommonName is Dead)
         </h2>
         <p>Many legacy scripts still put the hostname in the certificate <code class="inline">Subject CommonName (CN)</code> and omit Subject Alternative Names. In modern TLS, <strong>this guarantees connection failure</strong>.</p>
 
-        <div class="callout callout-warning">
+        <div class="callout callout-warning scroll-animate" data-animate="fadeInLeft" data-delay="50">
           <div class="callout-header">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
             Mandatory Standards
@@ -1491,7 +1674,7 @@ chmod +x pki.sh build.sh pki completions/pki.bash
       </section>
 
       <!-- Section: 802.1X EAP-TLS -->
-      <section id="network-8021x">
+      <section id="network-8021x" class="scroll-animate" data-animate="fadeInUp" data-threshold="0.08">
         <h2 class="section-header">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"></path><path d="M1.42 9a16 16 0 0 1 21.16 0"></path><path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path><line x1="12" y1="20" x2="12.01" y2="20"></line></svg>
           802.1X EAP-TLS Network Authentication (Wi-Fi / LAN)
@@ -1543,7 +1726,7 @@ chmod +x pki.sh build.sh pki completions/pki.bash
       </section>
 
       <!-- Section: Web Ingress -->
-      <section id="webservers">
+      <section id="webservers" class="scroll-animate" data-animate="fadeInUp" data-threshold="0.08">
         <h2 class="section-header">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
           Web Ingress & Reverse Proxy Integration
@@ -1556,7 +1739,7 @@ chmod +x pki.sh build.sh pki completions/pki.bash
             <button class="tab-btn" data-tab="tab-traefik">Traefik</button>
             <button class="tab-btn" data-tab="tab-caddy">Caddy</button>
             <button class="tab-btn" data-tab="tab-apache">Apache</button>
-            <button class="tab-btn" data-tab="tab-haproxy">HAProxy</button>
+            <button class="tab-btn" data-tab="haproxy">HAProxy</button>
           </div>
 
           <div id="tab-nginx" class="tab-content active">
@@ -1613,7 +1796,7 @@ tls:
             </div>
           </div>
 
-          <div id="tab-haproxy" class="tab-content">
+          <div id="haproxy" class="tab-content">
             <div class="code-card" style="border: none; margin: 0;">
               <pre><code># HAProxy requires combined.pem (private key + cert chain bundled together)
 frontend https-in
@@ -1625,7 +1808,7 @@ frontend https-in
       </section>
 
       <!-- Section: Hypervisors -->
-      <section id="hypervisors">
+      <section id="hypervisors" class="scroll-animate" data-animate="fadeInUp" data-threshold="0.08">
         <h2 class="section-header">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
           Proxmox VE & TrueNAS SCALE Deployment
@@ -1648,7 +1831,7 @@ ssh root@pve01 'systemctl restart pveproxy'</code></pre>
       </section>
 
       <!-- Section: Client Trust Stores -->
-      <section id="client-trust">
+      <section id="client-trust" class="scroll-animate" data-animate="fadeInUp" data-threshold="0.08">
         <h2 class="section-header">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
           Importing Root CA into Client Trust Stores (Once per device)
@@ -1690,7 +1873,7 @@ ssh root@pve01 'systemctl restart pveproxy'</code></pre>
       </section>
 
       <!-- Section: Revocation & CRLs -->
-      <section id="revocation-crl">
+      <section id="revocation-crl" class="scroll-animate" data-animate="fadeInUp" data-threshold="0.08">
         <h2 class="section-header">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
           Revocation & Certificate Revocation Lists (CRL)
@@ -1710,7 +1893,7 @@ ssh root@pve01 'systemctl restart pveproxy'</code></pre>
       </section>
 
       <!-- Section: Disaster Recovery -->
-      <section id="backup-recovery">
+      <section id="backup-recovery" class="scroll-animate" data-animate="fadeInUp" data-threshold="0.08">
         <h2 class="section-header">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
           Disaster Recovery & Air-Gapped Storage
@@ -1729,9 +1912,9 @@ tar -czf - pki/ | gpg -c -o homelab-pki-backup-$(date +%F).tar.gz.gpg
       </section>
 
       <!-- Section: CLI Automation -->
-      <section id="cli-automation">
+      <section id="cli-automation" class="scroll-animate" data-animate="fadeInUp" data-threshold="0.08">
         <h2 class="section-header">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="12" x2="16" y2="14"></line></svg>
           Headless Automation & Cron Renewal
         </h2>
         <p>Automate certificate renewal in cron jobs, Ansible playbooks, or SaltStack states with environment variables:</p>
@@ -1744,6 +1927,37 @@ tar -czf - pki/ | gpg -c -o homelab-pki-backup-$(date +%F).tar.gz.gpg
       </section>
 
     </main>
+
+    <!-- Right Sidebar: On This Page (TOC) -->
+    <aside class="toc-sidebar">
+      <div class="toc-title">On this page</div>
+      <ul class="toc-list">
+        <li><a href="#overview" class="toc-link active">Overview & Philosophy</a></li>
+        <li><a href="#architecture" class="toc-link">PKI Architecture</a></li>
+        <li><a href="#playground" class="toc-link">Command Generator</a></li>
+        <li><a href="#quickstart" class="toc-link">30-Sec Quickstart</a></li>
+        <li><a href="#presets" class="toc-link">12 Production Presets</a></li>
+        <li><a href="#san-rules" class="toc-link">SAN Enforcement</a></li>
+        <li><a href="#network-8021x" class="toc-link">802.1X EAP-TLS</a></li>
+        <li><a href="#webservers" class="toc-link">Web Ingress</a></li>
+        <li><a href="#hypervisors" class="toc-link">Proxmox & TrueNAS</a></li>
+        <li><a href="#client-trust" class="toc-link">Client Trust Stores</a></li>
+        <li><a href="#revocation-crl" class="toc-link">Revocation & CRLs</a></li>
+        <li><a href="#cli-automation" class="toc-link">Cron & Automation</a></li>
+      </ul>
+
+      <div class="toc-card">
+        <div class="toc-card-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          Open Source PKI
+        </div>
+        <p>Star or contribute to the project on GitHub:</p>
+        <a href="https://github.com/Der-Felix/pki_script" target="_blank" rel="noopener" class="gh-button" style="width: 100%; justify-content: center;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          <span>Star on GitHub</span>
+        </a>
+      </div>
+    </aside>
   </div>
 
   <!-- Matte Footer -->

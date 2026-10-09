@@ -1,15 +1,59 @@
 // ==============================================================================
-// OpenSSL Homelab PKI Suite - Interactive Documentation Engine
+// OpenSSL Homelab PKI Suite - Modern Documentation Engine
+// Integrated with Animate.css v4.1.1 Scroll Observer & TOC Spy
 // ==============================================================================
 
 document.addEventListener('DOMContentLoaded', () => {
+  initScrollAnimations();
   initMobileMenu();
   initCopyButtons();
   initTabSwitchers();
   initPresetSearch();
-  initScrollSpy();
+  initTocScrollSpy();
   initCommandBuilder();
 });
+
+// Scroll-Triggered Animation Observer (from animate-css skill)
+function initScrollAnimations() {
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isRtl = document.documentElement.dir === 'rtl' || document.body.dir === 'rtl';
+
+  const rtlFlip = {
+    fadeInLeft: 'fadeInRight', fadeInRight: 'fadeInLeft',
+    slideInLeft: 'slideInRight', slideInRight: 'slideInLeft',
+    backInLeft: 'backInRight', backInRight: 'backInLeft',
+    bounceInLeft: 'bounceInRight', bounceInRight: 'bounceInLeft'
+  };
+
+  const animElements = document.querySelectorAll('.scroll-animate');
+
+  animElements.forEach(el => {
+    const threshold = parseFloat(el.dataset.threshold || 0.15);
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+
+        let anim = el.dataset.animate || 'fadeInUp';
+        if (isRtl && rtlFlip[anim]) anim = rtlFlip[anim];
+
+        if (reducedMotion) {
+          el.style.opacity = '1';
+        } else {
+          const delay = parseInt(el.dataset.delay || 0, 10);
+          setTimeout(() => {
+            el.classList.add('animate__animated', 'animate__' + anim, 'animate__fast');
+            el.style.opacity = '1';
+          }, delay);
+        }
+
+        observer.unobserve(el);
+      });
+    }, { threshold });
+
+    observer.observe(el);
+  });
+}
 
 // Mobile Sidebar Drawer Toggle
 function initMobileMenu() {
@@ -21,7 +65,6 @@ function initMobileMenu() {
       sidebar.classList.toggle('open');
     });
 
-    // Close on navigation link click on mobile
     document.querySelectorAll('.sidebar-link').forEach(link => {
       link.addEventListener('click', () => {
         if (window.innerWidth <= 900) {
@@ -104,9 +147,10 @@ function initPresetSearch() {
   });
 }
 
-// Active Nav Link Spy on Scroll
-function initScrollSpy() {
-  const navLinks = document.querySelectorAll('.sidebar-link');
+// Table of Contents & Navigation ScrollSpy
+function initTocScrollSpy() {
+  const leftLinks = document.querySelectorAll('.sidebar-link');
+  const tocLinks = document.querySelectorAll('.toc-link');
   const sections = document.querySelectorAll('section[id]');
 
   if (!sections.length) return;
@@ -115,7 +159,18 @@ function initScrollSpy() {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         const id = entry.target.getAttribute('id');
-        navLinks.forEach(link => {
+
+        // Update left sidebar
+        leftLinks.forEach(link => {
+          if (link.getAttribute('href') === `#${id}`) {
+            link.classList.add('active');
+          } else {
+            link.classList.remove('active');
+          }
+        });
+
+        // Update right TOC sidebar
+        tocLinks.forEach(link => {
           if (link.getAttribute('href') === `#${id}`) {
             link.classList.add('active');
           } else {
@@ -125,7 +180,7 @@ function initScrollSpy() {
       }
     });
   }, {
-    rootMargin: '-20% 0px -70% 0px',
+    rootMargin: '-15% 0px -75% 0px',
     threshold: 0
   });
 
