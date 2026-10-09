@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OpenSSL Homelab PKI Suite &bull; Modular X.509 Infrastructure</title>
+  <title data-i18n="pageTitle">OpenSSL Homelab PKI Suite &bull; Modular X.509 Infrastructure</title>
   <meta name="description" content="A modular, production-grade, file-based OpenSSL 3.x PKI generator and management suite for homelabs, clusters, and enterprise networks.">
-  <link rel="stylesheet" href="style.css?v=2.0.3">
+  <link rel="stylesheet" href="style.css?v=2.0.4">
   <style>
 /* ==============================================================================
    OpenSSL PKI Suite - Modern Matte Dark Documentation System
-   Powered by Animate.css (v4.1.1) scroll-triggered animations & 3-column layout
+   Space-Optimized Desktop, Fully Responsive Mobile, Bilingual & Device Detection
    ============================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
@@ -52,7 +52,7 @@
   --accent-rose: #f43f5e;
 
   /* Layout dimensions */
-  --sidebar-w: 280px;
+  --sidebar-w: 270px;
   --toc-w: 240px;
   --header-h: 60px;
   
@@ -98,7 +98,7 @@
 @keyframes fadeInDown {
   from {
     opacity: 0;
-    transform: translate3d(0, -28px, 0);
+    transform: translate3d(0, -24px, 0);
   }
   to {
     opacity: 1;
@@ -258,6 +258,7 @@ header.app-header {
   color: var(--text-heading) !important;
   letter-spacing: -0.2px;
   transition: opacity var(--transition-fast);
+  white-space: nowrap;
 }
 
 .brand-logo:hover {
@@ -274,6 +275,7 @@ header.app-header {
   align-items: center;
   justify-content: center;
   color: var(--accent-cyan);
+  flex-shrink: 0;
 }
 
 .version-pill {
@@ -284,6 +286,7 @@ header.app-header {
   color: var(--text-muted);
   border: 1px solid var(--border-subtle);
   border-radius: 12px;
+  white-space: nowrap;
 }
 
 .pulse-badge {
@@ -315,6 +318,39 @@ header.app-header {
   gap: 12px;
 }
 
+/* Language Switch Pill */
+.lang-switch {
+  display: inline-flex;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 7px;
+  padding: 2px;
+  gap: 2px;
+}
+
+.lang-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-family: inherit;
+}
+
+.lang-btn:hover {
+  color: var(--text-heading);
+}
+
+.lang-btn.active {
+  background: var(--bg-card);
+  color: var(--accent-cyan);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+}
+
 .search-field {
   position: relative;
   display: flex;
@@ -328,7 +364,7 @@ header.app-header {
   padding: 6px 12px 6px 34px;
   font-size: 13px;
   color: var(--text-main);
-  width: 220px;
+  width: 200px;
   transition: all var(--transition-smooth);
 }
 
@@ -336,7 +372,7 @@ header.app-header {
   outline: none;
   border-color: var(--accent-cyan);
   box-shadow: 0 0 0 3px var(--border-glow);
-  width: 290px;
+  width: 260px;
   background-color: var(--bg-card);
 }
 
@@ -360,6 +396,7 @@ header.app-header {
   gap: 8px;
   text-decoration: none;
   transition: all var(--transition-fast);
+  white-space: nowrap;
 }
 
 .gh-button:hover {
@@ -368,22 +405,24 @@ header.app-header {
   border-color: var(--border-medium);
 }
 
-/* Three-Column Application Layout */
+/* Three-Column Application Layout - Centered on Widescreen */
 .app-layout {
   display: flex;
-  margin-top: var(--header-h);
+  margin: var(--header-h) auto 0;
   min-height: calc(100vh - var(--header-h));
   position: relative;
-  justify-content: flex-start;
+  width: 100%;
+  max-width: 1720px;
+  justify-content: space-between;
 }
 
 /* Left Sidebar (Navigation Tree) */
 aside.app-sidebar {
-  position: fixed;
-  top: var(--header-h);
-  left: 0;
-  bottom: 0;
   width: var(--sidebar-w);
+  flex-shrink: 0;
+  position: sticky;
+  top: var(--header-h);
+  height: calc(100vh - var(--header-h));
   background-color: var(--bg-surface);
   border-right: 1px solid var(--border-subtle);
   padding: 24px 14px 40px;
@@ -434,19 +473,19 @@ aside.app-sidebar {
   font-weight: 600;
 }
 
-/* Center Documentation Stream */
+/* Center Documentation Stream - Generous and Readable */
 main.app-main {
-  margin-left: var(--sidebar-w);
-  padding: 40px 52px 100px;
   flex: 1;
-  max-width: 960px;
   min-width: 0;
+  max-width: 1100px;
+  padding: 40px 52px 100px;
   box-sizing: border-box;
 }
 
 /* Right Sidebar (Table of Contents / Jump to section) */
 aside.toc-sidebar {
   width: var(--toc-w);
+  flex-shrink: 0;
   padding: 40px 20px 100px 16px;
   position: sticky;
   top: var(--header-h);
@@ -551,6 +590,8 @@ aside.toc-sidebar {
   letter-spacing: -0.8px;
   line-height: 1.2;
   margin-bottom: 14px;
+  hyphens: none;
+  word-break: normal;
 }
 
 .hero-title span {
@@ -563,7 +604,7 @@ aside.toc-sidebar {
   font-size: 1.08rem;
   color: var(--text-muted);
   line-height: 1.6;
-  max-width: 760px;
+  max-width: 820px;
   margin-bottom: 24px;
 }
 
@@ -590,6 +631,46 @@ aside.toc-sidebar {
 .meta-chip:hover {
   border-color: var(--border-medium);
   color: var(--text-heading);
+}
+
+/* Device OS Auto-Detected Banner */
+.os-detected-card {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(52, 211, 153, 0.03));
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  border-radius: 12px;
+  padding: 18px 22px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.os-detected-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.os-detected-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--text-heading);
+}
+
+.os-detected-title strong {
+  color: var(--accent-cyan);
+}
+
+.os-chip {
+  background: rgba(52, 211, 153, 0.12);
+  color: var(--accent-emerald);
+  border-color: rgba(52, 211, 153, 0.3);
+  font-size: 11.5px;
+  font-weight: 600;
 }
 
 /* Typography & Headings */
@@ -921,10 +1002,10 @@ code.inline {
   color: var(--text-heading);
 }
 
-/* Interactive Preset Grid */
+/* Interactive Preset Grid - Multi-column responsive */
 .preset-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 16px;
   margin: 24px 0;
 }
@@ -1075,12 +1156,14 @@ code.inline {
   margin: 20px 0;
   border: 1px solid var(--border-subtle);
   border-radius: 10px;
+  -webkit-overflow-scrolling: touch;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
   font-size: 13.5px;
+  min-width: 500px;
 }
 
 th, td {
@@ -1108,7 +1191,7 @@ tr:hover td {
 
 /* Footer */
 footer.app-footer {
-  margin-left: var(--sidebar-w);
+  margin-top: auto;
   padding: 30px 52px;
   border-top: 1px solid var(--border-subtle);
   font-size: 13px;
@@ -1117,6 +1200,8 @@ footer.app-footer {
   justify-content: space-between;
   align-items: center;
   background-color: var(--bg-surface);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 footer.app-footer a {
@@ -1129,8 +1214,20 @@ footer.app-footer a:hover {
   color: var(--accent-cyan);
 }
 
+/* Mobile Backdrop */
+.mobile-backdrop {
+  position: fixed;
+  top: var(--header-h);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 85;
+}
+
 /* Responsive Breakpoints */
-@media (max-width: 1250px) {
+@media (max-width: 1360px) {
   aside.toc-sidebar {
     display: none;
   }
@@ -1140,26 +1237,69 @@ footer.app-footer a:hover {
 }
 
 @media (max-width: 900px) {
+  header.app-header {
+    padding: 0 16px;
+  }
+  
+  .search-field {
+    display: none; /* Hide top search bar on mobile to avoid overflow */
+  }
+
   aside.app-sidebar {
+    position: fixed;
+    top: var(--header-h);
+    left: 0;
+    bottom: 0;
+    width: 290px;
     transform: translateX(-100%);
     transition: transform var(--transition-smooth);
+    box-shadow: none;
   }
+
   aside.app-sidebar.open {
     transform: translateX(0);
-    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.6);
+    box-shadow: 10px 0 35px rgba(0, 0, 0, 0.75);
   }
+
   main.app-main {
     margin-left: 0;
     width: 100%;
-    padding: 30px 20px 60px;
+    padding: 24px 16px 60px;
   }
+
+  .hero-title {
+    font-size: 1.85rem;
+    line-height: 1.25;
+  }
+
+  .hero-sub {
+    font-size: 0.98rem;
+  }
+
+  .hero-badges {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .meta-chip {
+    width: 100%;
+  }
+
+  .arch-split {
+    flex-direction: column;
+  }
+
+  .preset-grid {
+    grid-template-columns: 1fr;
+  }
+
   footer.app-footer {
-    margin-left: 0;
-    padding: 20px;
+    padding: 20px 16px;
     flex-direction: column;
     gap: 12px;
     text-align: center;
   }
+
   .mobile-toggle {
     display: inline-flex !important;
   }
@@ -1172,6 +1312,7 @@ footer.app-footer a:hover {
   color: var(--text-main);
   cursor: pointer;
   padding: 4px;
+  margin-right: 4px;
 }
 
   </style>
@@ -1192,14 +1333,21 @@ footer.app-footer a:hover {
         <span>OpenSSL PKI Suite</span>
       </a>
       <span class="version-pill">v2.0.0</span>
-      <span class="version-pill pulse-badge" style="color: var(--accent-emerald);">Ready</span>
+      <span class="version-pill pulse-badge" style="color: var(--accent-emerald);" data-i18n="readyBadge">Ready</span>
     </div>
 
     <div class="header-right">
+      <!-- Language Switcher Pill -->
+      <div class="lang-switch">
+        <button class="lang-btn" data-lang="de">DE</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+      </div>
+
       <div class="search-field">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        <input type="text" id="search-input" placeholder="Search presets or guides...">
+        <input type="text" id="search-input" data-i18n-ph="searchPlaceholder" placeholder="Search presets or guides...">
       </div>
+
       <a href="https://github.com/Der-Felix/pki_script" target="_blank" rel="noopener" class="gh-button">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
         <span>GitHub</span>
@@ -1211,71 +1359,70 @@ footer.app-footer a:hover {
     <!-- Left Sidebar: Navigation Tree -->
     <aside class="app-sidebar">
       <div class="sidebar-section">
-        <div class="sidebar-heading">Getting Started</div>
+        <div class="sidebar-heading" data-i18n="navGettingStarted">Getting Started</div>
         <ul class="sidebar-nav">
-          <li><a href="#overview" class="sidebar-link active">Overview</a></li>
-          <li><a href="#architecture" class="sidebar-link">PKI Architecture & Security</a></li>
-          <li><a href="#playground" class="sidebar-link">Interactive CLI Generator</a></li>
-          <li><a href="#quickstart" class="sidebar-link">30-Second Quickstart</a></li>
+          <li><a href="#overview" class="sidebar-link active" data-i18n="linkOverview">Overview & Philosophy</a></li>
+          <li><a href="#architecture" class="sidebar-link" data-i18n="linkArch">PKI Architecture & Security</a></li>
+          <li><a href="#playground" class="sidebar-link" data-i18n="linkBuilder">Interactive Generator</a></li>
+          <li><a href="#quickstart" class="sidebar-link" data-i18n="linkQuickstart">30-Second Quickstart</a></li>
         </ul>
       </div>
 
       <div class="sidebar-section">
-        <div class="sidebar-heading">Certificate Profiles</div>
+        <div class="sidebar-heading" data-i18n="navProfiles">Certificate Profiles</div>
         <ul class="sidebar-nav">
-          <li><a href="#presets" class="sidebar-link">12 Production Presets</a></li>
-          <li><a href="#san-rules" class="sidebar-link">SAN Enforcement & Standards</a></li>
+          <li><a href="#presets" class="sidebar-link" data-i18n="linkPresets">12 Production Presets</a></li>
+          <li><a href="#san-rules" class="sidebar-link" data-i18n="linkSan">SAN Rules & Standards</a></li>
         </ul>
       </div>
 
       <div class="sidebar-section">
-        <div class="sidebar-heading">Enterprise Deployments</div>
+        <div class="sidebar-heading" data-i18n="navEnterprise">Enterprise Deployments</div>
         <ul class="sidebar-nav">
-          <li><a href="#network-8021x" class="sidebar-link">802.1X EAP-TLS (Wi-Fi / LAN)</a></li>
-          <li><a href="#webservers" class="sidebar-link">Web Ingress (Nginx / Caddy)</a></li>
-          <li><a href="#hypervisors" class="sidebar-link">Proxmox VE & TrueNAS</a></li>
+          <li><a href="#network-8021x" class="sidebar-link" data-i18n="link8021x">802.1X EAP-TLS (Wi-Fi / LAN)</a></li>
+          <li><a href="#webservers" class="sidebar-link" data-i18n="linkWeb">Web Ingress (Nginx / Caddy)</a></li>
+          <li><a href="#hypervisors" class="sidebar-link" data-i18n="linkHypervisors">Proxmox VE & TrueNAS</a></li>
         </ul>
       </div>
 
       <div class="sidebar-section">
-        <div class="sidebar-heading">Operations & Security</div>
+        <div class="sidebar-heading" data-i18n="navOperations">Operations & Security</div>
         <ul class="sidebar-nav">
-          <li><a href="#client-trust" class="sidebar-link">Client Trust Stores</a></li>
-          <li><a href="#revocation-crl" class="sidebar-link">Revocation & CRLs</a></li>
-          <li><a href="#backup-recovery" class="sidebar-link">Disaster Recovery & Storage</a></li>
-          <li><a href="#cli-automation" class="sidebar-link">Cron & Headless CLI</a></li>
+          <li><a href="#client-trust" class="sidebar-link" data-i18n="linkTrust">Client Trust Stores</a></li>
+          <li><a href="#revocation-crl" class="sidebar-link" data-i18n="linkRevoke">Revocation & CRLs</a></li>
+          <li><a href="#backup-recovery" class="sidebar-link" data-i18n="linkBackup">Disaster Recovery</a></li>
+          <li><a href="#cli-automation" class="sidebar-link" data-i18n="linkCron">Cron & Headless CLI</a></li>
         </ul>
       </div>
     </aside>
 
-    <!-- Center Content: Main Documentation -->
+    <!-- Center Content: Main Documentation Stream -->
     <main class="app-main">
 
       <!-- Hero Section -->
       <div class="hero-box">
-        <div class="hero-pill animate__animated animate__fadeInDown animate__faster">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        <div class="hero-pill animate__animated animate__fadeInDown animate__faster" data-i18n="heroPill">
           OpenSSL 3.x Native &bull; RFC 5280 Strict
         </div>
-        <h1 class="hero-title animate__animated animate__fadeInDown">Zero-compromise PKI for <span>Homelab & Enterprise</span></h1>
-        <p class="hero-sub animate__animated animate__fadeIn">A modular, file-based Public Key Infrastructure engine. Designed for air-gapped Root CAs, delegated intermediate authorities, Apple/RFC-compliant leaf certificates, 802.1X EAP-TLS, and automated headless deployment.</p>
+        <h1 class="hero-title animate__animated animate__fadeInDown" data-i18n="heroTitle">Zero-compromise PKI for <span>Homelab & Enterprise</span></h1>
+        <p class="hero-sub animate__animated animate__fadeIn" data-i18n="heroSub">A modular, file-based Public Key Infrastructure engine. Designed for air-gapped Root CAs, delegated intermediate authorities, Apple/RFC-compliant leaf certificates, 802.1X EAP-TLS, and automated headless deployment.</p>
 
         <div class="hero-badges">
           <span class="meta-chip scroll-animate" data-animate="zoomIn" data-delay="0">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-            2-Tier CA Hierarchy
+            <span data-i18n="badge2Tier">2-Tier CA Hierarchy</span>
           </span>
           <span class="meta-chip scroll-animate" data-animate="zoomIn" data-delay="80">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
-            Automated Chain Bundles
+            <span data-i18n="badgeChain">Automated Chain Bundles</span>
           </span>
           <span class="meta-chip scroll-animate" data-animate="zoomIn" data-delay="160">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-            PKCS#12 (.p12) Protected
+            <span data-i18n="badgeP12">PKCS#12 (.p12) Protected</span>
           </span>
           <span class="meta-chip scroll-animate" data-animate="zoomIn" data-delay="240">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
-            Zero External Dependencies
+            <span data-i18n="badgeNoDeps">Zero External Dependencies</span>
           </span>
         </div>
       </div>
@@ -1284,17 +1431,17 @@ footer.app-footer a:hover {
       <section id="overview" class="scroll-animate" data-animate="fadeInUp" data-threshold="0.08">
         <h2 class="section-header">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-          Overview & Design Philosophy
+          <span data-i18n="secOverviewTitle">Overview & Design Philosophy</span>
         </h2>
-        <p>Most homelab PKI setups either rely on single self-signed certificates (which break constantly and must be manually trusted on every device upon renewal) or heavyweight GUI platforms (Vault, Smallstep) that introduce daemon dependencies, Postgres databases, and resource overhead.</p>
-        <p>This suite is built in clean POSIX/Bash across <strong>17 specialized libraries</strong> under <code class="inline">lib/</code>. It utilizes standard Unix directory layouts, OpenSSL 3.x modern cryptography, and delivers complete bundles: <code class="inline">fullchain.pem</code>, <code class="inline">combined.pem</code>, password-protected <code class="inline">cert.p12</code> archives, and auto-generated copy-paste deployment instructions (<code class="inline">GUIDE.txt</code>).</p>
+        <p data-i18n="secOverviewP1">Most homelab PKI setups either rely on single self-signed certificates (which break constantly and must be manually trusted on every device upon renewal) or heavyweight GUI platforms (Vault, Smallstep) that introduce daemon dependencies, Postgres databases, and resource overhead.</p>
+        <p data-i18n="secOverviewP2">This suite is built in clean POSIX/Bash across 17 specialized libraries under lib/. It utilizes standard Unix directory layouts, OpenSSL 3.x modern cryptography, and delivers complete bundles: fullchain.pem, combined.pem, password-protected cert.p12 archives, and auto-generated copy-paste deployment instructions (GUIDE.txt).</p>
 
         <div class="callout callout-success scroll-animate" data-animate="fadeInLeft" data-delay="50">
           <div class="callout-header">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            Why File-Based PKI?
+            <span data-i18n="calloutWhyFileTitle">Why File-Based PKI?</span>
           </div>
-          <p>All state is stored cleanly on disk. You can audit certificates with plain OpenSSL commands, back up the directory with Git, rsync, restic, or Borg, and run on offline Raspberry Pis, air-gapped flash drives, or cloud instances with zero background services consuming memory.</p>
+          <p data-i18n="calloutWhyFileP">All state is stored cleanly on disk. You can audit certificates with plain OpenSSL commands, back up the directory with Git, rsync, restic, or Borg, and run on offline Raspberry Pis, air-gapped flash drives, or cloud instances with zero background services consuming memory.</p>
         </div>
       </section>
 
@@ -1302,18 +1449,18 @@ footer.app-footer a:hover {
       <section id="architecture" class="scroll-animate" data-animate="fadeInUp" data-threshold="0.08">
         <h2 class="section-header">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
-          Two-Tier CA Architecture & Security
+          <span data-i18n="secArchTitle">Two-Tier CA Architecture & Security</span>
         </h2>
-        <p>In a production security model, the <strong>Root CA must never issue leaf certificates directly</strong>. If a Root CA private key is ever exposed, every certificate trust anchor across your laptops, phones, switches, and servers must be manually wiped and replaced.</p>
+        <p data-i18n="secArchP1">In a production security model, the Root CA must never issue leaf certificates directly. If a Root CA private key is ever exposed, every certificate trust anchor across your laptops, phones, switches, and servers must be manually wiped and replaced.</p>
 
         <!-- Visual Hierarchy Diagram -->
         <div class="arch-diagram scroll-animate" data-animate="zoomIn" data-threshold="0.15">
           <div class="arch-node" style="border-color: rgba(56, 189, 248, 0.45);">
             <div class="arch-node-title">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-              Root CA (Offline / Storage)
+              <span data-i18n="archRootTitle">Root CA (Offline / Storage)</span>
             </div>
-            <div class="arch-node-meta">RSA 4096 &bull; 20-Year Validity &bull; Signs ONLY Intermediates & CRLs</div>
+            <div class="arch-node-meta" data-i18n="archRootMeta">RSA 4096 &bull; 20-Year Validity &bull; Signs ONLY Intermediates & CRLs</div>
           </div>
 
           <svg width="100%" height="40" style="max-width: 500px;">
@@ -1325,17 +1472,17 @@ footer.app-footer a:hover {
             <div class="arch-node" style="flex: 1;">
               <div class="arch-node-title" style="color: var(--accent-blue);">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
-                Server-CA (Issuing)
+                <span data-i18n="archServerTitle">Server-CA (Issuing)</span>
               </div>
-              <div class="arch-node-meta">pathlen:0 &bull; EKU: serverAuth</div>
+              <div class="arch-node-meta" data-i18n="archServerMeta">pathlen:0 &bull; EKU: serverAuth</div>
             </div>
 
             <div class="arch-node" style="flex: 1;">
               <div class="arch-node-title" style="color: var(--accent-emerald);">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                Client-CA (Issuing)
+                <span data-i18n="archClientTitle">Client-CA (Issuing)</span>
               </div>
-              <div class="arch-node-meta">pathlen:0 &bull; EKU: clientAuth</div>
+              <div class="arch-node-meta" data-i18n="archClientMeta">pathlen:0 &bull; EKU: clientAuth</div>
             </div>
           </div>
 
@@ -1345,41 +1492,41 @@ footer.app-footer a:hover {
           </svg>
 
           <div class="arch-leaf-row">
-            <div class="arch-leaf">Web / Ingress</div>
-            <div class="arch-leaf">Proxmox / NAS</div>
-            <div class="arch-leaf">VPN Gateway</div>
-            <div class="arch-leaf">802.1X EAP-TLS</div>
-            <div class="arch-leaf">mTLS API Peers</div>
-            <div class="arch-leaf">S/MIME Email</div>
+            <div class="arch-leaf" data-i18n="archLeafWeb">Web / Ingress</div>
+            <div class="arch-leaf" data-i18n="archLeafPve">Proxmox / NAS</div>
+            <div class="arch-leaf" data-i18n="archLeafVpn">VPN Gateway</div>
+            <div class="arch-leaf" data-i18n="archLeaf8021x">802.1X EAP-TLS</div>
+            <div class="arch-leaf" data-i18n="archLeafMtls">mTLS API Peers</div>
+            <div class="arch-leaf" data-i18n="archLeafSmime">S/MIME Email</div>
           </div>
         </div>
 
-        <h3 class="sub-header">Key Architectural Constraints</h3>
-        <p>1. <strong>Path Length Constraint (<code class="inline">pathlen:0</code>)</strong>: The Intermediate CAs are issued with X.509 extension <code class="inline">basicConstraints = critical, CA:TRUE, pathlen:0</code>. This cryptographic rule ensures an intermediate CA can issue end-entity leaf certificates, but <em>cannot</em> issue additional sub-CAs under any circumstances.</p>
-        <p>2. <strong>Role Segregation via Extended Key Usage (EKU)</strong>: Web servers receive strictly <code class="inline">serverAuth</code>, preventing leaf certificates from being abused for client authorization or code execution. Client certificates receive strictly <code class="inline">clientAuth</code>.</p>
-        <p>3. <strong>Cold-Storage Root Safety</strong>: Because the Root CA signs only the Intermediates (every 10 years), the Root CA private key can be kept completely offline (e.g. on an encrypted flash drive or cold disk). Daily certificate operations only touch the Intermediate CAs.</p>
+        <h3 class="sub-header" data-i18n="archKeyRulesTitle">Key Architectural Constraints</h3>
+        <p data-i18n="archRule1">1. Path Length Constraint (pathlen:0): The Intermediate CAs are issued with X.509 extension basicConstraints = critical, CA:TRUE, pathlen:0. This cryptographic rule ensures an intermediate CA can issue end-entity leaf certificates, but cannot issue additional sub-CAs under any circumstances.</p>
+        <p data-i18n="archRule2">2. Role Segregation via Extended Key Usage (EKU): Web servers receive strictly serverAuth. Client certificates receive strictly clientAuth. This prevents leaf certificates from being abused across security boundaries.</p>
+        <p data-i18n="archRule3">3. Cold-Storage Root Safety: Because the Root CA signs only the Intermediates (every 10 years), the Root CA private key can be kept completely offline (e.g. on an encrypted flash drive or cold disk). Daily certificate operations only touch the Intermediate CAs.</p>
       </section>
 
       <!-- Section: Interactive CLI Playground -->
       <section id="playground" class="scroll-animate" data-animate="fadeInUp" data-threshold="0.08">
         <h2 class="section-header">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
-          Interactive Command Generator
+          <span data-i18n="secBuilderTitle">Interactive Command Generator</span>
         </h2>
-        <p>Select your deployment profile and input your parameters. The builder constructs the exact production-ready CLI command with automated SAN parsing:</p>
+        <p data-i18n="secBuilderP">Select your deployment profile and input your parameters. The builder constructs the exact production-ready CLI command with automated SAN parsing:</p>
 
         <div class="builder-box">
           <div class="builder-header">
             <div class="builder-title">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
-              <span>Command Generator</span>
+              <span data-i18n="secBuilderTitle">Command Generator</span>
             </div>
             <span class="meta-chip" style="font-size: 11px;">Live Reactive</span>
           </div>
 
           <div class="builder-inputs">
             <div class="input-group">
-              <label for="build-preset">Preset Profile</label>
+              <label for="build-preset" data-i18n="lblPreset">Preset Profile</label>
               <select id="build-preset">
                 <option value="server">server (TLS Web / API / Ingress)</option>
                 <option value="wildcard">wildcard (*.homelab.lan)</option>
@@ -1395,22 +1542,22 @@ footer.app-footer a:hover {
             </div>
 
             <div class="input-group">
-              <label for="build-cn">Common Name (CN)</label>
+              <label for="build-cn" data-i18n="lblCn">Common Name (CN)</label>
               <input type="text" id="build-cn" value="web01.homelab.lan" placeholder="e.g. pve.homelab.lan">
             </div>
 
             <div class="input-group">
-              <label for="build-dns">Subject Alt DNS (comma separated)</label>
+              <label for="build-dns" data-i18n="lblDns">Subject Alt DNS (comma separated)</label>
               <input type="text" id="build-dns" value="web01.homelab.lan,web.lan" placeholder="web.lan,app.homelab.lan">
             </div>
 
             <div class="input-group">
-              <label for="build-ip">Subject Alt IPs (comma separated)</label>
+              <label for="build-ip" data-i18n="lblIp">Subject Alt IPs (comma separated)</label>
               <input type="text" id="build-ip" value="192.168.1.50" placeholder="10.0.0.50,192.168.1.1">
             </div>
 
             <div class="input-group">
-              <label for="build-key">Private Key Type</label>
+              <label for="build-key" data-i18n="lblKey">Private Key Type</label>
               <select id="build-key">
                 <option value="rsa3072">RSA 3072 (Standard & Compatible)</option>
                 <option value="rsa4096">RSA 4096 (Maximum Security)</option>
@@ -1419,7 +1566,7 @@ footer.app-footer a:hover {
             </div>
 
             <div class="input-group">
-              <label for="build-days">Validity (Days)</label>
+              <label for="build-days" data-i18n="lblDays">Validity (Days)</label>
               <input type="number" id="build-days" value="397" min="1" max="3650">
             </div>
           </div>
@@ -1427,7 +1574,7 @@ footer.app-footer a:hover {
           <div style="margin-bottom: 16px;">
             <label style="display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-main); cursor: pointer;">
               <input type="checkbox" id="build-p12" style="width: auto;">
-              Generate encrypted PKCS#12 bundle (<code class="inline">.p12</code> for Windows/iOS/macOS)
+              <span data-i18n="lblP12">Generate encrypted PKCS#12 bundle (.p12 for Windows/iOS/macOS)</span>
             </label>
           </div>
 
@@ -1435,7 +1582,7 @@ footer.app-footer a:hover {
             <code id="builder-output-code">./pki.sh issue server --cn "web01.homelab.lan" --dns "web01.homelab.lan,web.lan" --ip "192.168.1.50"</code>
             <button class="btn-copy">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-              <span>Copy</span>
+              <span data-i18n="btnCopy">Copy</span>
             </button>
           </div>
         </div>
@@ -1445,17 +1592,17 @@ footer.app-footer a:hover {
       <section id="quickstart" class="scroll-animate" data-animate="fadeInUp" data-threshold="0.08">
         <h2 class="section-header">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-          30-Second Quickstart
+          <span data-i18n="secQuickTitle">30-Second Quickstart</span>
         </h2>
-        <p>Get a full production-grade Root CA, two issuing intermediate authorities, and your first verified certificate up and running in under a minute:</p>
+        <p data-i18n="secQuickP">Get a full production-grade Root CA, two issuing intermediate authorities, and your first verified certificate up and running in under a minute:</p>
 
-        <h3 class="sub-header">1. Clone & Check Dependencies</h3>
+        <h3 class="sub-header" data-i18n="quickStep1">1. Clone & Check Dependencies</h3>
         <div class="code-card">
           <div class="code-top">
             <span>Terminal</span>
             <button class="btn-copy">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-              <span>Copy</span>
+              <span data-i18n="btnCopy">Copy</span>
             </button>
           </div>
           <pre><code>git clone https://github.com/Der-Felix/pki_script.git
@@ -1464,39 +1611,39 @@ chmod +x pki.sh build.sh pki completions/pki.bash
 ./pki.sh doctor</code></pre>
         </div>
 
-        <h3 class="sub-header">2. Initialize Root CA and Intermediate Authorities</h3>
-        <p>The <code class="inline">init</code> command creates the offline Root CA and both issuing CAs in one single operation:</p>
+        <h3 class="sub-header" data-i18n="quickStep2">2. Initialize Root CA and Intermediate Authorities</h3>
+        <p data-i18n="quickStep2P">The init command creates the offline Root CA and both issuing CAs in one single operation:</p>
         <div class="code-card">
           <div class="code-top">
             <span>Terminal</span>
             <button class="btn-copy">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-              <span>Copy</span>
+              <span data-i18n="btnCopy">Copy</span>
             </button>
           </div>
           <pre><code>./pki.sh init --org "Homelab" --intermediate server-ca --intermediate client-ca</code></pre>
         </div>
 
-        <h3 class="sub-header">3. Issue a TLS Server Certificate with 1-Click DNS Discovery</h3>
-        <p>The <code class="inline">quick</code> command automatically performs forward and reverse DNS lookups, resolving all host aliases and local IP addresses into SAN extensions:</p>
+        <h3 class="sub-header" data-i18n="quickStep3">3. Issue a TLS Server Certificate with 1-Click DNS Discovery</h3>
+        <p data-i18n="quickStep3P">The quick command automatically performs forward and reverse DNS lookups, resolving all host aliases and local IP addresses into SAN extensions:</p>
         <div class="code-card">
           <div class="code-top">
             <span>Terminal</span>
             <button class="btn-copy">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-              <span>Copy</span>
+              <span data-i18n="btnCopy">Copy</span>
             </button>
           </div>
           <pre><code>./pki.sh quick web01.homelab.lan</code></pre>
         </div>
 
-        <h3 class="sub-header">4. Verify Cryptographic Integrity</h3>
+        <h3 class="sub-header" data-i18n="quickStep4">4. Verify Cryptographic Integrity</h3>
         <div class="code-card">
           <div class="code-top">
             <span>Terminal</span>
             <button class="btn-copy">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-              <span>Copy</span>
+              <span data-i18n="btnCopy">Copy</span>
             </button>
           </div>
           <pre><code>./pki.sh verify web01.homelab.lan --host web01.homelab.lan</code></pre>
@@ -1507,9 +1654,9 @@ chmod +x pki.sh build.sh pki completions/pki.bash
       <section id="presets" class="scroll-animate" data-animate="fadeInUp" data-threshold="0.08">
         <h2 class="section-header">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-          12 Production Presets
+          <span data-i18n="secPresetsTitle">12 Production Presets</span>
         </h2>
-        <p>Each profile applies strict cryptographic constraints, RFC-compliant extensions, and tailored key usages:</p>
+        <p data-i18n="secPresetsP">Each profile applies strict cryptographic constraints, RFC-compliant extensions, and tailored key usages:</p>
 
         <div class="preset-grid">
           <!-- server -->
@@ -1653,61 +1800,56 @@ chmod +x pki.sh build.sh pki completions/pki.bash
       <section id="san-rules" class="scroll-animate" data-animate="fadeInUp" data-threshold="0.08">
         <h2 class="section-header">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-          Strict SAN Enforcement (Why CommonName is Dead)
+          <span data-i18n="secSanTitle">Strict SAN Enforcement (Why CommonName is Dead)</span>
         </h2>
-        <p>Many legacy scripts still put the hostname in the certificate <code class="inline">Subject CommonName (CN)</code> and omit Subject Alternative Names. In modern TLS, <strong>this guarantees connection failure</strong>.</p>
+        <p data-i18n="secSanP1">Many legacy scripts still put the hostname in the certificate Subject CommonName (CN) and omit Subject Alternative Names. In modern TLS, this guarantees connection failure.</p>
 
         <div class="callout callout-warning scroll-animate" data-animate="fadeInLeft" data-delay="50">
           <div class="callout-header">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-            Mandatory Standards
+            <span data-i18n="calloutSanTitle">Mandatory Standards</span>
           </div>
-          <p>Since Google Chrome 58, Apple iOS 13, macOS Catalina, and Go 1.15, the <code class="inline">commonName</code> field is completely ignored for hostname validation. A certificate <em>must</em> have an explicit <code class="inline">subjectAltName</code> extension.</p>
+          <p data-i18n="calloutSanP">Since Google Chrome 58, Apple iOS 13, macOS Catalina, and Go 1.15, the commonName field is completely ignored for hostname validation. A certificate must have an explicit subjectAltName extension.</p>
         </div>
 
-        <p>Furthermore, <strong>DNS SAN &ne; IP SAN</strong>:</p>
-        <ul>
-          <li>If you connect to <code class="inline">https://pve01.homelab.lan</code>, the certificate must contain <code class="inline">DNS:pve01.homelab.lan</code>.</li>
-          <li>If you connect to <code class="inline">https://192.168.1.10</code>, having a DNS SAN is not enough; the certificate must contain an explicit <code class="inline">IP:192.168.1.10</code> entry.</li>
-        </ul>
-        <p>This PKI suite automatically parses and generates distinct <code class="inline">DNS:</code> and <code class="inline">IP:</code> entries in the OpenSSL configuration block.</p>
+        <p data-i18n="sanRuleDnsIp">Important: DNS SAN &ne; IP SAN! If you connect to https://192.168.1.10, having a DNS SAN is not enough; the certificate must contain an explicit IP:192.168.1.10 entry.</p>
       </section>
 
       <!-- Section: 802.1X EAP-TLS -->
       <section id="network-8021x" class="scroll-animate" data-animate="fadeInUp" data-threshold="0.08">
         <h2 class="section-header">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"></path><path d="M1.42 9a16 16 0 0 1 21.16 0"></path><path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path><line x1="12" y1="20" x2="12.01" y2="20"></line></svg>
-          802.1X EAP-TLS Network Authentication (Wi-Fi / LAN)
+          <span data-i18n="sec8021xTitle">802.1X EAP-TLS Network Authentication (Wi-Fi / LAN)</span>
         </h2>
-        <p>EAP-TLS is the highest security standard for wireless (WPA2/WPA3-Enterprise) and dynamic switch port admission. Passwords are never used. Instead, authentication relies on mutual cryptographic verification between the user's device and the RADIUS server.</p>
+        <p data-i18n="sec8021xP">EAP-TLS is the highest security standard for wireless (WPA2/WPA3-Enterprise) and dynamic switch port admission. Passwords are never used. Instead, authentication relies on mutual cryptographic verification between the user's device and the RADIUS server.</p>
 
-        <h3 class="sub-header">How the EAP-TLS Handshake Operates</h3>
+        <h3 class="sub-header" data-i18n="eapStep1">1. Issue the FreeRADIUS Server Certificate</h3>
         <div class="code-card">
-          <div class="code-top"><span>Protocol Flow</span></div>
-          <pre><code>1. Client connects to SSID / Switch Port (UniFi / Omada / Cisco)
-2. Switch forwards EAPoL packet to FreeRADIUS server
-3. FreeRADIUS presents its Server Certificate (validated by Client using Root CA)
-4. Client presents its Client Certificate (.p12 / cert.pem signed by Client-CA)
-5. FreeRADIUS validates client cert validity, expiration, and CRL
-6. Port opens & dynamic VLAN is assigned! Passwords are never sent.</code></pre>
-        </div>
-
-        <h3 class="sub-header">Step 1: Issue the FreeRADIUS Server Certificate</h3>
-        <div class="code-card">
-          <div class="code-top"><span>Terminal</span><button class="btn-copy">Copy</button></div>
+          <div class="code-top">
+            <span>Terminal</span>
+            <button class="btn-copy">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span data-i18n="btnCopy">Copy</span>
+            </button>
+          </div>
           <pre><code>./pki.sh issue server --cn radius.homelab.lan --dns radius.homelab.lan --ip 192.168.1.15</code></pre>
         </div>
 
-        <h3 class="sub-header">Step 2: Issue User & Device Client Certificates</h3>
-        <p>Use the included production template in <code class="inline">examples/network-auth-8021x.conf</code> or the CLI:</p>
+        <h3 class="sub-header" data-i18n="eapStep2">2. Issue User & Device Client Certificates</h3>
         <div class="code-card">
-          <div class="code-top"><span>Terminal</span><button class="btn-copy">Copy</button></div>
+          <div class="code-top">
+            <span>Terminal</span>
+            <button class="btn-copy">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span data-i18n="btnCopy">Copy</span>
+            </button>
+          </div>
           <pre><code>./pki.sh issue client --cn "laptop-felix" --email felix@homelab.lan --p12</code></pre>
         </div>
 
-        <h3 class="sub-header">Step 3: Client Deployment</h3>
+        <h3 class="sub-header" data-i18n="eapStep3">3. Client Deployment</h3>
         <ul>
-          <li><strong>Windows / macOS / iPhone / Android</strong>: Simply double-click the generated <code class="inline">pki/issued/laptop-felix/cert.p12</code> file and import it into the User Certificate store. Install <code class="inline">pki/publish/root.crt</code> into Trusted Root Certification Authorities.</li>
+          <li><strong>Windows / macOS / iPhone / Android</strong>: Import the generated <code class="inline">pki/issued/laptop-felix/cert.p12</code> into the User Certificate store. Install <code class="inline">pki/publish/root.crt</code> into Trusted Root Certification Authorities.</li>
           <li><strong>Linux (<code class="inline">/etc/wpa_supplicant/wpa_supplicant.conf</code>)</strong>:
             <div class="code-card" style="margin-top: 10px;">
               <div class="code-top"><span>wpa_supplicant.conf</span><button class="btn-copy">Copy</button></div>
@@ -1729,9 +1871,9 @@ chmod +x pki.sh build.sh pki completions/pki.bash
       <section id="webservers" class="scroll-animate" data-animate="fadeInUp" data-threshold="0.08">
         <h2 class="section-header">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
-          Web Ingress & Reverse Proxy Integration
+          <span data-i18n="secWebTitle">Web Ingress & Reverse Proxy Integration</span>
         </h2>
-        <p>Every issued certificate folder includes auto-generated configuration blocks in <code class="inline">GUIDE.txt</code>. Switch tabs below to see tested configuration snippets for all major web servers:</p>
+        <p data-i18n="secWebP">Every issued certificate folder includes auto-generated configuration blocks in GUIDE.txt. Switch tabs below to see tested configuration snippets for all major web servers:</p>
 
         <div class="tab-container">
           <div class="tab-nav">
@@ -1739,7 +1881,7 @@ chmod +x pki.sh build.sh pki completions/pki.bash
             <button class="tab-btn" data-tab="tab-traefik">Traefik</button>
             <button class="tab-btn" data-tab="tab-caddy">Caddy</button>
             <button class="tab-btn" data-tab="tab-apache">Apache</button>
-            <button class="tab-btn" data-tab="haproxy">HAProxy</button>
+            <button class="tab-btn" data-tab="tab-haproxy">HAProxy</button>
           </div>
 
           <div id="tab-nginx" class="tab-content active">
@@ -1796,7 +1938,7 @@ tls:
             </div>
           </div>
 
-          <div id="haproxy" class="tab-content">
+          <div id="tab-haproxy" class="tab-content">
             <div class="code-card" style="border: none; margin: 0;">
               <pre><code># HAProxy requires combined.pem (private key + cert chain bundled together)
 frontend https-in
@@ -1811,13 +1953,19 @@ frontend https-in
       <section id="hypervisors" class="scroll-animate" data-animate="fadeInUp" data-threshold="0.08">
         <h2 class="section-header">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
-          Proxmox VE & TrueNAS SCALE Deployment
+          <span data-i18n="secHyperTitle">Proxmox VE & TrueNAS SCALE Deployment</span>
         </h2>
-        <p>Proxmox uses a dedicated reverse proxy service (<code class="inline">pveproxy</code>) running on port 8006. Replace the self-signed cluster certificate with your issued authority bundle:</p>
+        <p data-i18n="secHyperP">Replace the self-signed cluster certificate with your issued authority bundle:</p>
 
         <h3 class="sub-header">Proxmox VE Installation</h3>
         <div class="code-card">
-          <div class="code-top"><span>Proxmox PVE Shell</span><button class="btn-copy">Copy</button></div>
+          <div class="code-top">
+            <span>Proxmox PVE Shell</span>
+            <button class="btn-copy">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span data-i18n="btnCopy">Copy</span>
+            </button>
+          </div>
           <pre><code># Copy fullchain and key to Proxmox proxy directory
 scp fullchain.pem root@pve01:/etc/pve/local/pveproxy-ssl.pem
 scp key.pem       root@pve01:/etc/pve/local/pveproxy-ssl.key
@@ -1830,23 +1978,34 @@ ssh root@pve01 'systemctl restart pveproxy'</code></pre>
         <p>In TrueNAS WebGUI: Go to <strong>Credentials &rarr; Certificates</strong> &rarr; Click <strong>Add</strong> &rarr; Select <em>Import Certificate</em>. Paste the contents of <code class="inline">key.pem</code> into Private Key and <code class="inline">fullchain.pem</code> into Certificate. Then under <strong>System &rarr; General</strong>, select the imported certificate as the WebGUI SSL cert.</p>
       </section>
 
-      <!-- Section: Client Trust Stores -->
+      <!-- Section: Client Trust Stores & Device Detection -->
       <section id="client-trust" class="scroll-animate" data-animate="fadeInUp" data-threshold="0.08">
         <h2 class="section-header">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-          Importing Root CA into Client Trust Stores (Once per device)
+          <span data-i18n="secTrustTitle">Importing Root CA into Client Trust Stores (Once per device)</span>
         </h2>
-        <p>Once you install the public Root CA (<code class="inline">pki/publish/root.crt</code>) on your devices, every certificate issued by your Intermediate CAs will be automatically trusted across Chrome, Safari, Edge, curl, and native apps with zero security warnings.</p>
+        <p data-i18n="secTrustP">Once you install the public Root CA (pki/publish/root.crt) on your devices, every certificate issued by your Intermediate CAs will be automatically trusted across Chrome, Safari, Edge, curl, and native apps with zero security warnings.</p>
+
+        <!-- Dynamic Device / OS Detection Slot -->
+        <div id="os-detected-slot"></div>
 
         <div class="table-wrap">
           <table>
             <thead>
               <tr>
-                <th>Operating System / Client</th>
-                <th>Installation Command</th>
+                <th>Platform / Client</th>
+                <th>Installation Instructions</th>
               </tr>
             </thead>
             <tbody>
+              <tr>
+                <td><strong>Windows (PowerShell Admin)</strong></td>
+                <td><code>Import-Certificate -FilePath .\pki\publish\root.crt -CertStoreLocation Cert:\LocalMachine\Root</code></td>
+              </tr>
+              <tr>
+                <td><strong>macOS (System Keychain)</strong></td>
+                <td><code>sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain pki/publish/root.crt</code></td>
+              </tr>
               <tr>
                 <td><strong>Debian / Ubuntu / Proxmox</strong></td>
                 <td><code>sudo cp pki/publish/root.crt /usr/local/share/ca-certificates/homelab-root.crt &amp;&amp; sudo update-ca-certificates</code></td>
@@ -1856,12 +2015,12 @@ ssh root@pve01 'systemctl restart pveproxy'</code></pre>
                 <td><code>sudo cp pki/publish/root.crt /etc/pki/ca-trust/source/anchors/homelab-root.crt &amp;&amp; sudo update-ca-trust</code></td>
               </tr>
               <tr>
-                <td><strong>macOS (System Keychain)</strong></td>
-                <td><code>sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain pki/publish/root.crt</code></td>
+                <td><strong>Apple iOS (iPhone / iPad)</strong></td>
+                <td>AirDrop or download <code>root.crt</code> &rarr; Settings &rarr; Profile Downloaded &rarr; Install. Then: Settings &rarr; General &rarr; About &rarr; Certificate Trust Settings &rarr; Enable Full Trust.</td>
               </tr>
               <tr>
-                <td><strong>Windows (PowerShell Admin)</strong></td>
-                <td><code>Import-Certificate -FilePath .\pki\publish\root.crt -CertStoreLocation Cert:\LocalMachine\Root</code></td>
+                <td><strong>Android</strong></td>
+                <td>Settings &rarr; Security &rarr; Encryption & credentials &rarr; Install a certificate &rarr; CA certificate &rarr; Select <code>root.crt</code>.</td>
               </tr>
               <tr>
                 <td><strong>Firefox Browser</strong></td>
@@ -1876,32 +2035,42 @@ ssh root@pve01 'systemctl restart pveproxy'</code></pre>
       <section id="revocation-crl" class="scroll-animate" data-animate="fadeInUp" data-threshold="0.08">
         <h2 class="section-header">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
-          Revocation & Certificate Revocation Lists (CRL)
+          <span data-i18n="secRevokeTitle">Revocation & Certificate Revocation Lists (CRL)</span>
         </h2>
-        <p>If a private key is leaked, a device is stolen, or an employee leaves, revoke the certificate immediately:</p>
+        <p data-i18n="secRevokeP">If a private key is leaked, a device is stolen, or an employee leaves, revoke the certificate immediately:</p>
 
         <div class="code-card">
-          <div class="code-top"><span>Revocation Command</span><button class="btn-copy">Copy</button></div>
+          <div class="code-top">
+            <span>Revocation Command</span>
+            <button class="btn-copy">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span data-i18n="btnCopy">Copy</span>
+            </button>
+          </div>
           <pre><code># Revoke certificate with RFC reason
 ./pki.sh revoke laptop-felix --reason keyCompromise
 
 # Generate updated CRL
 ./pki.sh crl</code></pre>
         </div>
-
-        <p>Valid RFC reasons supported by <code class="inline">pki.sh</code>: <code class="inline">keyCompromise</code>, <code class="inline">CACompromise</code>, <code class="inline">affiliationChanged</code>, <code class="inline">superseded</code>, <code class="inline">cessationOfOperation</code>, <code class="inline">unspecified</code>.</p>
       </section>
 
       <!-- Section: Disaster Recovery -->
       <section id="backup-recovery" class="scroll-animate" data-animate="fadeInUp" data-threshold="0.08">
         <h2 class="section-header">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
-          Disaster Recovery & Air-Gapped Storage
+          <span data-i18n="secBackupTitle">Disaster Recovery & Air-Gapped Storage</span>
         </h2>
-        <p>Because the PKI is purely file-based, backup and recovery is as simple as creating an encrypted archive:</p>
+        <p data-i18n="secBackupP">Because the PKI is purely file-based, backup and recovery is as simple as creating an encrypted archive:</p>
 
         <div class="code-card">
-          <div class="code-top"><span>Backup Script</span><button class="btn-copy">Copy</button></div>
+          <div class="code-top">
+            <span>Backup Script</span>
+            <button class="btn-copy">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span data-i18n="btnCopy">Copy</span>
+            </button>
+          </div>
           <pre><code># Create GPG-encrypted tarball of the entire PKI tree
 tar -czf - pki/ | gpg -c -o homelab-pki-backup-$(date +%F).tar.gz.gpg
 
@@ -1914,13 +2083,19 @@ tar -czf - pki/ | gpg -c -o homelab-pki-backup-$(date +%F).tar.gz.gpg
       <!-- Section: CLI Automation -->
       <section id="cli-automation" class="scroll-animate" data-animate="fadeInUp" data-threshold="0.08">
         <h2 class="section-header">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="12" x2="16" y2="14"></line></svg>
-          Headless Automation & Cron Renewal
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          <span data-i18n="secCronTitle">Headless Automation & Cron Renewal</span>
         </h2>
-        <p>Automate certificate renewal in cron jobs, Ansible playbooks, or SaltStack states with environment variables:</p>
+        <p data-i18n="secCronP">Automate certificate renewal in cron jobs, Ansible playbooks, or SaltStack states with environment variables:</p>
 
         <div class="code-card">
-          <div class="code-top"><span>/etc/cron.d/pki-auto-renew</span><button class="btn-copy">Copy</button></div>
+          <div class="code-top">
+            <span>/etc/cron.d/pki-auto-renew</span>
+            <button class="btn-copy">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span data-i18n="btnCopy">Copy</span>
+            </button>
+          </div>
           <pre><code># Run every night at 03:00. Check if certificate expires in next 30 days and renew automatically.
 0 3 * * * root /opt/pki_script/pki.sh check --days 30 || /opt/pki_script/pki.sh renew web01 --revoke-old -y</code></pre>
         </div>
@@ -1930,20 +2105,20 @@ tar -czf - pki/ | gpg -c -o homelab-pki-backup-$(date +%F).tar.gz.gpg
 
     <!-- Right Sidebar: On This Page (TOC) -->
     <aside class="toc-sidebar">
-      <div class="toc-title">On this page</div>
+      <div class="toc-title" data-i18n="tocTitle">On this page</div>
       <ul class="toc-list">
-        <li><a href="#overview" class="toc-link active">Overview & Philosophy</a></li>
-        <li><a href="#architecture" class="toc-link">PKI Architecture</a></li>
-        <li><a href="#playground" class="toc-link">Command Generator</a></li>
-        <li><a href="#quickstart" class="toc-link">30-Sec Quickstart</a></li>
-        <li><a href="#presets" class="toc-link">12 Production Presets</a></li>
-        <li><a href="#san-rules" class="toc-link">SAN Enforcement</a></li>
-        <li><a href="#network-8021x" class="toc-link">802.1X EAP-TLS</a></li>
-        <li><a href="#webservers" class="toc-link">Web Ingress</a></li>
-        <li><a href="#hypervisors" class="toc-link">Proxmox & TrueNAS</a></li>
-        <li><a href="#client-trust" class="toc-link">Client Trust Stores</a></li>
-        <li><a href="#revocation-crl" class="toc-link">Revocation & CRLs</a></li>
-        <li><a href="#cli-automation" class="toc-link">Cron & Automation</a></li>
+        <li><a href="#overview" class="toc-link active" data-i18n="linkOverview">Overview & Philosophy</a></li>
+        <li><a href="#architecture" class="toc-link" data-i18n="linkArch">PKI Architecture</a></li>
+        <li><a href="#playground" class="toc-link" data-i18n="linkBuilder">Command Generator</a></li>
+        <li><a href="#quickstart" class="toc-link" data-i18n="linkQuickstart">30-Sec Quickstart</a></li>
+        <li><a href="#presets" class="toc-link" data-i18n="linkPresets">12 Production Presets</a></li>
+        <li><a href="#san-rules" class="toc-link" data-i18n="linkSan">SAN Enforcement</a></li>
+        <li><a href="#network-8021x" class="toc-link" data-i18n="link8021x">802.1X EAP-TLS</a></li>
+        <li><a href="#webservers" class="toc-link" data-i18n="linkWeb">Web Ingress</a></li>
+        <li><a href="#hypervisors" class="toc-link" data-i18n="linkHypervisors">Proxmox & TrueNAS</a></li>
+        <li><a href="#client-trust" class="toc-link" data-i18n="linkTrust">Client Trust Stores</a></li>
+        <li><a href="#revocation-crl" class="toc-link" data-i18n="linkRevoke">Revocation & CRLs</a></li>
+        <li><a href="#cli-automation" class="toc-link" data-i18n="linkCron">Cron & Automation</a></li>
       </ul>
 
       <div class="toc-card">
@@ -1954,7 +2129,7 @@ tar -czf - pki/ | gpg -c -o homelab-pki-backup-$(date +%F).tar.gz.gpg
         <p>Star or contribute to the project on GitHub:</p>
         <a href="https://github.com/Der-Felix/pki_script" target="_blank" rel="noopener" class="gh-button" style="width: 100%; justify-content: center;">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-          <span>Star on GitHub</span>
+          <span data-i18n="starGithub">Star on GitHub</span>
         </a>
       </div>
     </aside>
@@ -1962,11 +2137,10 @@ tar -czf - pki/ | gpg -c -o homelab-pki-backup-$(date +%F).tar.gz.gpg
 
   <!-- Matte Footer -->
   <footer class="app-footer">
-    <div>OpenSSL Homelab PKI Suite &bull; Engineered to RFC 5280 standards</div>
-    <div><a href="https://github.com/Der-Felix/pki_script" target="_blank" rel="noopener">GitHub: Der-Felix/pki_script</a></div>
+    <div data-i18n="footerLeft">OpenSSL Homelab PKI Suite &bull; Engineered to RFC 5280 standards</div>
+    <div><a href="https://github.com/Der-Felix/pki_script" target="_blank" rel="noopener" data-i18n="footerRight">GitHub: Der-Felix/pki_script</a></div>
   </footer>
 
   <script src="app.js"></script>
 </body>
 </html>
-

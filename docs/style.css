@@ -1,6 +1,6 @@
 /* ==============================================================================
    OpenSSL PKI Suite - Modern Matte Dark Documentation System
-   Powered by Animate.css (v4.1.1) scroll-triggered animations & 3-column layout
+   Space-Optimized Desktop, Fully Responsive Mobile, Bilingual & Device Detection
    ============================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
@@ -43,7 +43,7 @@
   --accent-rose: #f43f5e;
 
   /* Layout dimensions */
-  --sidebar-w: 280px;
+  --sidebar-w: 270px;
   --toc-w: 240px;
   --header-h: 60px;
   
@@ -89,7 +89,7 @@
 @keyframes fadeInDown {
   from {
     opacity: 0;
-    transform: translate3d(0, -28px, 0);
+    transform: translate3d(0, -24px, 0);
   }
   to {
     opacity: 1;
@@ -249,6 +249,7 @@ header.app-header {
   color: var(--text-heading) !important;
   letter-spacing: -0.2px;
   transition: opacity var(--transition-fast);
+  white-space: nowrap;
 }
 
 .brand-logo:hover {
@@ -265,6 +266,7 @@ header.app-header {
   align-items: center;
   justify-content: center;
   color: var(--accent-cyan);
+  flex-shrink: 0;
 }
 
 .version-pill {
@@ -275,6 +277,7 @@ header.app-header {
   color: var(--text-muted);
   border: 1px solid var(--border-subtle);
   border-radius: 12px;
+  white-space: nowrap;
 }
 
 .pulse-badge {
@@ -306,6 +309,39 @@ header.app-header {
   gap: 12px;
 }
 
+/* Language Switch Pill */
+.lang-switch {
+  display: inline-flex;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 7px;
+  padding: 2px;
+  gap: 2px;
+}
+
+.lang-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-family: inherit;
+}
+
+.lang-btn:hover {
+  color: var(--text-heading);
+}
+
+.lang-btn.active {
+  background: var(--bg-card);
+  color: var(--accent-cyan);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+}
+
 .search-field {
   position: relative;
   display: flex;
@@ -319,7 +355,7 @@ header.app-header {
   padding: 6px 12px 6px 34px;
   font-size: 13px;
   color: var(--text-main);
-  width: 220px;
+  width: 200px;
   transition: all var(--transition-smooth);
 }
 
@@ -327,7 +363,7 @@ header.app-header {
   outline: none;
   border-color: var(--accent-cyan);
   box-shadow: 0 0 0 3px var(--border-glow);
-  width: 290px;
+  width: 260px;
   background-color: var(--bg-card);
 }
 
@@ -351,6 +387,7 @@ header.app-header {
   gap: 8px;
   text-decoration: none;
   transition: all var(--transition-fast);
+  white-space: nowrap;
 }
 
 .gh-button:hover {
@@ -359,22 +396,24 @@ header.app-header {
   border-color: var(--border-medium);
 }
 
-/* Three-Column Application Layout */
+/* Three-Column Application Layout - Centered on Widescreen */
 .app-layout {
   display: flex;
-  margin-top: var(--header-h);
+  margin: var(--header-h) auto 0;
   min-height: calc(100vh - var(--header-h));
   position: relative;
-  justify-content: flex-start;
+  width: 100%;
+  max-width: 1720px;
+  justify-content: space-between;
 }
 
 /* Left Sidebar (Navigation Tree) */
 aside.app-sidebar {
-  position: fixed;
-  top: var(--header-h);
-  left: 0;
-  bottom: 0;
   width: var(--sidebar-w);
+  flex-shrink: 0;
+  position: sticky;
+  top: var(--header-h);
+  height: calc(100vh - var(--header-h));
   background-color: var(--bg-surface);
   border-right: 1px solid var(--border-subtle);
   padding: 24px 14px 40px;
@@ -425,19 +464,19 @@ aside.app-sidebar {
   font-weight: 600;
 }
 
-/* Center Documentation Stream */
+/* Center Documentation Stream - Generous and Readable */
 main.app-main {
-  margin-left: var(--sidebar-w);
-  padding: 40px 52px 100px;
   flex: 1;
-  max-width: 960px;
   min-width: 0;
+  max-width: 1100px;
+  padding: 40px 52px 100px;
   box-sizing: border-box;
 }
 
 /* Right Sidebar (Table of Contents / Jump to section) */
 aside.toc-sidebar {
   width: var(--toc-w);
+  flex-shrink: 0;
   padding: 40px 20px 100px 16px;
   position: sticky;
   top: var(--header-h);
@@ -542,6 +581,8 @@ aside.toc-sidebar {
   letter-spacing: -0.8px;
   line-height: 1.2;
   margin-bottom: 14px;
+  hyphens: none;
+  word-break: normal;
 }
 
 .hero-title span {
@@ -554,7 +595,7 @@ aside.toc-sidebar {
   font-size: 1.08rem;
   color: var(--text-muted);
   line-height: 1.6;
-  max-width: 760px;
+  max-width: 820px;
   margin-bottom: 24px;
 }
 
@@ -581,6 +622,46 @@ aside.toc-sidebar {
 .meta-chip:hover {
   border-color: var(--border-medium);
   color: var(--text-heading);
+}
+
+/* Device OS Auto-Detected Banner */
+.os-detected-card {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(52, 211, 153, 0.03));
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  border-radius: 12px;
+  padding: 18px 22px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.os-detected-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.os-detected-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--text-heading);
+}
+
+.os-detected-title strong {
+  color: var(--accent-cyan);
+}
+
+.os-chip {
+  background: rgba(52, 211, 153, 0.12);
+  color: var(--accent-emerald);
+  border-color: rgba(52, 211, 153, 0.3);
+  font-size: 11.5px;
+  font-weight: 600;
 }
 
 /* Typography & Headings */
@@ -912,10 +993,10 @@ code.inline {
   color: var(--text-heading);
 }
 
-/* Interactive Preset Grid */
+/* Interactive Preset Grid - Multi-column responsive */
 .preset-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 16px;
   margin: 24px 0;
 }
@@ -1066,12 +1147,14 @@ code.inline {
   margin: 20px 0;
   border: 1px solid var(--border-subtle);
   border-radius: 10px;
+  -webkit-overflow-scrolling: touch;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
   font-size: 13.5px;
+  min-width: 500px;
 }
 
 th, td {
@@ -1099,7 +1182,7 @@ tr:hover td {
 
 /* Footer */
 footer.app-footer {
-  margin-left: var(--sidebar-w);
+  margin-top: auto;
   padding: 30px 52px;
   border-top: 1px solid var(--border-subtle);
   font-size: 13px;
@@ -1108,6 +1191,8 @@ footer.app-footer {
   justify-content: space-between;
   align-items: center;
   background-color: var(--bg-surface);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 footer.app-footer a {
@@ -1120,8 +1205,20 @@ footer.app-footer a:hover {
   color: var(--accent-cyan);
 }
 
+/* Mobile Backdrop */
+.mobile-backdrop {
+  position: fixed;
+  top: var(--header-h);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 85;
+}
+
 /* Responsive Breakpoints */
-@media (max-width: 1250px) {
+@media (max-width: 1360px) {
   aside.toc-sidebar {
     display: none;
   }
@@ -1131,26 +1228,69 @@ footer.app-footer a:hover {
 }
 
 @media (max-width: 900px) {
+  header.app-header {
+    padding: 0 16px;
+  }
+  
+  .search-field {
+    display: none; /* Hide top search bar on mobile to avoid overflow */
+  }
+
   aside.app-sidebar {
+    position: fixed;
+    top: var(--header-h);
+    left: 0;
+    bottom: 0;
+    width: 290px;
     transform: translateX(-100%);
     transition: transform var(--transition-smooth);
+    box-shadow: none;
   }
+
   aside.app-sidebar.open {
     transform: translateX(0);
-    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.6);
+    box-shadow: 10px 0 35px rgba(0, 0, 0, 0.75);
   }
+
   main.app-main {
     margin-left: 0;
     width: 100%;
-    padding: 30px 20px 60px;
+    padding: 24px 16px 60px;
   }
+
+  .hero-title {
+    font-size: 1.85rem;
+    line-height: 1.25;
+  }
+
+  .hero-sub {
+    font-size: 0.98rem;
+  }
+
+  .hero-badges {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .meta-chip {
+    width: 100%;
+  }
+
+  .arch-split {
+    flex-direction: column;
+  }
+
+  .preset-grid {
+    grid-template-columns: 1fr;
+  }
+
   footer.app-footer {
-    margin-left: 0;
-    padding: 20px;
+    padding: 20px 16px;
     flex-direction: column;
     gap: 12px;
     text-align: center;
   }
+
   .mobile-toggle {
     display: inline-flex !important;
   }
@@ -1163,4 +1303,5 @@ footer.app-footer a:hover {
   color: var(--text-main);
   cursor: pointer;
   padding: 4px;
+  margin-right: 4px;
 }
