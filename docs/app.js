@@ -1,39 +1,28 @@
+// ==============================================================================
+// OpenSSL Homelab PKI Suite - Interactive Documentation Engine
+// ==============================================================================
+
 document.addEventListener('DOMContentLoaded', () => {
-  // Theme Toggle
-  const themeToggle = document.getElementById('theme-toggle');
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const storedTheme = localStorage.getItem('theme');
-  const initialTheme = storedTheme || (prefersDark ? 'dark' : 'light');
+  initMobileMenu();
+  initCopyButtons();
+  initTabSwitchers();
+  initPresetSearch();
+  initScrollSpy();
+  initCommandBuilder();
+});
 
-  document.documentElement.setAttribute('data-theme', initialTheme);
-  updateThemeIcon(initialTheme);
+// Mobile Sidebar Drawer Toggle
+function initMobileMenu() {
+  const toggleBtn = document.getElementById('mobile-toggle-btn');
+  const sidebar = document.querySelector('aside.app-sidebar');
 
-  if (themeToggle) {
-    themeToggle.addEventListener('click', () => {
-      const current = document.documentElement.getAttribute('data-theme') || 'dark';
-      const next = current === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('theme', next);
-      updateThemeIcon(next);
-    });
-  }
-
-  function updateThemeIcon(theme) {
-    if (!themeToggle) return;
-    themeToggle.innerHTML = theme === 'dark' 
-      ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`
-      : `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
-  }
-
-  // Mobile Menu Toggle
-  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-  const sidebar = document.querySelector('aside.sidebar');
-  if (mobileMenuBtn && sidebar) {
-    mobileMenuBtn.addEventListener('click', () => {
+  if (toggleBtn && sidebar) {
+    toggleBtn.addEventListener('click', () => {
       sidebar.classList.toggle('open');
     });
 
-    document.querySelectorAll('.nav-link').forEach(link => {
+    // Close on navigation link click on mobile
+    document.querySelectorAll('.sidebar-link').forEach(link => {
       link.addEventListener('click', () => {
         if (window.innerWidth <= 900) {
           sidebar.classList.remove('open');
@@ -41,92 +30,192 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
+}
 
-  // Copy Buttons
-  document.querySelectorAll('.copy-btn').forEach(btn => {
+// Copy Code to Clipboard with Micro-feedback
+function initCopyButtons() {
+  document.querySelectorAll('.btn-copy').forEach(btn => {
     btn.addEventListener('click', async () => {
-      const codeBlock = btn.closest('.code-block');
-      if (!codeBlock) return;
-      const code = codeBlock.querySelector('pre code');
-      if (!code) return;
+      const parent = btn.closest('.code-card') || btn.closest('.builder-output');
+      if (!parent) return;
+
+      const codeElement = parent.querySelector('code');
+      if (!codeElement) return;
+
+      const textToCopy = codeElement.innerText.trim();
 
       try {
-        await navigator.clipboard.writeText(code.innerText.trim());
+        await navigator.clipboard.writeText(textToCopy);
         const originalHtml = btn.innerHTML;
-        btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Copied!`;
-        btn.style.color = 'var(--success)';
-        btn.style.borderColor = 'var(--success)';
+        btn.classList.add('copied');
+        btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> Copied!`;
+        
         setTimeout(() => {
           btn.innerHTML = originalHtml;
-          btn.style.color = '';
-          btn.style.borderColor = '';
-        }, 2000);
+          btn.classList.remove('copied');
+        }, 2200);
       } catch (err) {
-        console.error('Failed to copy', err);
+        console.error('Failed to copy to clipboard:', err);
       }
     });
   });
+}
 
-  // Tab Switcher
-  document.querySelectorAll('.tabs').forEach(tabContainer => {
-    const buttons = tabContainer.querySelectorAll('.tab-btn');
-    const panes = tabContainer.querySelectorAll('.tab-pane');
+// Multi-Tab Switcher (Nginx, Traefik, Caddy, Apache, HAProxy, Proxmox)
+function initTabSwitchers() {
+  document.querySelectorAll('.tab-container').forEach(container => {
+    const buttons = container.querySelectorAll('.tab-btn');
+    const panes = container.querySelectorAll('.tab-content');
 
     buttons.forEach(btn => {
       btn.addEventListener('click', () => {
-        const target = btn.getAttribute('data-tab');
+        const targetId = btn.getAttribute('data-tab');
 
         buttons.forEach(b => b.classList.remove('active'));
         panes.forEach(p => p.classList.remove('active'));
 
         btn.classList.add('active');
-        const targetPane = tabContainer.querySelector(`#${target}`);
-        if (targetPane) targetPane.classList.add('active');
-      });
-    });
-  });
-
-  // Search Filter
-  const searchInput = document.getElementById('doc-search');
-  if (searchInput) {
-    searchInput.addEventListener('input', (e) => {
-      const q = e.target.value.toLowerCase().trim();
-      const presetCards = document.querySelectorAll('.preset-card');
-
-      presetCards.forEach(card => {
-        const text = card.innerText.toLowerCase();
-        if (text.includes(q) || !q) {
-          card.style.display = '';
-        } else {
-          card.style.display = 'none';
+        const activePane = container.querySelector(`#${targetId}`);
+        if (activePane) {
+          activePane.classList.add('active');
         }
       });
     });
-  }
+  });
+}
 
-  // Active Link on Scroll
-  const navLinks = document.querySelectorAll('.nav-link');
-  const sections = document.querySelectorAll('section[id], h2[id]');
+// Live Search for Presets
+function initPresetSearch() {
+  const searchInput = document.getElementById('search-input');
+  if (!searchInput) return;
 
-  window.addEventListener('scroll', () => {
-    let current = '';
-    const scrollPos = window.scrollY + 100;
+  searchInput.addEventListener('input', (e) => {
+    const query = e.target.value.toLowerCase().trim();
+    const presetBoxes = document.querySelectorAll('.preset-box');
 
-    sections.forEach(section => {
-      const top = section.offsetTop;
-      const height = section.offsetHeight;
-      if (scrollPos >= top && scrollPos < top + height) {
-        current = section.getAttribute('id');
+    presetBoxes.forEach(box => {
+      const text = box.innerText.toLowerCase();
+      if (!query || text.includes(query)) {
+        box.style.display = 'flex';
+      } else {
+        box.style.display = 'none';
       }
     });
+  });
+}
 
-    if (current) {
-      navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === `#${current}`) {
-          link.classList.add('active');
-        }
-      });
+// Active Nav Link Spy on Scroll
+function initScrollSpy() {
+  const navLinks = document.querySelectorAll('.sidebar-link');
+  const sections = document.querySelectorAll('section[id]');
+
+  if (!sections.length) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id');
+        navLinks.forEach(link => {
+          if (link.getAttribute('href') === `#${id}`) {
+            link.classList.add('active');
+          } else {
+            link.classList.remove('active');
+          }
+        });
+      }
+    });
+  }, {
+    rootMargin: '-20% 0px -70% 0px',
+    threshold: 0
+  });
+
+  sections.forEach(sec => observer.observe(sec));
+}
+
+// Interactive CLI Command Playground & Generator
+function initCommandBuilder() {
+  const presetSel = document.getElementById('build-preset');
+  const cnInput = document.getElementById('build-cn');
+  const dnsInput = document.getElementById('build-dns');
+  const ipInput = document.getElementById('build-ip');
+  const keySel = document.getElementById('build-key');
+  const daysInput = document.getElementById('build-days');
+  const p12Check = document.getElementById('build-p12');
+  const outputCode = document.getElementById('builder-output-code');
+
+  if (!presetSel || !outputCode) return;
+
+  function updateCommand() {
+    const preset = presetSel.value || 'server';
+    const cn = (cnInput && cnInput.value.trim()) || 'web01.homelab.lan';
+    const dns = dnsInput ? dnsInput.value.trim() : '';
+    const ip = ipInput ? ipInput.value.trim() : '';
+    const key = keySel ? keySel.value : 'rsa3072';
+    const days = daysInput ? daysInput.value.trim() : '397';
+    const p12 = p12Check ? p12Check.checked : false;
+
+    let parts = ['./pki.sh', 'issue', preset, `--cn "${cn}"`];
+
+    if (dns) {
+      parts.push(`--dns "${dns}"`);
+    }
+
+    if (ip) {
+      parts.push(`--ip "${ip}"`);
+    }
+
+    if (key && key !== 'rsa3072') {
+      parts.push(`--key-type ${key}`);
+    }
+
+    if (days && days !== '397' && days !== '') {
+      parts.push(`--days ${days}`);
+    }
+
+    if (p12) {
+      parts.push('--p12');
+    }
+
+    outputCode.textContent = parts.join(' ');
+  }
+
+  // Event Listeners
+  [presetSel, cnInput, dnsInput, ipInput, keySel, daysInput, p12Check].forEach(el => {
+    if (el) {
+      el.addEventListener('input', updateCommand);
+      el.addEventListener('change', updateCommand);
     }
   });
-});
+
+  // Dynamic default presets
+  presetSel.addEventListener('change', () => {
+    const val = presetSel.value;
+    if (val === 'wildcard') {
+      if (cnInput) cnInput.value = '*.homelab.lan';
+      if (dnsInput) dnsInput.value = '*.homelab.lan,homelab.lan';
+      if (ipInput) ipInput.value = '';
+    } else if (val === 'client' || val === 'network-8021x') {
+      if (cnInput) cnInput.value = 'felix-laptop';
+      if (dnsInput) dnsInput.value = '';
+      if (ipInput) ipInput.value = '';
+      if (p12Check) p12Check.checked = true;
+    } else if (val === 'radius-server') {
+      if (cnInput) cnInput.value = 'radius01.homelab.lan';
+      if (dnsInput) dnsInput.value = 'radius01.homelab.lan';
+      if (ipInput) ipInput.value = '192.168.1.15';
+    } else if (val === 'vpn-server') {
+      if (cnInput) cnInput.value = 'vpn.homelab.lan';
+      if (dnsInput) dnsInput.value = 'vpn.homelab.lan';
+      if (ipInput) ipInput.value = '192.168.1.1';
+    } else if (val === 'smime') {
+      if (cnInput) cnInput.value = 'Felix S/MIME';
+      if (dnsInput) dnsInput.value = '';
+      if (ipInput) ipInput.value = '';
+      if (p12Check) p12Check.checked = true;
+    }
+    updateCommand();
+  });
+
+  // Initial trigger
+  updateCommand();
+}
