@@ -31,6 +31,7 @@ const i18nData = {
     linkRevoke: "Widerruf & CRLs",
     linkBackup: "Notfallwiederherstellung",
     linkCron: "Cron & Headless CLI",
+    linkUpdates: "Updates & Wartung",
     navStandards: "Standards & Praxis",
     linkRfc: "Warum RFC-Standards?",
     linkTips: "Praxis-Tipps & Tricks",
@@ -75,16 +76,42 @@ const i18nData = {
 
     // Section 3: Playground
     secBuilderTitle: "Interaktiver Befehlsgenerator",
-    secBuilderP: "Wähle dein Profil und gib Hostnamen oder IPs ein. Der Generator baut den exakten, produktionsreifen CLI-Befehl mit automatischer SAN-Zuweisung in Echtzeit:",
+    secBuilderP: "Wähle deinen Befehlsmodus und passe Parameter an. Der Generator baut den exakten, produktionsreifen CLI-Befehl mit automatischer SAN-Zuweisung und Validierung in Echtzeit:",
+    lblBuilderMode: "Befehlsmodus",
+    builderModeIssue: "Ausstellen (issue)",
+    builderModeQuick: "Schnellstart (quick)",
+    builderModeRenew: "Erneuern (renew)",
+    builderModeRevoke: "Widerrufen (revoke)",
+    builderModeVerify: "Prüfen (verify)",
+    builderModeUpdate: "Suite Updaten (update)",
+    lblQuickChips: "Schnellauswahl:",
     lblPreset: "Profil / Vorlage",
-    lblCn: "Common Name (CN)",
+    lblCn: "Common Name (CN / Host)",
     lblDns: "Subj. Alt DNS (Kommagetrennt)",
     lblIp: "Subj. Alt IPs (Kommagetrennt)",
     lblKey: "Schlüsseltyp",
     lblDays: "Gültigkeit (Tage)",
+    lblRevokeReason: "Widerrufsgrund",
+    optRevokeKeyCompromise: "keyCompromise (Schlüssel kompromittiert)",
+    optRevokeSuperseded: "superseded (Ersetzt durch neues Zertifikat)",
+    optRevokeCessation: "cessationOfOperation (Dienst außer Betrieb)",
+    optRevokeAffiliation: "affiliationChanged (Subjektangaben geändert)",
+    optRevokeUnspecified: "unspecified (Allgemeiner Widerruf)",
+    lblVerifyPort: "TLS-Port für Live-Handshake",
     lblP12: "Passwortgeschütztes PKCS#12 Bundle (.p12 für Windows/Apple) erzeugen",
+    lblRevokeOld: "Vorheriges Zertifikat automatisch widerrufen (--revoke-old)",
+    lblVerifyConnect: "Live-TLS-Socket-Handshake mit s_client testen (--connect)",
+    lblUpdateYes: "Nicht-interaktives Update (-y, ohne manuelle Bestätigung)",
+    lblUpdateVersionOnly: "Nur installierte Version & Commit ausgeben (pki.sh version)",
     btnCopy: "Kopieren",
     copiedText: "Kopiert!",
+    explainIssue: "Erstellt ein RFC 5280 & CA/B-konformes X.509 Endstellen-Zertifikat. Dateien liegen unter <code>pki/issued/&lt;CN&gt;/</code> inklusive <code>fullchain.pem</code>.",
+    explainQuick: "Führt eine automatische Reverse-DNS- und IP-Auflösung für den Host durch und generiert das Zertifikat mit allen erkannten SANs in einem Schritt.",
+    explainRenew: "Erneuert ein bestehendes Zertifikat. Kann das alte Zertifikat optional automatisch auf die CRL setzen (<code>--revoke-old</code>).",
+    explainRevoke: "Setzt das Zertifikat auf die CRL der zuständigen CA, generiert eine frische <code>crl.pem</code> und verhindert weitere TLS-Verbindungen.",
+    explainVerify: "Validiert die kryptografische Kette (Leaf &rarr; Intermediate &rarr; Root) und testet optional den Live-TLS-Handshake des Servers.",
+    explainUpdate: "Führt <code>git pull --ff-only origin main</code> aus. Deine CAs, Schlüssel und Zertifikate in <code>pki/</code> sind strikt getrennt und werden <strong>niemals überschrieben</strong>.",
+    explainVersion: "Liest die Versionsnummer der Suite sowie den aktuellen Git-Commit und Branch aus.",
 
     // Section 4: Quickstart
     secQuickTitle: "30-Sekunden Schnellstart",
@@ -176,6 +203,19 @@ const i18nData = {
     tip7Title: "Git-Sicherheit & Cold-Storage für die Root CA",
     tip7Body: "Versioniere dein <code>pki/</code>-Verzeichnis, aber schließe alle <code>*.key</code>-Dateien in der <code>.gitignore</code> aus. Sichere <code>pki/root-ca/private/root.key</code> auf zwei verschlüsselten USB-Sticks und lösche die Datei vom Live-Server (Cold Storage).",
 
+    // Section 14b: Updates & Maintenance
+    secUpdatesTitle: "Updates, Wartung & Sicherheit",
+    secUpdatesP: "Die OpenSSL Homelab PKI Suite wird kontinuierlich weiterentwickelt (neue RFC-Standards, OpenSSL 3.x Features und Presets). So hältst du deine Umgebung mühelos aktuell:",
+    updatePillar1Title: "1-Befehl CLI Update",
+    updatePillar1P: "Mit <code>./pki.sh update</code> aktualisiert sich die Suite via Fast-Forward Git Merge direkt von GitHub. Bestehende Dateiberechtigungen (<code>chmod +x</code>) werden automatisch sichergestellt.",
+    updatePillar2Title: "100% Datensicherheit (pki/ Isolation)",
+    updatePillar2P: "Git verwaltet ausschließlich die Skripte in <code>lib/</code>, <code>pki.sh</code> und <code>docs/</code>. Deine privaten Schlüssel, CAs, Seriennummern und Zertifikate in <code>pki/</code> sind in <code>.gitignore</code> geschützt und werden <strong>niemals überschrieben</strong>.",
+    updatePillar3Title: "GitHub Release Benachrichtigungen",
+    updatePillar3P: "Möchtest du über neue Releases und Sicherheitsupdates per E-Mail oder Push informiert werden? Klicke auf GitHub oben rechts auf <strong>Watch &rarr; Custom &rarr; Releases</strong>.",
+    updatePillar4Title: "Headless & Cron-Kompatibel",
+    updatePillar4P: "Nutze <code>./pki.sh update -y</code> für automatische Updates ohne interaktive Bestätigung. Mit <code>./pki.sh version</code> kannst du installierte Version und Git-Commit jederzeit einsehen.",
+    btnWatchReleases: "GitHub Repository öffnen & beobachten",
+
     // Section 16: Community & Discussions
     secCommTitle: "Community & GitHub Discussions",
     secCommP: "Hast du Fragen zu deinem Setup, möchtest du deine Homelab-Architektur teilen oder neue Zertifikats-Profile vorschlagen? Nutze das offizielle Forum auf GitHub Discussions:",
@@ -221,6 +261,7 @@ const i18nData = {
     linkRevoke: "Revocation & CRLs",
     linkBackup: "Disaster Recovery",
     linkCron: "Cron & Headless CLI",
+    linkUpdates: "Updates & Maintenance",
     navStandards: "Standards & Best Practices",
     linkRfc: "Why RFC Standards?",
     linkTips: "Tips & Tricks Guide",
@@ -265,16 +306,42 @@ const i18nData = {
 
     // Section 3: Playground
     secBuilderTitle: "Interactive Command Generator",
-    secBuilderP: "Select your deployment profile and input your parameters. The builder constructs the exact production-ready CLI command with automated SAN parsing:",
+    secBuilderP: "Select your command mode and adjust parameters. The builder constructs the exact production-ready CLI command with automated SAN assignment and validation in real-time:",
+    lblBuilderMode: "Command Mode",
+    builderModeIssue: "Issue Certificate",
+    builderModeQuick: "Quick 1-Click",
+    builderModeRenew: "Renew Certificate",
+    builderModeRevoke: "Revoke Certificate",
+    builderModeVerify: "Verify Chain",
+    builderModeUpdate: "Update Suite",
+    lblQuickChips: "Quick Presets:",
     lblPreset: "Preset Profile",
-    lblCn: "Common Name (CN)",
+    lblCn: "Common Name (CN / Host)",
     lblDns: "Subject Alt DNS (comma separated)",
     lblIp: "Subject Alt IPs (comma separated)",
     lblKey: "Private Key Type",
     lblDays: "Validity (Days)",
+    lblRevokeReason: "Revocation Reason",
+    optRevokeKeyCompromise: "keyCompromise (Key suspected compromised)",
+    optRevokeSuperseded: "superseded (Replaced by new cert)",
+    optRevokeCessation: "cessationOfOperation (Service decommissioned)",
+    optRevokeAffiliation: "affiliationChanged (Subject details changed)",
+    optRevokeUnspecified: "unspecified (General revocation)",
+    lblVerifyPort: "TLS Port for Live Handshake",
     lblP12: "Generate encrypted PKCS#12 bundle (.p12 for Windows/iOS/macOS)",
+    lblRevokeOld: "Revoke previous certificate automatically (--revoke-old)",
+    lblVerifyConnect: "Test live TLS socket connection via OpenSSL s_client",
+    lblUpdateYes: "Non-interactive update (-y, bypass manual confirmation)",
+    lblUpdateVersionOnly: "Only check installed version and commit (pki.sh version)",
     btnCopy: "Copy",
     copiedText: "Copied!",
+    explainIssue: "Issues an RFC 5280 & CA/B Forum compliant end-entity certificate. Files are written to <code>pki/issued/&lt;CN&gt;/</code> including fullchain.pem.",
+    explainQuick: "Performs automatic DNS reverse lookup and local IP detection for the specified host, populating all found SANs automatically.",
+    explainRenew: "Renews an existing certificate with a fresh validity window while maintaining chain validation. Old certificates can optionally be archived.",
+    explainRevoke: "Adds the certificate to the intermediate CA's Certificate Revocation List (CRL) and publishes a fresh <code>crl.pem</code>.",
+    explainVerify: "Validates cryptographic signature chain (Leaf &rarr; Intermediate &rarr; Root) and optionally performs live TLS handshake verification.",
+    explainUpdate: "Runs <code>git pull --ff-only origin main</code>. Your CAs, keys, and issued certs in <code>pki/</code> are strictly isolated and <strong>never overwritten</strong>.",
+    explainVersion: "Displays the installed suite version along with Git commit hash and current branch.",
 
     // Section 4: Quickstart
     secQuickTitle: "30-Second Quickstart",
@@ -365,6 +432,19 @@ const i18nData = {
     tip6Body: "Passing <code>--p12</code> packages the leaf certificate, private key, and intermediate chain into an encrypted <code>cert.p12</code> bundle. Double-click the file on Windows or Apple devices and enter the passphrase for instant import into the user store.",
     tip7Title: "Git Security & Cold-Storage for the Root CA",
     tip7Body: "Version control your <code>pki/</code> repository, but keep all <code>*.key</code> files excluded in <code>.gitignore</code>. Back up <code>pki/root-ca/private/root.key</code> to two encrypted USB drives, then remove it from the live server (Cold Storage).",
+
+    // Section 14b: Updates & Maintenance
+    secUpdatesTitle: "Updates, Maintenance & Security",
+    secUpdatesP: "The OpenSSL Homelab PKI Suite is actively maintained with RFC updates, OpenSSL 3.x security hardening, and new presets. Keep your deployment up-to-date safely:",
+    updatePillar1Title: "1-Command CLI Update",
+    updatePillar1P: "Running <code>./pki.sh update</code> pulls latest improvements via Fast-Forward Git Merge. File execute permissions (<code>chmod +x</code>) are automatically re-applied.",
+    updatePillar2Title: "100% Data Safety (pki/ Isolation)",
+    updatePillar2P: "Git only tracks bash scripts in <code>lib/</code>, <code>pki.sh</code>, and <code>docs/</code>. Your private keys, Root/Intermediate CAs, serial numbers, and certificates in <code>pki/</code> are strictly isolated and <strong>never touched</strong>.",
+    updatePillar3Title: "GitHub Release Notifications",
+    updatePillar3P: "To receive email or mobile push alerts when new versions or security advisories are published, click <strong>Watch &rarr; Custom &rarr; Releases</strong> on GitHub.",
+    updatePillar4Title: "Headless & Cron-Friendly",
+    updatePillar4P: "Use <code>./pki.sh update -y</code> for unattended cron updates without prompts. Run <code>./pki.sh version</code> anytime to inspect current version and commit hash.",
+    btnWatchReleases: "Open & Watch Repository on GitHub",
 
     // Section 16: Community & Discussions
     secCommTitle: "Community & GitHub Discussions",
@@ -463,6 +543,10 @@ function applyLanguage(lang) {
       btn.classList.remove('active');
     }
   });
+
+  if (typeof window.updateBuilderCommand === 'function') {
+    window.updateBuilderCommand();
+  }
 }
 
 // Device & Operating System Auto-Detection
@@ -783,73 +867,293 @@ function initTocScrollSpy() {
   updateActiveSection();
 }
 
-// Interactive CLI Command Playground & Generator
+// Interactive CLI Command Playground & Generator (Multi-Mode)
 function initCommandBuilder() {
+  const modeBar = document.getElementById('builder-mode-bar');
+  const chipsBar = document.getElementById('builder-chips-bar');
   const presetSel = document.getElementById('build-preset');
   const cnInput = document.getElementById('build-cn');
   const dnsInput = document.getElementById('build-dns');
   const ipInput = document.getElementById('build-ip');
   const keySel = document.getElementById('build-key');
   const daysInput = document.getElementById('build-days');
+  const reasonSel = document.getElementById('build-reason');
+  const verifyPortInput = document.getElementById('build-verify-port');
+
   const p12Check = document.getElementById('build-p12');
+  const revokeOldCheck = document.getElementById('build-revoke-old');
+  const connectCheck = document.getElementById('build-connect');
+  const updateYesCheck = document.getElementById('build-update-yes');
+  const updateVersionCheck = document.getElementById('build-update-version');
+
+  const grpPreset = document.getElementById('grp-preset');
+  const grpCn = document.getElementById('grp-cn');
+  const grpDns = document.getElementById('grp-dns');
+  const grpIp = document.getElementById('grp-ip');
+  const grpKey = document.getElementById('grp-key');
+  const grpDays = document.getElementById('grp-days');
+  const grpReason = document.getElementById('grp-reason');
+  const grpVerifyPort = document.getElementById('grp-verify-port');
+
+  const lblChkP12 = document.getElementById('lbl-chk-p12');
+  const lblChkRevokeOld = document.getElementById('lbl-chk-revoke-old');
+  const lblChkConnect = document.getElementById('lbl-chk-connect');
+  const lblChkUpdateYes = document.getElementById('lbl-chk-update-yes');
+  const lblChkUpdateVersion = document.getElementById('lbl-chk-update-version');
+
   const outputCode = document.getElementById('builder-output-code');
+  const explainText = document.getElementById('builder-explain-text');
 
-  if (!presetSel || !outputCode) return;
+  if (!outputCode) return;
 
-  function updateCommand() {
-    const preset = presetSel.value || 'server';
-    const cn = (cnInput && cnInput.value.trim()) || 'web01.homelab.lan';
-    const dns = dnsInput ? dnsInput.value.trim() : '';
-    const ip = ipInput ? ipInput.value.trim() : '';
-    const key = keySel ? keySel.value : 'rsa3072';
-    const days = daysInput ? daysInput.value.trim() : '397';
-    const p12 = p12Check ? p12Check.checked : false;
+  let currentMode = 'issue';
 
-    let parts = ['./pki.sh', 'issue', preset, `--cn "${cn}"`];
+  function setMode(mode) {
+    currentMode = mode;
+    if (modeBar) {
+      modeBar.querySelectorAll('.builder-mode-btn').forEach(btn => {
+        if (btn.getAttribute('data-mode') === mode) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+    }
 
-    if (dns) parts.push(`--dns "${dns}"`);
-    if (ip) parts.push(`--ip "${ip}"`);
-    if (key && key !== 'rsa3072') parts.push(`--key-type ${key}`);
-    if (days && days !== '397' && days !== '') parts.push(`--days ${days}`);
-    if (p12) parts.push('--p12');
+    // Adjust visibility of groups
+    if (grpPreset) grpPreset.style.display = (mode === 'issue') ? '' : 'none';
+    if (grpCn) grpCn.style.display = (mode === 'update') ? 'none' : '';
+    if (grpDns) grpDns.style.display = (mode === 'issue') ? '' : 'none';
+    if (grpIp) grpIp.style.display = (mode === 'issue') ? '' : 'none';
+    if (grpKey) grpKey.style.display = (mode === 'issue') ? '' : 'none';
+    if (grpDays) grpDays.style.display = (mode === 'issue' || mode === 'renew') ? '' : 'none';
+    if (grpReason) grpReason.style.display = (mode === 'revoke') ? '' : 'none';
+    if (grpVerifyPort) grpVerifyPort.style.display = (mode === 'verify' && connectCheck && connectCheck.checked) ? '' : 'none';
 
-    outputCode.textContent = parts.join(' ');
+    // Adjust visibility of checkboxes
+    if (lblChkP12) lblChkP12.style.display = (mode === 'issue' || mode === 'quick') ? 'inline-flex' : 'none';
+    if (lblChkRevokeOld) lblChkRevokeOld.style.display = (mode === 'renew') ? 'inline-flex' : 'none';
+    if (lblChkConnect) lblChkConnect.style.display = (mode === 'verify') ? 'inline-flex' : 'none';
+    if (lblChkUpdateYes) lblChkUpdateYes.style.display = (mode === 'update' && updateVersionCheck && !updateVersionCheck.checked) ? 'inline-flex' : 'none';
+    if (lblChkUpdateVersion) lblChkUpdateVersion.style.display = (mode === 'update') ? 'inline-flex' : 'none';
+
+    updateCommand();
   }
 
-  [presetSel, cnInput, dnsInput, ipInput, keySel, daysInput, p12Check].forEach(el => {
+  function updateCommand() {
+    const dict = i18nData[currentLang] || i18nData.en;
+    const cn = (cnInput && cnInput.value.trim()) || 'web01.homelab.lan';
+
+    let parts = ['./pki.sh'];
+    let explanationHtml = '';
+
+    if (currentMode === 'issue') {
+      const preset = (presetSel && presetSel.value) || 'server';
+      const dns = dnsInput ? dnsInput.value.trim() : '';
+      const ip = ipInput ? ipInput.value.trim() : '';
+      const key = keySel ? keySel.value : 'rsa3072';
+      const days = daysInput ? daysInput.value.trim() : '397';
+      const p12 = p12Check ? p12Check.checked : false;
+
+      parts.push('issue', preset, `--cn "${cn}"`);
+      if (dns) parts.push(`--dns "${dns}"`);
+      if (ip) parts.push(`--ip "${ip}"`);
+      if (key && key !== 'rsa3072') parts.push(`--key-type ${key}`);
+      if (days && days !== '397' && days !== '') parts.push(`--days ${days}`);
+      if (p12) parts.push('--p12');
+
+      explanationHtml = dict.explainIssue;
+    } else if (currentMode === 'quick') {
+      const p12 = p12Check ? p12Check.checked : false;
+      parts.push('quick', `"${cn}"`);
+      if (p12) parts.push('--p12');
+      explanationHtml = dict.explainQuick;
+    } else if (currentMode === 'renew') {
+      const days = daysInput ? daysInput.value.trim() : '397';
+      const revokeOld = revokeOldCheck ? revokeOldCheck.checked : false;
+      parts.push('renew', `"${cn}"`);
+      if (days && days !== '397' && days !== '') parts.push(`--days ${days}`);
+      if (revokeOld) parts.push('--revoke-old');
+      explanationHtml = dict.explainRenew;
+    } else if (currentMode === 'revoke') {
+      const reason = (reasonSel && reasonSel.value) || 'keyCompromise';
+      parts.push('revoke', `"${cn}"`, `--reason ${reason}`);
+      explanationHtml = dict.explainRevoke;
+    } else if (currentMode === 'verify') {
+      const doConnect = connectCheck ? connectCheck.checked : false;
+      const port = (verifyPortInput && verifyPortInput.value.trim()) || '443';
+      parts.push('verify', `"${cn}"`);
+      if (doConnect) {
+        parts.push(`--connect "${cn}:${port}"`);
+      }
+      explanationHtml = dict.explainVerify;
+    } else if (currentMode === 'update') {
+      const isVersionOnly = updateVersionCheck ? updateVersionCheck.checked : false;
+      const isYes = updateYesCheck ? updateYesCheck.checked : true;
+      if (isVersionOnly) {
+        parts.push('version');
+        explanationHtml = dict.explainVersion;
+      } else {
+        parts.push('update');
+        if (isYes) parts.push('-y');
+        explanationHtml = dict.explainUpdate;
+      }
+    }
+
+    outputCode.textContent = parts.join(' ');
+    if (explainText) {
+      explainText.innerHTML = explanationHtml;
+    }
+  }
+
+  window.updateBuilderCommand = updateCommand;
+
+  // Mode button events
+  if (modeBar) {
+    modeBar.querySelectorAll('.builder-mode-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const mode = btn.getAttribute('data-mode');
+        if (mode) setMode(mode);
+      });
+    });
+  }
+
+  // Preset Chips events
+  if (chipsBar) {
+    chipsBar.querySelectorAll('.builder-chip-btn').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const type = chip.getAttribute('data-chip');
+        if (type === 'nginx') {
+          setMode('issue');
+          if (presetSel) presetSel.value = 'server';
+          if (cnInput) cnInput.value = 'nginx01.homelab.lan';
+          if (dnsInput) dnsInput.value = 'nginx01.homelab.lan,web.homelab.lan';
+          if (ipInput) ipInput.value = '192.168.1.10';
+          if (p12Check) p12Check.checked = false;
+        } else if (type === 'wildcard') {
+          setMode('issue');
+          if (presetSel) presetSel.value = 'wildcard';
+          if (cnInput) cnInput.value = '*.homelab.lan';
+          if (dnsInput) dnsInput.value = '*.homelab.lan,homelab.lan';
+          if (ipInput) ipInput.value = '';
+          if (p12Check) p12Check.checked = false;
+        } else if (type === 'client') {
+          setMode('issue');
+          if (presetSel) presetSel.value = 'client';
+          if (cnInput) cnInput.value = 'felix-laptop';
+          if (dnsInput) dnsInput.value = '';
+          if (ipInput) ipInput.value = '';
+          if (p12Check) p12Check.checked = true;
+        } else if (type === '8021x') {
+          setMode('issue');
+          if (presetSel) presetSel.value = 'network-8021x';
+          if (cnInput) cnInput.value = 'felix-phone';
+          if (dnsInput) dnsInput.value = '';
+          if (ipInput) ipInput.value = '';
+          if (p12Check) p12Check.checked = true;
+        } else if (type === 'proxmox') {
+          setMode('issue');
+          if (presetSel) presetSel.value = 'server';
+          if (cnInput) cnInput.value = 'pve01.homelab.lan';
+          if (dnsInput) dnsInput.value = 'pve01.homelab.lan,pve.lan';
+          if (ipInput) ipInput.value = '192.168.1.5';
+          if (p12Check) p12Check.checked = false;
+        } else if (type === 'radius') {
+          setMode('issue');
+          if (presetSel) presetSel.value = 'radius-server';
+          if (cnInput) cnInput.value = 'radius01.homelab.lan';
+          if (dnsInput) dnsInput.value = 'radius01.homelab.lan';
+          if (ipInput) ipInput.value = '192.168.1.15';
+          if (p12Check) p12Check.checked = false;
+        }
+        updateCommand();
+      });
+    });
+  }
+
+  // Helper buttons events
+  document.querySelectorAll('[data-add-dns]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const val = btn.getAttribute('data-add-dns');
+      if (dnsInput && val) {
+        const cur = dnsInput.value.trim();
+        const items = cur ? cur.split(',').map(s => s.trim()) : [];
+        if (!items.includes(val)) {
+          items.push(val);
+          dnsInput.value = items.join(',');
+          updateCommand();
+        }
+      }
+    });
+  });
+
+  document.querySelectorAll('[data-add-ip]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const val = btn.getAttribute('data-add-ip');
+      if (ipInput && val) {
+        const cur = ipInput.value.trim();
+        const items = cur ? cur.split(',').map(s => s.trim()) : [];
+        if (!items.includes(val)) {
+          items.push(val);
+          ipInput.value = items.join(',');
+          updateCommand();
+        }
+      }
+    });
+  });
+
+  // Input listeners
+  const allInputs = [
+    presetSel, cnInput, dnsInput, ipInput, keySel, daysInput,
+    reasonSel, verifyPortInput, p12Check, revokeOldCheck,
+    connectCheck, updateYesCheck, updateVersionCheck
+  ];
+  allInputs.forEach(el => {
     if (el) {
       el.addEventListener('input', updateCommand);
-      el.addEventListener('change', updateCommand);
+      el.addEventListener('change', () => {
+        if (el === connectCheck && grpVerifyPort) {
+          grpVerifyPort.style.display = connectCheck.checked ? '' : 'none';
+        }
+        if (el === updateVersionCheck && lblChkUpdateYes) {
+          lblChkUpdateYes.style.display = updateVersionCheck.checked ? 'none' : 'inline-flex';
+        }
+        updateCommand();
+      });
     }
   });
 
-  presetSel.addEventListener('change', () => {
-    const val = presetSel.value;
-    if (val === 'wildcard') {
-      if (cnInput) cnInput.value = '*.homelab.lan';
-      if (dnsInput) dnsInput.value = '*.homelab.lan,homelab.lan';
-      if (ipInput) ipInput.value = '';
-    } else if (val === 'client' || val === 'network-8021x') {
-      if (cnInput) cnInput.value = 'felix-laptop';
-      if (dnsInput) dnsInput.value = '';
-      if (ipInput) ipInput.value = '';
-      if (p12Check) p12Check.checked = true;
-    } else if (val === 'radius-server') {
-      if (cnInput) cnInput.value = 'radius01.homelab.lan';
-      if (dnsInput) dnsInput.value = 'radius01.homelab.lan';
-      if (ipInput) ipInput.value = '192.168.1.15';
-    } else if (val === 'vpn-server') {
-      if (cnInput) cnInput.value = 'vpn.homelab.lan';
-      if (dnsInput) dnsInput.value = 'vpn.homelab.lan';
-      if (ipInput) ipInput.value = '192.168.1.1';
-    } else if (val === 'smime') {
-      if (cnInput) cnInput.value = 'Felix S/MIME';
-      if (dnsInput) dnsInput.value = '';
-      if (ipInput) ipInput.value = '';
-      if (p12Check) p12Check.checked = true;
-    }
-    updateCommand();
-  });
+  // Preset dropdown auto-fill
+  if (presetSel) {
+    presetSel.addEventListener('change', () => {
+      const val = presetSel.value;
+      if (val === 'wildcard') {
+        if (cnInput) cnInput.value = '*.homelab.lan';
+        if (dnsInput) dnsInput.value = '*.homelab.lan,homelab.lan';
+        if (ipInput) ipInput.value = '';
+      } else if (val === 'client' || val === 'network-8021x') {
+        if (cnInput) cnInput.value = 'felix-laptop';
+        if (dnsInput) dnsInput.value = '';
+        if (ipInput) ipInput.value = '';
+        if (p12Check) p12Check.checked = true;
+      } else if (val === 'radius-server') {
+        if (cnInput) cnInput.value = 'radius01.homelab.lan';
+        if (dnsInput) dnsInput.value = 'radius01.homelab.lan';
+        if (ipInput) ipInput.value = '192.168.1.15';
+      } else if (val === 'vpn-server') {
+        if (cnInput) cnInput.value = 'vpn.homelab.lan';
+        if (dnsInput) dnsInput.value = 'vpn.homelab.lan';
+        if (ipInput) ipInput.value = '192.168.1.1';
+      } else if (val === 'smime') {
+        if (cnInput) cnInput.value = 'Felix S/MIME';
+        if (dnsInput) dnsInput.value = '';
+        if (ipInput) ipInput.value = '';
+        if (p12Check) p12Check.checked = true;
+      }
+      updateCommand();
+    });
+  }
 
-  updateCommand();
+  // Initial call
+  setMode('issue');
 }

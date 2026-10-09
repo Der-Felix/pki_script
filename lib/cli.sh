@@ -184,6 +184,10 @@ COMMANDS BY CATEGORY:
   ocsp-server          Launch OpenSSL OCSP responder daemon (--ca CA --signer NAME [--port 2560])
   ocsp-check NAME      Query OCSP revocation status for a certificate (--url URL)
 
+6. Maintenance & Updates
+  version              Show current script version, commit SHA, and repository details
+  update, upgrade      Check for script updates on GitHub and pull latest release
+
 EXAMPLES:
   pki init --org Homelab --intermediate server-ca --intermediate client-ca
   pki quick pve-node1.lan                   # Autodetects FQDN, shortname, and IP addresses
@@ -202,6 +206,69 @@ ENVIRONMENT VARIABLES FOR HEADLESS AUTOMATION:
 EOF
 }
 
+cmd_version() {
+    local sha="standalone"
+    if command -v git >/dev/null 2>&1 && git -C "$SCRIPT_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+        sha=$(git -C "$SCRIPT_DIR" rev-parse --short HEAD 2>/dev/null || echo "standalone")
+    fi
+    echo "OpenSSL Homelab PKI Suite v$VERSION ($sha)"
+    echo "OpenSSL Binary: $("$OPENSSL" version)"
+    echo "Repository:     https://github.com/Der-Felix/pki_script"
+    echo "Discussions:    https://github.com/Der-Felix/pki_script/discussions"
+}
+
+cmd_update() {
+    section "PKI Suite Update Manager"
+    if ! command -v git >/dev/null 2>&1; then
+        warn "Git command not found in PATH."
+        echo "To update manually, pull or download the latest files from:"
+        echo "https://github.com/Der-Felix/pki_script"
+        return 1
+    fi
+
+    if ! git -C "$SCRIPT_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+        warn "This installation is not a Git clone ($SCRIPT_DIR)."
+        echo "To enable 1-click updates, clone the repository via:"
+        echo "git clone https://github.com/Der-Felix/pki_script.git"
+        return 1
+    fi
+
+    local current_sha
+    current_sha=$(git -C "$SCRIPT_DIR" rev-parse --short HEAD 2>/dev/null || echo "unknown")
+    info "Current version: v$VERSION ($current_sha)"
+    info "Checking remote repository (origin/main)..."
+
+    if ! git -C "$SCRIPT_DIR" fetch origin main 2>/dev/null; then
+        warn "Could not fetch from remote 'origin/main'. Check network connection."
+        return 1
+    fi
+
+    local behind_count
+    behind_count=$(git -C "$SCRIPT_DIR" rev-list "HEAD..origin/main" --count 2>/dev/null || echo "0")
+
+    if [ "$behind_count" -eq 0 ]; then
+        ok "Everything is up to date! You are running the latest version (v$VERSION - $current_sha)."
+        return 0
+    fi
+
+    warn "Found $behind_count new update(s) available on 'origin/main'."
+    echo "Note: Your 'pki/' data directory, private keys, and certificates are safe and untouched."
+    
+    if [ "${ASSUME_YES:-0}" = "1" ] || confirm "Do you want to pull and install the latest updates now?"; then
+        info "Pulling latest updates..."
+        if git -C "$SCRIPT_DIR" pull --ff-only origin main; then
+            local new_sha
+            new_sha=$(git -C "$SCRIPT_DIR" rev-parse --short HEAD 2>/dev/null || echo "unknown")
+            ok "Successfully updated to $new_sha! OpenSSL Homelab PKI Suite is up to date."
+        else
+            err "Fast-forward update failed. Please run 'git pull' manually to resolve local changes."
+            return 1
+        fi
+    else
+        info "Update cancelled by user."
+    fi
+}
+
 dispatch_cli() {
     local cmd=${1:-}
     [ $# -gt 0 ] && shift
@@ -214,7 +281,10 @@ dispatch_cli() {
             usage
             ;;
         version|-v|--version)
-            printf 'pki.sh %s (%s)\n' "$VERSION" "$("$OPENSSL" version)"
+            cmd_version
+            ;;
+        update|upgrade)
+            cmd_update "$@"
             ;;
         presets)
             print_presets
