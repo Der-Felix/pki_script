@@ -1199,6 +1199,221 @@ tr:hover td {
   background-color: rgba(255, 255, 255, 0.02);
 }
 
+/* RFC Standards Cards */
+.rfc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+  margin-top: 18px;
+  margin-bottom: 24px;
+}
+
+.rfc-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 18px 20px;
+  transition: all var(--transition-smooth);
+  display: flex;
+  flex-direction: column;
+}
+
+.rfc-card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-medium);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+}
+
+.rfc-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  background: var(--accent-cyan-bg);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  border-radius: 6px;
+  padding: 3px 8px;
+  margin-bottom: 10px;
+  width: fit-content;
+}
+
+.rfc-title {
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: var(--text-heading);
+  margin-bottom: 8px;
+}
+
+.rfc-desc {
+  font-size: 0.88rem;
+  color: var(--text-main);
+  line-height: 1.52;
+  margin: 0;
+}
+
+/* Tips & Tricks Cards */
+.tips-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 18px;
+  margin-bottom: 24px;
+}
+
+.tip-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-left: 3px solid var(--accent-cyan);
+  border-radius: 8px;
+  padding: 16px 20px;
+  transition: all var(--transition-smooth);
+}
+
+.tip-card:hover {
+  border-left-color: var(--accent-cyan-hover);
+  background: var(--bg-card-hover);
+  transform: translateX(3px);
+}
+
+.tip-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.tip-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--accent-emerald);
+  background: var(--accent-emerald-bg);
+  padding: 2px 7px;
+  border-radius: 5px;
+}
+
+.tip-title {
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: var(--text-heading);
+}
+
+.tip-body {
+  font-size: 0.89rem;
+  color: var(--text-main);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.tip-body code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  background: var(--bg-code);
+  border: 1px solid var(--border-subtle);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--accent-cyan);
+}
+
+/* Community & Discussions Banner */
+.community-banner {
+  background: linear-gradient(135deg, rgba(20, 25, 34, 0.95), rgba(15, 19, 25, 0.98));
+  border: 1px solid rgba(56, 189, 248, 0.28);
+  border-radius: 12px;
+  padding: 28px 24px;
+  margin-top: 40px;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.community-banner::before {
+  content: '';
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.community-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.community-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-heading);
+}
+
+.community-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+  margin: 18px 0 22px;
+}
+
+.community-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 14px 16px;
+}
+
+.community-item h4 {
+  font-size: 0.94rem;
+  font-weight: 600;
+  color: var(--text-heading);
+  margin-bottom: 6px;
+}
+
+.community-item p {
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.45;
+}
+
+.btn-discussions-hero {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--accent-cyan);
+  color: #07090c !important;
+  font-weight: 700;
+  font-size: 0.92rem;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.btn-discussions-hero:hover {
+  background: var(--accent-cyan-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(56, 189, 248, 0.35);
+}
+
+.gh-discussions-btn {
+  background: rgba(56, 189, 248, 0.08);
+  border-color: rgba(56, 189, 248, 0.25);
+  color: var(--accent-cyan) !important;
+}
+
+.gh-discussions-btn:hover {
+  background: rgba(56, 189, 248, 0.16);
+  border-color: var(--accent-cyan);
+}
+
 /* Footer */
 footer.app-footer {
   margin-top: auto;
@@ -1529,6 +1744,11 @@ footer.app-footer a:hover {
         <input type="text" id="search-input" data-i18n-ph="searchPlaceholder" placeholder="Search presets or guides...">
       </div>
 
+      <a href="https://github.com/Der-Felix/pki_script/discussions" target="_blank" rel="noopener" class="gh-button gh-discussions-btn" aria-label="GitHub Discussions">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        <span class="gh-text" data-i18n="headerDiscussions">Discussions</span>
+      </a>
+
       <a href="https://github.com/Der-Felix/pki_script" target="_blank" rel="noopener" class="gh-button" aria-label="GitHub Repository">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
         <span class="gh-text">GitHub</span>
@@ -1592,6 +1812,15 @@ footer.app-footer a:hover {
           <li><a href="#revocation-crl" class="sidebar-link" data-i18n="linkRevoke">Revocation & CRLs</a></li>
           <li><a href="#backup-recovery" class="sidebar-link" data-i18n="linkBackup">Disaster Recovery</a></li>
           <li><a href="#cli-automation" class="sidebar-link" data-i18n="linkCron">Cron & Headless CLI</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-heading" data-i18n="navStandards">Standards & Praxis</div>
+        <ul class="sidebar-nav">
+          <li><a href="#rfc-standards" class="sidebar-link" data-i18n="linkRfc">Warum RFC-Standards?</a></li>
+          <li><a href="#tips-tricks" class="sidebar-link" data-i18n="linkTips">Praxis-Tipps & Tricks</a></li>
+          <li><a href="#community" class="sidebar-link" data-i18n="linkDiscussions">GitHub Discussions</a></li>
         </ul>
       </div>
     </aside>
@@ -2015,6 +2244,61 @@ chmod +x pki.sh build.sh pki completions/pki.bash
         <p data-i18n="sanRuleDnsIp">Important: DNS SAN &ne; IP SAN! If you connect to https://192.168.1.10, having a DNS SAN is not enough; the certificate must contain an explicit IP:192.168.1.10 entry.</p>
       </section>
 
+      <!-- Section: Why RFC Standards? -->
+      <section id="rfc-standards" class="scroll-animate" data-animate="fadeInUp" data-threshold="0.08">
+        <h2 class="section-header">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path><line x1="9" y1="7" x2="15" y2="7"></line><line x1="9" y1="11" x2="13" y2="11"></line></svg>
+          <span data-i18n="secRfcTitle">Why RFC Standards? The X.509 & TLS Blueprint</span>
+        </h2>
+        <p data-i18n="secRfcP1">In cryptography, universal consensus on data formats and validation algorithms is non-negotiable. Without Requests for Comments (RFCs) curated by the Internet Engineering Task Force (IETF), secure cross-vendor networking would be impossible. A certificate generated on a Linux host must be validated identically by Windows Schannel, Apple SecureTransport, Google Chrome, Firefox, and curl without ambiguity.</p>
+
+        <div class="callout callout-info scroll-animate" data-animate="fadeInLeft" data-delay="50">
+          <div class="callout-header">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            <span data-i18n="secRfcWhyTitle">Why RFC Standards Matter in Your Homelab</span>
+          </div>
+          <p data-i18n="secRfcWhyP">Many ad-hoc scripts create certificates that look functional but fail abruptly against modern operating systems: missing SANs trigger security warnings, improper Key Usage bits prevent TLS handshakes, and excessive validity lengths cause hard rejections. This suite adheres strictly to production RFC standards:</p>
+        </div>
+
+        <div class="rfc-grid">
+          <div class="rfc-card scroll-animate" data-animate="zoomIn" data-delay="0">
+            <span class="rfc-badge">RFC 5280</span>
+            <div class="rfc-title" data-i18n="rfc5280Title">RFC 5280: The X.509 & CRL Core Specification</div>
+            <p class="rfc-desc" data-i18n="rfc5280Desc">Defines the canonical format of Version 3 certificates, mandatory fields, and extensions including basicConstraints (CA:TRUE vs. FALSE, pathlen:0), keyUsage, and Certificate Revocation Lists (CRLs). </p>
+          </div>
+
+          <div class="rfc-card scroll-animate" data-animate="zoomIn" data-delay="60">
+            <span class="rfc-badge">RFC 2818</span>
+            <div class="rfc-title" data-i18n="rfc2818Title">RFC 2818: HTTP Over TLS (HTTPS)</div>
+            <p class="rfc-desc" data-i18n="rfc2818Desc">Formally deprecated commonName for web identity verification and mandated Subject Alternative Names (SAN, DNS: and IP:) for all HTTPS hosts.</p>
+          </div>
+
+          <div class="rfc-card scroll-animate" data-animate="zoomIn" data-delay="120">
+            <span class="rfc-badge">RFC 8446 &bull; 5246</span>
+            <div class="rfc-title" data-i18n="rfc8446Title">RFC 8446 / 5246: TLS 1.3 & 1.2 Handshakes</div>
+            <p class="rfc-desc" data-i18n="rfc8446Desc">Governs the cryptographic handshake. Dictates that servers send full intermediate chains (fullchain.pem) in ServerHello, but NEVER transmit the Root CA certificate.</p>
+          </div>
+
+          <div class="rfc-card scroll-animate" data-animate="zoomIn" data-delay="180">
+            <span class="rfc-badge">RFC 5216</span>
+            <div class="rfc-title" data-i18n="rfc5216Title">RFC 5216: EAP-TLS Network Authentication</div>
+            <p class="rfc-desc" data-i18n="rfc5216Desc">The bedrock standard for 802.1X (RADIUS / WPA2-Enterprise). Enforces strict role separation: RADIUS servers require EKU serverAuth; client endpoints require EKU clientAuth.</p>
+          </div>
+
+          <div class="rfc-card scroll-animate" data-animate="zoomIn" data-delay="240">
+            <span class="rfc-badge">RFC 8555</span>
+            <div class="rfc-title" data-i18n="rfc8555Title">RFC 8555: ACME Automation</div>
+            <p class="rfc-desc" data-i18n="rfc8555Desc">The automated certificate management protocol powering Let's Encrypt and Step-CA for zero-touch issuance and HTTP-01 / DNS-01 challenge verification.</p>
+          </div>
+
+          <div class="rfc-card scroll-animate" data-animate="zoomIn" data-delay="300">
+            <span class="rfc-badge">CA/B Forum</span>
+            <div class="rfc-title" data-i18n="rfcCabTitle">CA/Browser Forum Baseline Requirements</div>
+            <p class="rfc-desc" data-i18n="rfcCabDesc">The mandatory baseline enforced by all major platform vendors (Apple, Google, Microsoft): maximum 398-day validity for leaf certificates and SHA-256 signatures.</p>
+          </div>
+        </div>
+      </section>
+
       <!-- Section: 802.1X EAP-TLS -->
       <section id="network-8021x" class="scroll-animate" data-animate="fadeInUp" data-threshold="0.08">
         <h2 class="section-header">
@@ -2301,6 +2585,104 @@ tar -czf - pki/ | gpg -c -o homelab-pki-backup-$(date +%F).tar.gz.gpg
         </div>
       </section>
 
+      <!-- Section: Battle-Tested Tips & Tricks -->
+      <section id="tips-tricks" class="scroll-animate" data-animate="fadeInUp" data-threshold="0.08">
+        <h2 class="section-header">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          <span data-i18n="secTipsTitle">Battle-Tested Tips & Tricks for Homelab & Enterprise</span>
+        </h2>
+        <p data-i18n="secTipsP">Practical engineering insights, operational shortcuts, and common pitfalls learned from deploying X.509 PKIs:</p>
+
+        <div class="tips-grid">
+          <div class="tip-card scroll-animate" data-animate="fadeInLeft" data-delay="0">
+            <div class="tip-header">
+              <span class="tip-num">TIP #1</span>
+              <span class="tip-title" data-i18n="tip1Title">The "10-Year CA, 397-Day Leaf" Rule</span>
+            </div>
+            <p class="tip-body" data-i18n="tip1Body">Since September 2020, Apple Safari, Google Chrome, and iOS reject leaf certificates valid for longer than 398 days. Your Root and Intermediate CAs can be valid for 10–20 years, but leaf certificates must always be capped at 397 days (<code>--days 397</code>).</p>
+          </div>
+
+          <div class="tip-card scroll-animate" data-animate="fadeInLeft" data-delay="50">
+            <div class="tip-header">
+              <span class="tip-num">TIP #2</span>
+              <span class="tip-title" data-i18n="tip2Title">The Common SAN Trap: DNS Name vs. IP Address</span>
+            </div>
+            <p class="tip-body" data-i18n="tip2Body">Connecting to <code>https://192.168.1.10</code> will trigger a certificate error if the certificate only contains <code>DNS:web.lan</code>! Clients strictly match the address bar input. Always pass both DNS and IP addresses: <code>--dns web01.lan --ip 192.168.1.10</code>.</p>
+          </div>
+
+          <div class="tip-card scroll-animate" data-animate="fadeInLeft" data-delay="100">
+            <div class="tip-header">
+              <span class="tip-num">TIP #3</span>
+              <span class="tip-title" data-i18n="tip3Title">Instant Certificate Inspection in Terminal</span>
+            </div>
+            <p class="tip-body" data-i18n="tip3Body">Avoid typing verbose OpenSSL commands. Use <code>pki.sh inspect cert.crt</code> or a quick shell alias: <code>openssl x509 -in cert.crt -noout -text | grep -E 'Subject:|Issuer:|Not After|DNS:|IP:'</code>.</p>
+          </div>
+
+          <div class="tip-card scroll-animate" data-animate="fadeInLeft" data-delay="150">
+            <div class="tip-header">
+              <span class="tip-num">TIP #4</span>
+              <span class="tip-title" data-i18n="tip4Title">Zero-Downtime Reload for Nginx, Caddy & Traefik</span>
+            </div>
+            <p class="tip-body" data-i18n="tip4Body">Never use <code>restart</code> when updating certificates on live ingress! Use <code>systemctl reload nginx</code> or <code>caddy reload</code>: existing connections stay open, while new handshakes immediately serve the fresh certificate.</p>
+          </div>
+
+          <div class="tip-card scroll-animate" data-animate="fadeInLeft" data-delay="200">
+            <div class="tip-header">
+              <span class="tip-num">TIP #5</span>
+              <span class="tip-title" data-i18n="tip5Title">Java Keystore Trust (Unifi Controller, Elasticsearch, Minecraft)</span>
+            </div>
+            <p class="tip-body" data-i18n="tip5Body">Java applications do not query the operating system certificate store; they rely on their own cacerts keystore. Import your Root CA with: <code>keytool -import -trustcacerts -keystore $JAVA_HOME/lib/security/cacerts -storepass changeit -alias homelab-root -file root.crt</code>.</p>
+          </div>
+
+          <div class="tip-card scroll-animate" data-animate="fadeInLeft" data-delay="250">
+            <div class="tip-header">
+              <span class="tip-num">TIP #6</span>
+              <span class="tip-title" data-i18n="tip6Title">PKCS#12 (.p12) for 1-Click Install on Windows & Apple</span>
+            </div>
+            <p class="tip-body" data-i18n="tip6Body">Passing <code>--p12</code> packages the leaf certificate, private key, and intermediate chain into an encrypted <code>cert.p12</code> bundle. Double-click the file on Windows or Apple devices and enter the passphrase for instant import into the user store.</p>
+          </div>
+
+          <div class="tip-card scroll-animate" data-animate="fadeInLeft" data-delay="300">
+            <div class="tip-header">
+              <span class="tip-num">TIP #7</span>
+              <span class="tip-title" data-i18n="tip7Title">Git Security & Cold-Storage for the Root CA</span>
+            </div>
+            <p class="tip-body" data-i18n="tip7Body">Version control your <code>pki/</code> repository, but keep all <code>*.key</code> files excluded in <code>.gitignore</code>. Back up <code>pki/root-ca/private/root.key</code> to two encrypted USB drives, then remove it from the live server (Cold Storage).</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Community & GitHub Discussions -->
+      <section id="community" class="scroll-animate" data-animate="fadeInUp" data-threshold="0.08">
+        <div class="community-banner">
+          <div class="community-header">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--accent-cyan);"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            <h2 class="community-title" data-i18n="secCommTitle" style="margin: 0;">Community & GitHub Discussions</h2>
+          </div>
+          <p data-i18n="secCommP">Have questions about your setup, want to share your homelab architecture, or propose new certificate presets? Join the official forum on GitHub Discussions:</p>
+
+          <div class="community-cards">
+            <div class="community-item">
+              <h4 data-i18n="commCard1Title">💬 Questions & Answers (Q&A)</h4>
+              <p data-i18n="commCard1P">Get help with trust store issues, RADIUS configurations, or validation errors.</p>
+            </div>
+            <div class="community-item">
+              <h4 data-i18n="commCard2Title">💡 Feature Requests</h4>
+              <p data-i18n="commCard2P">Propose new presets (e.g. Kubernetes, WireGuard, Cockpit) or CLI flags.</p>
+            </div>
+            <div class="community-item">
+              <h4 data-i18n="commCard3Title">🛠️ Show & Tell</h4>
+              <p data-i18n="commCard3P">Share your cluster and homelab topologies with other enthusiasts.</p>
+            </div>
+          </div>
+
+          <a href="https://github.com/Der-Felix/pki_script/discussions" target="_blank" rel="noopener" class="btn-discussions-hero">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            <span data-i18n="btnJoinDiscussions">Open GitHub Discussions</span>
+          </a>
+        </div>
+      </section>
+
     </main>
 
     <!-- Right Sidebar: On This Page (TOC) -->
@@ -2313,6 +2695,7 @@ tar -czf - pki/ | gpg -c -o homelab-pki-backup-$(date +%F).tar.gz.gpg
         <li><a href="#quickstart" class="toc-link" data-i18n="linkQuickstart">30-Sec Quickstart</a></li>
         <li><a href="#presets" class="toc-link" data-i18n="linkPresets">12 Production Presets</a></li>
         <li><a href="#san-rules" class="toc-link" data-i18n="linkSan">SAN Enforcement</a></li>
+        <li><a href="#rfc-standards" class="toc-link" data-i18n="linkRfc">Warum RFC-Standards?</a></li>
         <li><a href="#network-8021x" class="toc-link" data-i18n="link8021x">802.1X EAP-TLS</a></li>
         <li><a href="#webservers" class="toc-link" data-i18n="linkWeb">Web Ingress</a></li>
         <li><a href="#hypervisors" class="toc-link" data-i18n="linkHypervisors">Proxmox & TrueNAS</a></li>
@@ -2320,6 +2703,8 @@ tar -czf - pki/ | gpg -c -o homelab-pki-backup-$(date +%F).tar.gz.gpg
         <li><a href="#revocation-crl" class="toc-link" data-i18n="linkRevoke">Revocation & CRLs</a></li>
         <li><a href="#backup-recovery" class="toc-link" data-i18n="linkBackup">Disaster Recovery</a></li>
         <li><a href="#cli-automation" class="toc-link" data-i18n="linkCron">Cron & Automation</a></li>
+        <li><a href="#tips-tricks" class="toc-link" data-i18n="linkTips">Praxis-Tipps & Tricks</a></li>
+        <li><a href="#community" class="toc-link" data-i18n="linkDiscussions">GitHub Discussions</a></li>
       </ul>
 
       <div class="toc-card">
@@ -2331,6 +2716,18 @@ tar -czf - pki/ | gpg -c -o homelab-pki-backup-$(date +%F).tar.gz.gpg
         <a href="https://github.com/Der-Felix/pki_script" target="_blank" rel="noopener" class="gh-button" style="width: 100%; justify-content: center;">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
           <span data-i18n="starGithub">Star on GitHub</span>
+        </a>
+      </div>
+
+      <div class="toc-card" style="margin-top: 14px;">
+        <div class="toc-card-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+          <span data-i18n="tocDiscussionsTitle">Homelab Community</span>
+        </div>
+        <p data-i18n="tocDiscussionsP">Fragen stellen, Feedback geben oder Setup teilen:</p>
+        <a href="https://github.com/Der-Felix/pki_script/discussions" target="_blank" rel="noopener" class="gh-button gh-discussions-btn" style="width: 100%; justify-content: center;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+          <span data-i18n="tocDiscussionsBtn">GitHub Discussions</span>
         </a>
       </div>
     </aside>
