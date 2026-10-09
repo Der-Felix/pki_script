@@ -1,5 +1,12 @@
 # OpenSSL Homelab PKI Generator
 
+[![Documentation](https://img.shields.io/badge/Docs-GitHub%20Pages-blue?style=flat&logo=github)](https://der-felix.github.io/pki_script/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![OpenSSL 3.x](https://img.shields.io/badge/OpenSSL-3.x-green.svg)](https://www.openssl.org/)
+[![Bash 4+](https://img.shields.io/badge/Bash-4.x%20%7C%205.x-blue.svg)](https://www.gnu.org/software/bash/)
+
+> 📖 **Online Documentation & Interactive Guides**: [https://der-felix.github.io/pki_script/](https://der-felix.github.io/pki_script/)
+
 A modular, production-hardened, and user-friendly Bash suite for creating and operating a complete, file-based Public Key Infrastructure (PKI) powered by **OpenSSL 3.x**.
 
 ```

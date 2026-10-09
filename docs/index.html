@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenSSL Homelab PKI Suite - Documentation</title>
+  <meta name="description" content="A modular, production-ready, file-based OpenSSL 3.x PKI generator and management suite for homelabs and enterprise environments.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2358a6ff'><path d='M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 6c1.4 0 2.5 1.1 2.5 2.5 0 .8-.4 1.5-1 1.9V15h-3v-3.6c-.6-.4-1-1.1-1-1.9C9.5 8.1 10.6 7 12 7z'/></svg>">
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <button id="mobile-menu-btn" class="btn-icon mobile-menu-btn" aria-label="Toggle Menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+      <a href="#" class="brand">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        <span>OpenSSL PKI Suite</span>
+      </a>
+      <span class="badge-version">v2.0.0</span>
+    </div>
+
+    <div class="header-controls">
+      <div class="search-box">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="doc-search" placeholder="Search presets or guides...">
+      </div>
+      <button id="theme-toggle" class="btn-icon" aria-label="Toggle Dark/Light Mode">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line></svg>
+      </button>
+      <a href="https://github.com/Der-Felix/pki_script" target="_blank" rel="noopener" class="btn-icon" aria-label="GitHub Repository">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Layout -->
+  <div class="layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="nav-group">
+        <div class="nav-title">Getting Started</div>
+        <ul class="nav-list">
+          <li><a href="#overview" class="nav-link active">Overview</a></li>
+          <li><a href="#architecture" class="nav-link">PKI Architecture</a></li>
+          <li><a href="#quickstart" class="nav-link">30-Second Quickstart</a></li>
+        </ul>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-title">Infrastructure & CAs</div>
+        <ul class="nav-list">
+          <li><a href="#init-pki" class="nav-link">Initialize Root CA</a></li>
+          <li><a href="#intermediate-cas" class="nav-link">Intermediate CAs</a></li>
+          <li><a href="#ca-renewal" class="nav-link">CA Renewal & Key Continuity</a></li>
+        </ul>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-title">Certificate Profiles</div>
+        <ul class="nav-list">
+          <li><a href="#presets" class="nav-link">Available Presets (12)</a></li>
+          <li><a href="#quick-mode" class="nav-link">1-Click Quick Mode</a></li>
+          <li><a href="#external-csr" class="nav-link">Signing External CSRs</a></li>
+          <li><a href="#batch-templates" class="nav-link">Batch Templates</a></li>
+        </ul>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-title">Real-World Deployment</div>
+        <ul class="nav-list">
+          <li><a href="#network-8021x" class="nav-link">802.1X EAP-TLS (WiFi/LAN)</a></li>
+          <li><a href="#radius-server" class="nav-link">RADIUS Server Setup</a></li>
+          <li><a href="#webservers" class="nav-link">Web Servers & Reverse Proxies</a></li>
+          <li><a href="#hypervisors" class="nav-link">Proxmox VE & TrueNAS</a></li>
+          <li><a href="#vpns" class="nav-link">OpenVPN & IPsec IKEv2</a></li>
+          <li><a href="#ldaps-ad" class="nav-link">LDAPS & Active Directory</a></li>
+          <li><a href="#cluster-nodes" class="nav-link">Cluster Nodes & mTLS</a></li>
+          <li><a href="#smime-codesign" class="nav-link">S/MIME & Code Signing</a></li>
+        </ul>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-title">Operations & Maintenance</div>
+        <ul class="nav-list">
+          <li><a href="#verification" class="nav-link">Verification & Key Matching</a></li>
+          <li><a href="#client-trust" class="nav-link">Client Trust Stores</a></li>
+          <li><a href="#revocation-crl" class="nav-link">Revocation & CRLs</a></li>
+          <li><a href="#backup-restore" class="nav-link">Backup & Disaster Recovery</a></li>
+          <li><a href="#monitoring" class="nav-link">Monitoring & Expiry Checks</a></li>
+          <li><a href="#cli-reference" class="nav-link">CLI Reference & Env Vars</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="content">
+
+      <!-- Overview -->
+      <section id="overview">
+        <h1>OpenSSL Homelab PKI Suite</h1>
+        <p>A modular, production-ready, file-based X.509 Public Key Infrastructure (PKI) suite engineered for homelabs, staging clusters, and enterprise systems using <strong>OpenSSL 3.x</strong>.</p>
+        
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px;">
+          <span class="badge-version">OpenSSL 3.0+</span>
+          <span class="badge-version">Bash 4.x / 5.x</span>
+          <span class="badge-version">RFC 5280 Compliant</span>
+          <span class="badge-version">Zero Dependencies</span>
+          <span class="badge-version">MIT Licensed</span>
+        </div>
+
+        <div class="callout callout-success">
+          <div class="callout-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            Key Highlights
+          </div>
+          <p>Divided into 17 clean, specialized modules under <code>lib/</code>. Features an interactive terminal wizard, 1-click DNS autodetection for TLS servers, full tab completion, automated copy-paste deployment guides (<code>GUIDE.txt</code>), and 12 production-tuned certificate presets.</p>
+        </div>
+      </section>
+
+      <!-- Architecture -->
+      <section id="architecture">
+        <h2>PKI Architecture</h2>
+        <p>This suite creates an industry-standard, two-tier hierarchical PKI designed for maximum operational security:</p>
+
+        <div class="code-block">
+          <div class="code-header"><span>Two-Tier CA Trust Hierarchy</span></div>
+          <pre><code>                  ┌──────────────────────────────────────────┐
+                  │                 Root CA                  │  RSA 4096 / 20 Years
+                  │  (Self-signed, offline/storage safe)     │  Signs ONLY Intermediates & CRLs
+                  └────────────────────┬─────────────────────┘
+                                       │
+                      ┌────────────────┴────────────────┐
+                      ▼                                 ▼
+         ┌─────────────────────────┐       ┌─────────────────────────┐
+         │     Server-CA (Issuing) │       │     Client-CA (Issuing) │  RSA 4096 / 10 Years
+         │   (pathlen:0, serverAuth│       │   (pathlen:0, clientAuth│  Restricted by role
+         └────────────┬────────────┘       └────────────┬────────────┘
+                      │                                 │
+           ┌──────────┴──────────┐           ┌──────────┴──────────┐
+           ▼                     ▼           ▼                     ▼
+      Web Servers         Proxmox / NAS    mTLS Clients      802.1X EAP-TLS
+      (Nginx/Caddy)       (PVE / TrueNAS)  (APIs / curl)     (WiFi / Switches)</code></pre>
+        </div>
+
+        <ul>
+          <li><strong>Root CA</strong>: Uses RSA 4096 with strict <code>basicConstraints=critical,CA:TRUE</code>. It never issues leaf certificates directly.</li>
+          <li><strong>Intermediate CAs</strong>: Dedicated issuing authorities restricted by <code>pathlen:0</code> (cannot create sub-CAs), optional Name Constraints, and Extended Key Usages.</li>
+          <li><strong>Leaf Certificates</strong>: Issued using modern standards (RSA 3072 or Ed25519), strict SAN validation, and automated chain bundling (<code>fullchain.pem</code>, <code>combined.pem</code>, <code>cert.p12</code>).</li>
+        </ul>
+      </section>
+
+      <!-- Quickstart -->
+      <section id="quickstart">
+        <h2>30-Second Quickstart</h2>
+        <p>Get a full Root CA, two Intermediate CAs, and your first verified certificate running in under a minute:</p>
+
+        <h3>1. Clone Repository & Verify Health</h3>
+        <div class="code-block">
+          <div class="code-header"><span>Terminal</span><button class="copy-btn">Copy</button></div>
+          <pre><code>git clone https://github.com/Der-Felix/pki_script.git
+cd pki_script
+chmod +x pki.sh build.sh pki completions/pki.bash
+./pki.sh doctor</code></pre>
+        </div>
+
+        <h3>2. Initialize CA Hierarchy</h3>
+        <p>Initializes the Root CA and two issuing authorities for servers and clients:</p>
+        <div class="code-block">
+          <div class="code-header"><span>Terminal</span><button class="copy-btn">Copy</button></div>
+          <pre><code>./pki.sh init --org "Homelab" --intermediate server-ca --intermediate client-ca</code></pre>
+        </div>
+
+        <h3>3. Issue a Server Certificate in 1 Click</h3>
+        <p>The <code>quick</code> command queries DNS to automatically discover your FQDN, short aliases, and all host IP addresses:</p>
+        <div class="code-block">
+          <div class="code-header"><span>Terminal</span><button class="copy-btn">Copy</button></div>
+          <pre><code>./pki.sh quick web01.homelab.lan</code></pre>
+        </div>
+
+        <h3>4. Verify Certificate Chain & Key Match</h3>
+        <div class="code-block">
+          <div class="code-header"><span>Terminal</span><button class="copy-btn">Copy</button></div>
+          <pre><code>./pki.sh verify web01.homelab.lan --host web01.homelab.lan</code></pre>
+        </div>
+      </section>
+
+      <!-- Presets -->
+      <section id="presets">
+        <h2>Certificate Profiles (Presets)</h2>
+        <p>Filter or search through all 12 pre-configured certificate presets:</p>
+
+        <div class="preset-grid">
+          <!-- server -->
+          <div class="preset-card">
+            <div class="preset-card-header">
+              <span class="preset-title">server</span>
+              <span class="badge-version">TLS Server</span>
+            </div>
+            <div class="preset-desc">Web servers, reverse proxies, LDAPS, Proxmox, UniFi, mail servers, databases.</div>
+            <div class="preset-meta">
+              <div><span>EKU:</span> serverAuth</div>
+              <div><span>Key:</span> RSA 3072 (or Ed25519 for internal)</div>
+              <div><span>Validity:</span> 397 days (Apple/CAB compliant)</div>
+              <div><span>Required SANs:</span> DNS or IP</div>
+            </div>
+            <div class="code-block" style="margin-top: 10px; margin-bottom: 0;">
+              <pre><code>./pki.sh issue server --cn web.lan --dns web.lan,www.lan --ip 10.0.0.5</code></pre>
+            </div>
+          </div>
+
+          <!-- wildcard -->
+          <div class="preset-card">
+            <div class="preset-card-header">
+              <span class="preset-title">wildcard</span>
+              <span class="badge-version">TLS Server</span>
+            </div>
+            <div class="preset-desc">Covers <code>*.domain.lan</code> plus base domain for central ingress proxies (Traefik/Nginx).</div>
+            <div class="preset-meta">
+              <div><span>EKU:</span> serverAuth</div>
+              <div><span>Key:</span> RSA 3072</div>
+              <div><span>Validity:</span> 397 days</div>
+              <div><span>Required SANs:</span> Wildcard domain</div>
+            </div>
+            <div class="code-block" style="margin-top: 10px; margin-bottom: 0;">
+              <pre><code>./pki.sh issue wildcard --domain homelab.lan</code></pre>
+            </div>
+          </div>
+
+          <!-- client -->
+          <div class="preset-card">
+            <div class="preset-card-header">
+              <span class="preset-title">client</span>
+              <span class="badge-version">Client Auth</span>
+            </div>
+            <div class="preset-desc">802.1X EAP-TLS (WiFi/Switch port), mTLS microservices, browser authentication, REST APIs.</div>
+            <div class="preset-meta">
+              <div><span>EKU:</span> clientAuth</div>
+              <div><span>Key:</span> RSA 3072 / Ed25519</div>
+              <div><span>Validity:</span> 730 days (2 years)</div>
+              <div><span>Export:</span> PKCS#12 (.p12)</div>
+            </div>
+            <div class="code-block" style="margin-top: 10px; margin-bottom: 0;">
+              <pre><code>./pki.sh issue client --cn user-laptop --p12</code></pre>
+            </div>
+          </div>
+
+          <!-- server-client -->
+          <div class="preset-card">
+            <div class="preset-card-header">
+              <span class="preset-title">server-client</span>
+              <span class="badge-version">Dual Purpose</span>
+            </div>
+            <div class="preset-desc">Cluster peers that accept inbound connections and initiate outbound mutual TLS (etcd, SaltStack, K8s).</div>
+            <div class="preset-meta">
+              <div><span>EKU:</span> serverAuth, clientAuth</div>
+              <div><span>Key:</span> RSA 3072 / Ed25519</div>
+              <div><span>Validity:</span> 397 days</div>
+              <div><span>Required SANs:</span> DNS or IP</div>
+            </div>
+            <div class="code-block" style="margin-top: 10px; margin-bottom: 0;">
+              <pre><code>./pki.sh issue server-client --cn node01.lan --dns node01.lan</code></pre>
+            </div>
+          </div>
+
+          <!-- vpn-server -->
+          <div class="preset-card">
+            <div class="preset-card-header">
+              <span class="preset-title">vpn-server</span>
+              <span class="badge-version">VPN Gateway</span>
+            </div>
+            <div class="preset-desc">OpenVPN server, strongSwan IPsec IKEv2, Windows RRAS, pfSense / OPNsense gateway.</div>
+            <div class="preset-meta">
+              <div><span>EKU:</span> serverAuth, IPsec IKE OIDs</div>
+              <div><span>Key:</span> RSA 3072</div>
+              <div><span>Validity:</span> 730 days</div>
+              <div><span>Required SANs:</span> DNS or IP</div>
+            </div>
+            <div class="code-block" style="margin-top: 10px; margin-bottom: 0;">
+              <pre><code>./pki.sh issue vpn-server --cn vpn.lan --ip 192.168.1.1</code></pre>
+            </div>
+          </div>
+
+          <!-- vpn-client -->
+          <div class="preset-card">
+            <div class="preset-card-header">
+              <span class="preset-title">vpn-client</span>
+              <span class="badge-version">VPN Client</span>
+            </div>
+            <div class="preset-desc">OpenVPN client identity (inline .ovpn), native Windows / macOS / iOS IKEv2 profiles.</div>
+            <div class="preset-meta">
+              <div><span>EKU:</span> clientAuth, IPsec End System</div>
+              <div><span>Key:</span> RSA 3072</div>
+              <div><span>Validity:</span> 730 days</div>
+              <div><span>Export:</span> PKCS#12 (.p12)</div>
+            </div>
+            <div class="code-block" style="margin-top: 10px; margin-bottom: 0;">
+              <pre><code>./pki.sh issue vpn-client --cn felix-vpn --p12</code></pre>
+            </div>
+          </div>
+
+          <!-- smime -->
+          <div class="preset-card">
+            <div class="preset-card-header">
+              <span class="preset-title">smime</span>
+              <span class="badge-version">Email Security</span>
+            </div>
+            <div class="preset-desc">Digitally signing and encrypting emails in Outlook, Thunderbird, Apple Mail.</div>
+            <div class="preset-meta">
+              <div><span>EKU:</span> emailProtection</div>
+              <div><span>Key:</span> RSA 3072 (required for encryption)</div>
+              <div><span>Validity:</span> 730 days</div>
+              <div><span>Required SANs:</span> email</div>
+            </div>
+            <div class="code-block" style="margin-top: 10px; margin-bottom: 0;">
+              <pre><code>./pki.sh issue smime --cn "Felix" --email felix@lab.lan --p12</code></pre>
+            </div>
+          </div>
+
+          <!-- codesign -->
+          <div class="preset-card">
+            <div class="preset-card-header">
+              <span class="preset-title">codesign</span>
+              <span class="badge-version">Code Signing</span>
+            </div>
+            <div class="preset-desc">Signing PowerShell scripts (.ps1), Windows executables (.exe), packages, and Git commits.</div>
+            <div class="preset-meta">
+              <div><span>EKU:</span> codeSigning</div>
+              <div><span>Key:</span> RSA 3072 / 4096</div>
+              <div><span>Validity:</span> 1095 days (3 years)</div>
+              <div><span>Export:</span> PKCS#12 (.p12)</div>
+            </div>
+            <div class="code-block" style="margin-top: 10px; margin-bottom: 0;">
+              <pre><code>./pki.sh issue codesign --cn "Homelab Code Signer" --p12</code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Real-World Deployment Guides -->
+      <section id="network-8021x">
+        <h2>802.1X EAP-TLS Network Authentication (WiFi / LAN)</h2>
+        <p>EAP-TLS is the golden standard for enterprise wireless (WPA2/WPA3-Enterprise) and dynamic 802.1X switch port security. Passwords are never transmitted over the air; authentication relies exclusively on cryptographic client certificates.</p>
+
+        <h3>1. Issue Client Certificate</h3>
+        <p>Using the pre-built template from <code>examples/network-auth-8021x.conf</code>:</p>
+        <div class="code-block">
+          <div class="code-header"><span>Terminal</span><button class="copy-btn">Copy</button></div>
+          <pre><code>./pki.sh batch examples/network-auth-8021x.conf</code></pre>
+        </div>
+
+        <h3>2. Client Deployment</h3>
+        <ul>
+          <li><strong>Windows / macOS / iOS / Android</strong>: Import the generated <code>pki/issued/laptop-felix-8021x/cert.p12</code> into the user certificate store. Install <code>pki/publish/root.crt</code> into Trusted Root Authorities.</li>
+          <li><strong>Linux <code>wpa_supplicant.conf</code></strong>:
+            <div class="code-block">
+              <div class="code-header"><span>/etc/wpa_supplicant/wpa_supplicant.conf</span><button class="copy-btn">Copy</button></div>
+              <pre><code>network={
+    ssid="Homelab-Enterprise"
+    key_mgmt=WPA-EAP
+    eap=TLS
+    identity="laptop-felix"
+    ca_cert="/etc/ssl/pki/root.pem"
+    client_cert="/etc/ssl/pki/laptop-felix.pem"
+    private_key="/etc/ssl/pki/laptop-felix.key"
+}</code></pre>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Web Servers -->
+      <section id="webservers">
+        <h2>Web Servers & Reverse Proxies</h2>
+        <p>Every issued certificate directory includes a complete set of bundles and an auto-generated <code>GUIDE.txt</code> with tested configuration blocks:</p>
+
+        <div class="tabs">
+          <div class="tab-buttons">
+            <button class="tab-btn active" data-tab="tab-nginx">Nginx</button>
+            <button class="tab-btn" data-tab="tab-traefik">Traefik</button>
+            <button class="tab-btn" data-tab="tab-caddy">Caddy</button>
+            <button class="tab-btn" data-tab="tab-apache">Apache</button>
+            <button class="tab-btn" data-tab="tab-haproxy">HAProxy</button>
+            <button class="tab-btn" data-tab="tab-proxmox">Proxmox VE</button>
+          </div>
+
+          <div id="tab-nginx" class="tab-pane active">
+            <pre><code>server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name web01.homelab.lan;
+
+    ssl_certificate     /etc/ssl/web01/fullchain.pem;
+    ssl_certificate_key /etc/ssl/web01/key.pem;
+    ssl_protocols       TLSv1.2 TLSv1.3;
+
+    location / {
+        proxy_pass http://127.0.0.1:8080;
+    }
+}</code></pre>
+          </div>
+
+          <div id="tab-traefik" class="tab-pane">
+            <pre><code># dynamic.yml (Traefik File Provider)
+tls:
+  certificates:
+    - certFile: /certs/fullchain.pem
+      keyFile:  /certs/key.pem
+  stores:
+    default:
+      defaultCertificate:
+        certFile: /certs/fullchain.pem
+        keyFile:  /certs/key.pem</code></pre>
+          </div>
+
+          <div id="tab-caddy" class="tab-pane">
+            <pre><code>web01.homelab.lan {
+    tls /etc/ssl/web01/fullchain.pem /etc/ssl/web01/key.pem
+    reverse_proxy 127.0.0.1:8080
+}</code></pre>
+          </div>
+
+          <div id="tab-apache" class="tab-pane">
+            <pre><code>&lt;VirtualHost *:443&gt;
+    ServerName web01.homelab.lan
+    SSLEngine on
+    SSLCertificateFile    /etc/ssl/web01/fullchain.pem
+    SSLCertificateKeyFile /etc/ssl/web01/key.pem
+    SSLProtocol -all +TLSv1.2 +TLSv1.3
+&lt;/VirtualHost&gt;</code></pre>
+          </div>
+
+          <div id="tab-haproxy" class="tab-pane">
+            <pre><code># HAProxy requires combined.pem (private key + certificate chain in 1 file)
+frontend https-in
+    bind :443 ssl crt /etc/haproxy/certs/combined.pem alpn h2,http/1.1
+    default_backend app_servers</code></pre>
+          </div>
+
+          <div id="tab-proxmox" class="tab-pane">
+            <pre><code># Copy directly to Proxmox proxy SSL directory
+scp fullchain.pem root@pve-node1:/etc/pve/local/pveproxy-ssl.pem
+scp key.pem       root@pve-node1:/etc/pve/local/pveproxy-ssl.key
+ssh root@pve-node1 'systemctl restart pveproxy'</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- Client Trust Stores -->
+      <section id="client-trust">
+        <h2>Trusting the Root CA on Clients (Once per device)</h2>
+        <p>To ensure browsers, CLI tools, and operating systems trust your homelab certificates without warnings, install the public Root CA certificate from <code>pki/publish/root.pem</code>:</p>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Platform</th>
+                <th>Installation Command</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Debian / Ubuntu / Proxmox</strong></td>
+                <td><code>sudo cp pki/publish/root.pem /usr/local/share/ca-certificates/homelab-root.crt &amp;&amp; sudo update-ca-certificates</code></td>
+              </tr>
+              <tr>
+                <td><strong>RHEL / Rocky / Fedora</strong></td>
+                <td><code>sudo cp pki/publish/root.pem /etc/pki/ca-trust/source/anchors/homelab-root.pem &amp;&amp; sudo update-ca-trust</code></td>
+              </tr>
+              <tr>
+                <td><strong>macOS</strong></td>
+                <td><code>sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain pki/publish/root.pem</code></td>
+              </tr>
+              <tr>
+                <td><strong>Windows (PowerShell Admin)</strong></td>
+                <td><code>Import-Certificate -FilePath .\pki\publish\root.crt -CertStoreLocation Cert:\LocalMachine\Root</code></td>
+              </tr>
+              <tr>
+                <td><strong>Firefox (Use OS Trust Store)</strong></td>
+                <td>In <code>about:config</code>, set <code>security.enterprise_roots.enabled</code> to <code>true</code>.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Operations -->
+      <section id="verification">
+        <h2>Verification & Key Matching</h2>
+        <p>The <code>verify</code> command performs a strict 4-point verification check against the actual CA database and CRLs:</p>
+        <ol>
+          <li>Validates complete X.509 certificate trust chain up to the Root CA.</li>
+          <li>Checks Certificate Revocation Lists (CRL) for both Intermediate and Root CAs.</li>
+          <li>Verifies hostname or IP matching (SAN validation).</li>
+          <li>Performs a cryptographic <strong>Public Key Match</strong> to verify the private key corresponds exactly to the certificate.</li>
+        </ol>
+
+        <div class="code-block">
+          <div class="code-header"><span>Terminal</span><button class="copy-btn">Copy</button></div>
+          <pre><code>./pki.sh verify web01.homelab.lan --host web01.homelab.lan</code></pre>
+        </div>
+      </section>
+
+      <!-- CLI Reference -->
+      <section id="cli-reference">
+        <h2>CLI Reference & Headless Automation</h2>
+        <p>Every interactive operation in <code>pki.sh</code> can be fully automated in cron jobs, SaltStack states, or Ansible playbooks using CLI flags and environment variables:</p>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Environment Variable</th>
+                <th>Description</th>
+                <th>Example</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>PKI_DIR</code></td>
+                <td>Repository storage directory (defaults to <code>./pki</code>)</td>
+                <td><code>/etc/pki/homelab</code></td>
+              </tr>
+              <tr>
+                <td><code>PKI_CA_PASS</code></td>
+                <td>Master passphrase for all CA keys</td>
+                <td><code>secure-vault-passphrase</code></td>
+              </tr>
+              <tr>
+                <td><code>PKI_CA_PASS_&lt;NAME&gt;</code></td>
+                <td>Specific CA passphrase override</td>
+                <td><code>PKI_CA_PASS_SERVER_CA="pass"</code></td>
+              </tr>
+              <tr>
+                <td><code>PKI_KEY_PASS</code></td>
+                <td>Passphrase for encrypted leaf keys</td>
+                <td><code>key-passphrase</code></td>
+              </tr>
+              <tr>
+                <td><code>PKI_P12_PASS</code></td>
+                <td>Password used when packaging <code>.p12</code> archives</td>
+                <td><code>export-password</code></td>
+              </tr>
+              <tr>
+                <td><code>NO_COLOR=1</code></td>
+                <td>Disables ANSI colors in terminal and log outputs</td>
+                <td><code>1</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Automated Renewal Cronjob</h3>
+        <p>Runs every night at 03:00, checks if any certificate expires in the next 30 days, and automatically renews it:</p>
+        <div class="code-block">
+          <div class="code-header"><span>/etc/cron.d/pki-renewal</span><button class="copy-btn">Copy</button></div>
+          <pre><code>0 3 * * * root PKI_DIR=/opt/pki /opt/pki_script/pki.sh check --days 30 || /opt/pki_script/pki.sh renew web01 --revoke-old -y</code></pre>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div>OpenSSL Homelab PKI Suite &bull; Built with RFC 5280 standards</div>
+    <div><a href="https://github.com/Der-Felix/pki_script" target="_blank" rel="noopener">GitHub: Der-Felix/pki_script</a></div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
