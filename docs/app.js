@@ -11,6 +11,7 @@ const i18nData = {
     readyBadge: "Bereit",
     starGithub: "Auf GitHub bewerten",
     tocTitle: "Auf dieser Seite",
+    langLabel: "Sprache:",
 
     // Sidebar Headings & Links
     navGettingStarted: "Erste Schritte",
@@ -145,6 +146,7 @@ const i18nData = {
     readyBadge: "Ready",
     starGithub: "Star on GitHub",
     tocTitle: "On this page",
+    langLabel: "Language:",
 
     // Sidebar Headings & Links
     navGettingStarted: "Getting Started",
@@ -300,19 +302,27 @@ function initLanguage() {
 
   applyLanguage(currentLang);
 
-  // Setup header language buttons
+  // Setup all language buttons (header and mobile sidebar)
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
-      const selected = e.target.getAttribute('data-lang');
-      if (selected && selected !== currentLang) {
-        currentLang = selected;
-        localStorage.setItem('pki_lang', currentLang);
-        applyLanguage(currentLang);
-        initOSDetection(); // Re-render OS banner in current language
+      e.preventDefault();
+      const selected = btn.getAttribute('data-lang');
+      if (selected) {
+        window.setLanguage(selected);
       }
     });
   });
 }
+
+window.setLanguage = function(lang) {
+  if (!lang || !i18nData[lang]) return;
+  currentLang = lang;
+  try {
+    localStorage.setItem('pki_lang', lang);
+  } catch (e) {}
+  applyLanguage(lang);
+  initOSDetection(); // Re-render OS banner in selected language
+};
 
 function applyLanguage(lang) {
   const dict = i18nData[lang] || i18nData.en;
@@ -335,7 +345,7 @@ function applyLanguage(lang) {
     }
   });
 
-  // Update language buttons active state
+  // Update language buttons active state across all buttons
   document.querySelectorAll('.lang-btn').forEach(btn => {
     if (btn.getAttribute('data-lang') === lang) {
       btn.classList.add('active');
@@ -453,23 +463,46 @@ function initScrollAnimations() {
 // Mobile Sidebar Drawer Toggle with Backdrop
 function initMobileMenu() {
   const toggleBtn = document.getElementById('mobile-toggle-btn');
+  const closeBtn = document.getElementById('sidebar-close-btn');
   const sidebar = document.querySelector('aside.app-sidebar');
 
-  if (toggleBtn && sidebar) {
-    toggleBtn.addEventListener('click', () => {
-      sidebar.classList.toggle('open');
-      toggleBackdrop(sidebar.classList.contains('open'));
-    });
+  function openSidebar() {
+    if (!sidebar) return;
+    sidebar.classList.add('open');
+    toggleBackdrop(true);
+  }
 
-    document.querySelectorAll('.sidebar-link').forEach(link => {
-      link.addEventListener('click', () => {
-        if (window.innerWidth <= 900) {
-          sidebar.classList.remove('open');
-          toggleBackdrop(false);
-        }
-      });
+  function closeSidebar() {
+    if (!sidebar) return;
+    sidebar.classList.remove('open');
+    toggleBackdrop(false);
+  }
+
+  if (toggleBtn && sidebar) {
+    toggleBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (sidebar.classList.contains('open')) {
+        closeSidebar();
+      } else {
+        openSidebar();
+      }
     });
   }
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      closeSidebar();
+    });
+  }
+
+  document.querySelectorAll('.sidebar-link').forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth <= 900) {
+        closeSidebar();
+      }
+    });
+  });
 
   function toggleBackdrop(show) {
     let backdrop = document.getElementById('mobile-backdrop');
@@ -479,8 +512,7 @@ function initMobileMenu() {
       backdrop.className = 'mobile-backdrop';
       document.body.appendChild(backdrop);
       backdrop.addEventListener('click', () => {
-        sidebar.classList.remove('open');
-        toggleBackdrop(false);
+        closeSidebar();
       });
     }
     if (backdrop) {
@@ -567,40 +599,78 @@ function initPresetSearch() {
 
 // Table of Contents & Navigation ScrollSpy
 function initTocScrollSpy() {
-  const leftLinks = document.querySelectorAll('.sidebar-link');
-  const tocLinks = document.querySelectorAll('.toc-link');
-  const sections = document.querySelectorAll('section[id]');
+  const sections = Array.from(document.querySelectorAll('main.app-main section[id]'));
+  const allNavLinks = Array.from(document.querySelectorAll('.sidebar-link, .toc-link'));
 
   if (!sections.length) return;
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const id = entry.target.getAttribute('id');
-
-        leftLinks.forEach(link => {
-          if (link.getAttribute('href') === `#${id}`) {
-            link.classList.add('active');
-          } else {
-            link.classList.remove('active');
-          }
-        });
-
-        tocLinks.forEach(link => {
-          if (link.getAttribute('href') === `#${id}`) {
-            link.classList.add('active');
-          } else {
-            link.classList.remove('active');
-          }
-        });
+  function setActive(activeId) {
+    if (!activeId) return;
+    allNavLinks.forEach(link => {
+      const href = link.getAttribute('href');
+      if (href === `#${activeId}`) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
       }
     });
-  }, {
-    rootMargin: '-15% 0px -75% 0px',
-    threshold: 0
+  }
+
+  // Instant active state on click
+  allNavLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      const href = link.getAttribute('href');
+      if (href && href.startsWith('#')) {
+        const targetId = href.substring(1);
+        setActive(targetId);
+      }
+    });
   });
 
-  sections.forEach(sec => observer.observe(sec));
+  function updateActiveSection() {
+    const scrollPos = window.scrollY || window.pageYOffset;
+    const windowHeight = window.innerHeight;
+    const docHeight = document.documentElement.scrollHeight;
+
+    // Check if user is scrolled to the very bottom of the page (within 160px)
+    if (scrollPos + windowHeight >= docHeight - 160) {
+      const lastSection = sections[sections.length - 1];
+      if (lastSection) {
+        setActive(lastSection.id);
+        return;
+      }
+    }
+
+    // Offset below fixed header
+    const offset = 140;
+    let currentId = sections[0].id;
+
+    for (let i = 0; i < sections.length; i++) {
+      const sec = sections[i];
+      const top = sec.offsetTop;
+      if (scrollPos + offset >= top) {
+        currentId = sec.id;
+      } else {
+        break;
+      }
+    }
+
+    setActive(currentId);
+  }
+
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        updateActiveSection();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+
+  // Initial calculation
+  updateActiveSection();
 }
 
 // Interactive CLI Command Playground & Generator
