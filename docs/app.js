@@ -97,10 +97,9 @@ const i18nData = {
     optRevokeCessation: "cessationOfOperation (Dienst außer Betrieb)",
     optRevokeAffiliation: "affiliationChanged (Subjektangaben geändert)",
     optRevokeUnspecified: "unspecified (Allgemeiner Widerruf)",
-    lblVerifyPort: "TLS-Port für Live-Handshake",
     lblP12: "Passwortgeschütztes PKCS#12 Bundle (.p12 für Windows/Apple) erzeugen",
     lblRevokeOld: "Vorheriges Zertifikat automatisch widerrufen (--revoke-old)",
-    lblVerifyConnect: "Live-TLS-Socket-Handshake mit s_client testen (--connect)",
+    lblVerifyHost: "Zusätzlich prüfen, ob das Zertifikat zum Hostnamen passt (--host)",
     lblUpdateYes: "Nicht-interaktives Update (-y, ohne manuelle Bestätigung)",
     lblUpdateVersionOnly: "Nur installierte Version & Commit ausgeben (pki.sh version)",
     btnCopy: "Kopieren",
@@ -109,7 +108,7 @@ const i18nData = {
     explainQuick: "Führt eine automatische Reverse-DNS- und IP-Auflösung für den Host durch und generiert das Zertifikat mit allen erkannten SANs in einem Schritt.",
     explainRenew: "Erneuert ein bestehendes Zertifikat. Kann das alte Zertifikat optional automatisch auf die CRL setzen (<code>--revoke-old</code>).",
     explainRevoke: "Setzt das Zertifikat auf die CRL der zuständigen CA, generiert eine frische <code>crl.pem</code> und verhindert weitere TLS-Verbindungen.",
-    explainVerify: "Validiert die kryptografische Kette (Leaf &rarr; Intermediate &rarr; Root) und testet optional den Live-TLS-Handshake des Servers.",
+    explainVerify: "Validiert die kryptografische Kette (Leaf &rarr; Intermediate &rarr; Root), den CRL-Sperrstatus, den Zertifikatszweck und die Übereinstimmung mit dem privaten Schlüssel. Mit <code>--host</code> wird zusätzlich offline geprüft, ob Hostname bzw. IP zu den SANs des Zertifikats passen &ndash; es wird kein Live-TLS-Handshake durchgeführt.",
     explainUpdate: "Führt <code>git pull --ff-only origin main</code> aus. Deine CAs, Schlüssel und Zertifikate in <code>pki/</code> sind strikt getrennt und werden <strong>niemals überschrieben</strong>.",
     explainVersion: "Liest die Versionsnummer der Suite sowie den aktuellen Git-Commit und Branch aus.",
 
@@ -207,7 +206,7 @@ const i18nData = {
     secUpdatesTitle: "Updates, Wartung & Sicherheit",
     secUpdatesP: "Die OpenSSL Homelab PKI Suite wird kontinuierlich weiterentwickelt (neue RFC-Standards, OpenSSL 3.x Features und Presets). So hältst du deine Umgebung mühelos aktuell:",
     updatePillar1Title: "1-Befehl CLI Update",
-    updatePillar1P: "Mit <code>./pki.sh update</code> aktualisiert sich die Suite via Fast-Forward Git Merge direkt von GitHub. Bestehende Dateiberechtigungen (<code>chmod +x</code>) werden automatisch sichergestellt.",
+    updatePillar1P: "Mit <code>./pki.sh update</code> aktualisiert sich die Suite via Fast-Forward Git Merge direkt von GitHub.",
     updatePillar2Title: "100% Datensicherheit (pki/ Isolation)",
     updatePillar2P: "Git verwaltet ausschließlich die Skripte in <code>lib/</code>, <code>pki.sh</code> und <code>docs/</code>. Deine privaten Schlüssel, CAs, Seriennummern und Zertifikate in <code>pki/</code> sind in <code>.gitignore</code> geschützt und werden <strong>niemals überschrieben</strong>.",
     updatePillar3Title: "GitHub Release Benachrichtigungen",
@@ -327,19 +326,18 @@ const i18nData = {
     optRevokeCessation: "cessationOfOperation (Service decommissioned)",
     optRevokeAffiliation: "affiliationChanged (Subject details changed)",
     optRevokeUnspecified: "unspecified (General revocation)",
-    lblVerifyPort: "TLS Port for Live Handshake",
     lblP12: "Generate encrypted PKCS#12 bundle (.p12 for Windows/iOS/macOS)",
     lblRevokeOld: "Revoke previous certificate automatically (--revoke-old)",
-    lblVerifyConnect: "Test live TLS socket connection via OpenSSL s_client",
+    lblVerifyHost: "Also check that the certificate matches the hostname (--host)",
     lblUpdateYes: "Non-interactive update (-y, bypass manual confirmation)",
     lblUpdateVersionOnly: "Only check installed version and commit (pki.sh version)",
     btnCopy: "Copy",
     copiedText: "Copied!",
     explainIssue: "Issues an RFC 5280 & CA/B Forum compliant end-entity certificate. Files are written to <code>pki/issued/&lt;CN&gt;/</code> including fullchain.pem.",
     explainQuick: "Performs automatic DNS reverse lookup and local IP detection for the specified host, populating all found SANs automatically.",
-    explainRenew: "Renews an existing certificate with a fresh validity window while maintaining chain validation. Old certificates can optionally be archived.",
+    explainRenew: "Renews an existing certificate with a fresh validity window while maintaining chain validation. Optionally, the old certificate can be revoked automatically and put on the CRL (<code>--revoke-old</code>).",
     explainRevoke: "Adds the certificate to the intermediate CA's Certificate Revocation List (CRL) and publishes a fresh <code>crl.pem</code>.",
-    explainVerify: "Validates cryptographic signature chain (Leaf &rarr; Intermediate &rarr; Root) and optionally performs live TLS handshake verification.",
+    explainVerify: "Validates the cryptographic signature chain (Leaf &rarr; Intermediate &rarr; Root), CRL revocation status, certificate purpose and private-key match. With <code>--host</code> it additionally checks offline that the hostname or IP matches the certificate's SANs &ndash; no live TLS handshake is performed.",
     explainUpdate: "Runs <code>git pull --ff-only origin main</code>. Your CAs, keys, and issued certs in <code>pki/</code> are strictly isolated and <strong>never overwritten</strong>.",
     explainVersion: "Displays the installed suite version along with Git commit hash and current branch.",
 
@@ -437,7 +435,7 @@ const i18nData = {
     secUpdatesTitle: "Updates, Maintenance & Security",
     secUpdatesP: "The OpenSSL Homelab PKI Suite is actively maintained with RFC updates, OpenSSL 3.x security hardening, and new presets. Keep your deployment up-to-date safely:",
     updatePillar1Title: "1-Command CLI Update",
-    updatePillar1P: "Running <code>./pki.sh update</code> pulls latest improvements via Fast-Forward Git Merge. File execute permissions (<code>chmod +x</code>) are automatically re-applied.",
+    updatePillar1P: "Running <code>./pki.sh update</code> pulls latest improvements via Fast-Forward Git Merge.",
     updatePillar2Title: "100% Data Safety (pki/ Isolation)",
     updatePillar2P: "Git only tracks bash scripts in <code>lib/</code>, <code>pki.sh</code>, and <code>docs/</code>. Your private keys, Root/Intermediate CAs, serial numbers, and certificates in <code>pki/</code> are strictly isolated and <strong>never touched</strong>.",
     updatePillar3Title: "GitHub Release Notifications",
@@ -867,6 +865,41 @@ function initTocScrollSpy() {
   updateActiveSection();
 }
 
+// POSIX-safe single-quoting for user-supplied text that ends up in a shell command.
+// Inside single quotes nothing is interpreted ($(...), backticks, ", \ ...), so the only
+// character that needs handling is the single quote itself: close, escaped quote, reopen.
+function shQuote(s) {
+  return "'" + String(s).replace(/'/g, "'\\''") + "'";
+}
+
+// Command builder defaults. These are the values updateCommand() treats as "not set"
+// (so no --key / --days flag is emitted) and what a chip resets the form to.
+const BUILDER_DEFAULT_KEY = 'rsa3072';
+const BUILDER_DEFAULT_DAYS = '397';
+
+// Preset dropdown auto-fill, keyed by the <option> value. `p12` is optional: presets that
+// omit it leave the "PKCS#12" checkbox as the user set it. Presets without an entry
+// (server, server-client, vpn-client, codesign) don't touch the fields at all.
+const PRESET_FILL = {
+  'wildcard':      { cn: '*.homelab.lan',        dns: '*.homelab.lan,homelab.lan', ip: '' },
+  'client':        { cn: 'felix-laptop',         dns: '',                          ip: '', p12: true },
+  'network-8021x': { cn: 'felix-laptop',         dns: '',                          ip: '', p12: true },
+  'radius-server': { cn: 'radius01.homelab.lan', dns: 'radius01.homelab.lan',      ip: '192.168.1.15' },
+  'vpn-server':    { cn: 'vpn.homelab.lan',      dns: 'vpn.homelab.lan',           ip: '192.168.1.1' },
+  'smime':         { cn: 'Felix S/MIME',         dns: '',                          ip: '', p12: true }
+};
+
+// Quick-start chips, keyed by data-chip. Each one also selects the preset and always sets
+// the PKCS#12 checkbox. Where a chip matches a dropdown preset it reuses that entry.
+const CHIP_PRESETS = {
+  'nginx':    { preset: 'server',        cn: 'nginx01.homelab.lan', dns: 'nginx01.homelab.lan,web.homelab.lan', ip: '192.168.1.10', p12: false },
+  'wildcard': { preset: 'wildcard',      ...PRESET_FILL['wildcard'], p12: false },
+  'client':   { preset: 'client',        ...PRESET_FILL['client'] },
+  '8021x':    { preset: 'network-8021x', ...PRESET_FILL['network-8021x'], cn: 'felix-phone' },
+  'proxmox':  { preset: 'server',        cn: 'pve01.homelab.lan',   dns: 'pve01.homelab.lan,pve.lan',           ip: '192.168.1.5',  p12: false },
+  'radius':   { preset: 'radius-server', ...PRESET_FILL['radius-server'], p12: false }
+};
+
 // Interactive CLI Command Playground & Generator (Multi-Mode)
 function initCommandBuilder() {
   const modeBar = document.getElementById('builder-mode-bar');
@@ -878,11 +911,10 @@ function initCommandBuilder() {
   const keySel = document.getElementById('build-key');
   const daysInput = document.getElementById('build-days');
   const reasonSel = document.getElementById('build-reason');
-  const verifyPortInput = document.getElementById('build-verify-port');
 
   const p12Check = document.getElementById('build-p12');
   const revokeOldCheck = document.getElementById('build-revoke-old');
-  const connectCheck = document.getElementById('build-connect');
+  const hostCheck = document.getElementById('build-host');
   const updateYesCheck = document.getElementById('build-update-yes');
   const updateVersionCheck = document.getElementById('build-update-version');
 
@@ -893,11 +925,10 @@ function initCommandBuilder() {
   const grpKey = document.getElementById('grp-key');
   const grpDays = document.getElementById('grp-days');
   const grpReason = document.getElementById('grp-reason');
-  const grpVerifyPort = document.getElementById('grp-verify-port');
 
   const lblChkP12 = document.getElementById('lbl-chk-p12');
   const lblChkRevokeOld = document.getElementById('lbl-chk-revoke-old');
-  const lblChkConnect = document.getElementById('lbl-chk-connect');
+  const lblChkHost = document.getElementById('lbl-chk-host');
   const lblChkUpdateYes = document.getElementById('lbl-chk-update-yes');
   const lblChkUpdateVersion = document.getElementById('lbl-chk-update-version');
 
@@ -907,6 +938,34 @@ function initCommandBuilder() {
   if (!outputCode) return;
 
   let currentMode = 'issue';
+
+  // Single source of truth for what is visible: [element, display value when shown, test(mode)].
+  // Input groups are shown with '' (stylesheet default), checkbox labels with 'inline-flex'.
+  const SHOW_GROUP = '';
+  const SHOW_LABEL = 'inline-flex';
+  const inModes = (...modes) => mode => modes.includes(mode);
+  const VISIBILITY = [
+    [grpPreset,           SHOW_GROUP, inModes('issue')],
+    [grpCn,               SHOW_GROUP, mode => mode !== 'update'],
+    [grpDns,              SHOW_GROUP, inModes('issue')],
+    [grpIp,               SHOW_GROUP, inModes('issue')],
+    [grpKey,              SHOW_GROUP, inModes('issue')],
+    [grpDays,             SHOW_GROUP, inModes('issue', 'renew')],
+    [grpReason,           SHOW_GROUP, inModes('revoke')],
+    [lblChkP12,           SHOW_LABEL, inModes('issue', 'quick')],
+    [lblChkRevokeOld,     SHOW_LABEL, inModes('renew')],
+    [lblChkHost,          SHOW_LABEL, inModes('verify')],
+    // "-y" only applies to a real update, not to the "version only" check
+    [lblChkUpdateYes,     SHOW_LABEL, mode => mode === 'update' && !!updateVersionCheck && !updateVersionCheck.checked],
+    [lblChkUpdateVersion, SHOW_LABEL, inModes('update')]
+  ];
+
+  // Derives all show/hide state from currentMode and the current checkbox state.
+  function refreshVisibility() {
+    VISIBILITY.forEach(([el, shown, isShown]) => {
+      if (el) el.style.display = isShown(currentMode) ? shown : 'none';
+    });
+  }
 
   function setMode(mode) {
     currentMode = mode;
@@ -920,24 +979,18 @@ function initCommandBuilder() {
       });
     }
 
-    // Adjust visibility of groups
-    if (grpPreset) grpPreset.style.display = (mode === 'issue') ? '' : 'none';
-    if (grpCn) grpCn.style.display = (mode === 'update') ? 'none' : '';
-    if (grpDns) grpDns.style.display = (mode === 'issue') ? '' : 'none';
-    if (grpIp) grpIp.style.display = (mode === 'issue') ? '' : 'none';
-    if (grpKey) grpKey.style.display = (mode === 'issue') ? '' : 'none';
-    if (grpDays) grpDays.style.display = (mode === 'issue' || mode === 'renew') ? '' : 'none';
-    if (grpReason) grpReason.style.display = (mode === 'revoke') ? '' : 'none';
-    if (grpVerifyPort) grpVerifyPort.style.display = (mode === 'verify' && connectCheck && connectCheck.checked) ? '' : 'none';
-
-    // Adjust visibility of checkboxes
-    if (lblChkP12) lblChkP12.style.display = (mode === 'issue' || mode === 'quick') ? 'inline-flex' : 'none';
-    if (lblChkRevokeOld) lblChkRevokeOld.style.display = (mode === 'renew') ? 'inline-flex' : 'none';
-    if (lblChkConnect) lblChkConnect.style.display = (mode === 'verify') ? 'inline-flex' : 'none';
-    if (lblChkUpdateYes) lblChkUpdateYes.style.display = (mode === 'update' && updateVersionCheck && !updateVersionCheck.checked) ? 'inline-flex' : 'none';
-    if (lblChkUpdateVersion) lblChkUpdateVersion.style.display = (mode === 'update') ? 'inline-flex' : 'none';
-
+    refreshVisibility();
     updateCommand();
+  }
+
+  // Sets the preset-driven fields. Only keys present in `fill` are applied: `preset` (the
+  // dropdown value, chips only) and `p12` are optional, cn/dns/ip are always given.
+  function applyFill(fill) {
+    if (presetSel && fill.preset !== undefined) presetSel.value = fill.preset;
+    if (cnInput) cnInput.value = fill.cn;
+    if (dnsInput) dnsInput.value = fill.dns;
+    if (ipInput) ipInput.value = fill.ip;
+    if (p12Check && fill.p12 !== undefined) p12Check.checked = fill.p12;
   }
 
   function updateCommand() {
@@ -951,41 +1004,40 @@ function initCommandBuilder() {
       const preset = (presetSel && presetSel.value) || 'server';
       const dns = dnsInput ? dnsInput.value.trim() : '';
       const ip = ipInput ? ipInput.value.trim() : '';
-      const key = keySel ? keySel.value : 'rsa3072';
-      const days = daysInput ? daysInput.value.trim() : '397';
+      const key = keySel ? keySel.value : BUILDER_DEFAULT_KEY;
+      const days = daysInput ? daysInput.value.trim() : BUILDER_DEFAULT_DAYS;
       const p12 = p12Check ? p12Check.checked : false;
 
-      parts.push('issue', preset, `--cn "${cn}"`);
-      if (dns) parts.push(`--dns "${dns}"`);
-      if (ip) parts.push(`--ip "${ip}"`);
-      if (key && key !== 'rsa3072') parts.push(`--key-type ${key}`);
-      if (days && days !== '397' && days !== '') parts.push(`--days ${days}`);
+      // Every free-text value goes through shQuote(); --days is only emitted when purely numeric.
+      parts.push('issue', preset, `--cn ${shQuote(cn)}`);
+      if (dns) parts.push(`--dns ${shQuote(dns)}`);
+      if (ip) parts.push(`--ip ${shQuote(ip)}`);
+      if (key && key !== BUILDER_DEFAULT_KEY) parts.push(`--key ${key}`);
+      if (/^\d+$/.test(days) && days !== BUILDER_DEFAULT_DAYS) parts.push(`--days ${days}`);
       if (p12) parts.push('--p12');
 
       explanationHtml = dict.explainIssue;
     } else if (currentMode === 'quick') {
       const p12 = p12Check ? p12Check.checked : false;
-      parts.push('quick', `"${cn}"`);
+      parts.push('quick', shQuote(cn));
       if (p12) parts.push('--p12');
       explanationHtml = dict.explainQuick;
     } else if (currentMode === 'renew') {
-      const days = daysInput ? daysInput.value.trim() : '397';
+      const days = daysInput ? daysInput.value.trim() : BUILDER_DEFAULT_DAYS;
       const revokeOld = revokeOldCheck ? revokeOldCheck.checked : false;
-      parts.push('renew', `"${cn}"`);
-      if (days && days !== '397' && days !== '') parts.push(`--days ${days}`);
+      parts.push('renew', shQuote(cn));
+      if (/^\d+$/.test(days) && days !== BUILDER_DEFAULT_DAYS) parts.push(`--days ${days}`);
       if (revokeOld) parts.push('--revoke-old');
       explanationHtml = dict.explainRenew;
     } else if (currentMode === 'revoke') {
       const reason = (reasonSel && reasonSel.value) || 'keyCompromise';
-      parts.push('revoke', `"${cn}"`, `--reason ${reason}`);
+      parts.push('revoke', shQuote(cn), `--reason ${reason}`);
       explanationHtml = dict.explainRevoke;
     } else if (currentMode === 'verify') {
-      const doConnect = connectCheck ? connectCheck.checked : false;
-      const port = (verifyPortInput && verifyPortInput.value.trim()) || '443';
-      parts.push('verify', `"${cn}"`);
-      if (doConnect) {
-        parts.push(`--connect "${cn}:${port}"`);
-      }
+      // verify_cert: chain + CRL + purpose + key match; --host adds an offline hostname/IP-vs-SAN check
+      const checkHost = hostCheck ? hostCheck.checked : false;
+      parts.push('verify', shQuote(cn));
+      if (checkHost) parts.push(`--host ${shQuote(cn)}`);
       explanationHtml = dict.explainVerify;
     } else if (currentMode === 'update') {
       const isVersionOnly = updateVersionCheck ? updateVersionCheck.checked : false;
@@ -1022,51 +1074,14 @@ function initCommandBuilder() {
   if (chipsBar) {
     chipsBar.querySelectorAll('.builder-chip-btn').forEach(chip => {
       chip.addEventListener('click', () => {
-        const type = chip.getAttribute('data-chip');
-        if (type === 'nginx') {
-          setMode('issue');
-          if (presetSel) presetSel.value = 'server';
-          if (cnInput) cnInput.value = 'nginx01.homelab.lan';
-          if (dnsInput) dnsInput.value = 'nginx01.homelab.lan,web.homelab.lan';
-          if (ipInput) ipInput.value = '192.168.1.10';
-          if (p12Check) p12Check.checked = false;
-        } else if (type === 'wildcard') {
-          setMode('issue');
-          if (presetSel) presetSel.value = 'wildcard';
-          if (cnInput) cnInput.value = '*.homelab.lan';
-          if (dnsInput) dnsInput.value = '*.homelab.lan,homelab.lan';
-          if (ipInput) ipInput.value = '';
-          if (p12Check) p12Check.checked = false;
-        } else if (type === 'client') {
-          setMode('issue');
-          if (presetSel) presetSel.value = 'client';
-          if (cnInput) cnInput.value = 'felix-laptop';
-          if (dnsInput) dnsInput.value = '';
-          if (ipInput) ipInput.value = '';
-          if (p12Check) p12Check.checked = true;
-        } else if (type === '8021x') {
-          setMode('issue');
-          if (presetSel) presetSel.value = 'network-8021x';
-          if (cnInput) cnInput.value = 'felix-phone';
-          if (dnsInput) dnsInput.value = '';
-          if (ipInput) ipInput.value = '';
-          if (p12Check) p12Check.checked = true;
-        } else if (type === 'proxmox') {
-          setMode('issue');
-          if (presetSel) presetSel.value = 'server';
-          if (cnInput) cnInput.value = 'pve01.homelab.lan';
-          if (dnsInput) dnsInput.value = 'pve01.homelab.lan,pve.lan';
-          if (ipInput) ipInput.value = '192.168.1.5';
-          if (p12Check) p12Check.checked = false;
-        } else if (type === 'radius') {
-          setMode('issue');
-          if (presetSel) presetSel.value = 'radius-server';
-          if (cnInput) cnInput.value = 'radius01.homelab.lan';
-          if (dnsInput) dnsInput.value = 'radius01.homelab.lan';
-          if (ipInput) ipInput.value = '192.168.1.15';
-          if (p12Check) p12Check.checked = false;
-        }
-        updateCommand();
+        const fill = CHIP_PRESETS[chip.getAttribute('data-chip')];
+        if (!fill) return;
+        applyFill(fill);
+        // A chip is a complete starting point: don't let key type / validity left over
+        // from a previous mode or manual edit leak into the generated command.
+        if (keySel) keySel.value = BUILDER_DEFAULT_KEY;
+        if (daysInput) daysInput.value = BUILDER_DEFAULT_DAYS;
+        setMode('issue'); // switches to issue mode, refreshes visibility and the command
       });
     });
   }
@@ -1103,21 +1118,18 @@ function initCommandBuilder() {
   });
 
   // Input listeners
+  // (presetSel is not in this list: its dedicated handler below fills the fields first and
+  // then updates the command, so listening here too would only render the stale state.)
   const allInputs = [
-    presetSel, cnInput, dnsInput, ipInput, keySel, daysInput,
-    reasonSel, verifyPortInput, p12Check, revokeOldCheck,
-    connectCheck, updateYesCheck, updateVersionCheck
+    cnInput, dnsInput, ipInput, keySel, daysInput,
+    reasonSel, p12Check, revokeOldCheck,
+    hostCheck, updateYesCheck, updateVersionCheck
   ];
   allInputs.forEach(el => {
     if (el) {
       el.addEventListener('input', updateCommand);
       el.addEventListener('change', () => {
-        if (el === connectCheck && grpVerifyPort) {
-          grpVerifyPort.style.display = connectCheck.checked ? '' : 'none';
-        }
-        if (el === updateVersionCheck && lblChkUpdateYes) {
-          lblChkUpdateYes.style.display = updateVersionCheck.checked ? 'none' : 'inline-flex';
-        }
+        refreshVisibility(); // "version only" hides the -y checkbox
         updateCommand();
       });
     }
@@ -1126,30 +1138,8 @@ function initCommandBuilder() {
   // Preset dropdown auto-fill
   if (presetSel) {
     presetSel.addEventListener('change', () => {
-      const val = presetSel.value;
-      if (val === 'wildcard') {
-        if (cnInput) cnInput.value = '*.homelab.lan';
-        if (dnsInput) dnsInput.value = '*.homelab.lan,homelab.lan';
-        if (ipInput) ipInput.value = '';
-      } else if (val === 'client' || val === 'network-8021x') {
-        if (cnInput) cnInput.value = 'felix-laptop';
-        if (dnsInput) dnsInput.value = '';
-        if (ipInput) ipInput.value = '';
-        if (p12Check) p12Check.checked = true;
-      } else if (val === 'radius-server') {
-        if (cnInput) cnInput.value = 'radius01.homelab.lan';
-        if (dnsInput) dnsInput.value = 'radius01.homelab.lan';
-        if (ipInput) ipInput.value = '192.168.1.15';
-      } else if (val === 'vpn-server') {
-        if (cnInput) cnInput.value = 'vpn.homelab.lan';
-        if (dnsInput) dnsInput.value = 'vpn.homelab.lan';
-        if (ipInput) ipInput.value = '192.168.1.1';
-      } else if (val === 'smime') {
-        if (cnInput) cnInput.value = 'Felix S/MIME';
-        if (dnsInput) dnsInput.value = '';
-        if (ipInput) ipInput.value = '';
-        if (p12Check) p12Check.checked = true;
-      }
+      const fill = PRESET_FILL[presetSel.value];
+      if (fill) applyFill(fill);
       updateCommand();
     });
   }
