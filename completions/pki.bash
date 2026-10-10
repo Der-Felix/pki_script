@@ -12,7 +12,7 @@ _pki_completion() {
     local cur prev words cword
     _init_completion || return
 
-    local commands="init ca-new issue quick selfsigned sign-csr list ls status dashboard search show verify renew renew-ca revoke crl export guide anleitung howto template batch backup restore doctor presets version help"
+    local commands="init ca-new issue quick selfsigned sign-csr list ls status dashboard search show verify renew renew-ca revoke crl export guide anleitung howto template batch backup restore doctor presets version update upgrade help"
     local presets="server wildcard client server-client user vpn-server vpn-client smime codesign ocsp timestamp custom"
     local keys="rsa2048 rsa3072 rsa4096 ed25519"
     local revoke_reasons="unspecified keyCompromise CACompromise affiliationChanged superseded cessationOfOperation certificateHold"
@@ -108,6 +108,9 @@ _pki_completion() {
             ;;
         crl)
             COMPREPLY=( $(compgen -W "--ca" -- "$cur") )
+            ;;
+        update|upgrade)
+            COMPREPLY=( $(compgen -W "-y --yes" -- "$cur") )
             ;;
         quick)
             COMPREPLY=( $(compgen -W "--dns --ip --ca --days --no-lookup" -- "$cur") )

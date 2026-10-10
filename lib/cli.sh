@@ -186,7 +186,7 @@ COMMANDS BY CATEGORY:
 
 6. Maintenance & Updates
   version              Show current script version, commit SHA, and repository details
-  update, upgrade      Check for script updates on GitHub and pull latest release
+  update, upgrade [-y] Check for script updates on GitHub and pull latest release
 
 EXAMPLES:
   pki init --org Homelab --intermediate server-ca --intermediate client-ca
@@ -206,10 +206,25 @@ ENVIRONMENT VARIABLES FOR HEADLESS AUTOMATION:
 EOF
 }
 
+# Succeeds only if the suite directory itself is the top level of a Git work
+# tree. Being merely located inside some unrelated parent repository does not
+# count. Fails quietly when SCRIPT_DIR is unset (standalone build) or git is
+# missing.
+is_suite_clone() {
+    local dir=${SCRIPT_DIR:-} top
+    [ -n "$dir" ] && [ -d "$dir" ] || return 1
+    command -v git >/dev/null 2>&1 || return 1
+    top=$(git -C "$dir" rev-parse --show-toplevel 2>/dev/null) || return 1
+    [ -n "$top" ] || return 1
+    top=$(cd "$top" 2>/dev/null && pwd -P) || return 1
+    dir=$(cd "$dir" 2>/dev/null && pwd -P) || return 1
+    [ "$top" = "$dir" ]
+}
+
 cmd_version() {
     local sha="standalone"
-    if command -v git >/dev/null 2>&1 && git -C "$SCRIPT_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-        sha=$(git -C "$SCRIPT_DIR" rev-parse --short HEAD 2>/dev/null || echo "standalone")
+    if is_suite_clone; then
+        sha=$(git -C "${SCRIPT_DIR:-}" rev-parse --short HEAD 2>/dev/null || echo "standalone")
     fi
     echo "OpenSSL Homelab PKI Suite v$VERSION ($sha)"
     echo "OpenSSL Binary: $("$OPENSSL" version)"
@@ -218,6 +233,15 @@ cmd_version() {
 }
 
 cmd_update() {
+    while [ $# -gt 0 ]; do
+        case $1 in
+            -y|--yes)   ASSUME_YES=1 ;;
+            -h|--help)  echo "Usage: pki update [-y]"; return 0 ;;
+            *) die "Unknown option for update: $1" ;;
+        esac
+        shift
+    done
+
     section "PKI Suite Update Manager"
     if ! command -v git >/dev/null 2>&1; then
         warn "Git command not found in PATH."
@@ -226,25 +250,35 @@ cmd_update() {
         return 1
     fi
 
-    if ! git -C "$SCRIPT_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-        warn "This installation is not a Git clone ($SCRIPT_DIR)."
+    local repo=${SCRIPT_DIR:-}
+    if ! is_suite_clone; then
+        warn "This installation is not a Git clone${repo:+ ($repo)}."
         echo "To enable 1-click updates, clone the repository via:"
         echo "git clone https://github.com/Der-Felix/pki_script.git"
         return 1
     fi
 
     local current_sha
-    current_sha=$(git -C "$SCRIPT_DIR" rev-parse --short HEAD 2>/dev/null || echo "unknown")
+    current_sha=$(git -C "$repo" rev-parse --short HEAD 2>/dev/null || echo "unknown")
     info "Current version: v$VERSION ($current_sha)"
     info "Checking remote repository (origin/main)..."
 
-    if ! git -C "$SCRIPT_DIR" fetch origin main 2>/dev/null; then
+    if ! git -C "$repo" fetch origin main 2>/dev/null; then
         warn "Could not fetch from remote 'origin/main'. Check network connection."
         return 1
     fi
 
     local behind_count
-    behind_count=$(git -C "$SCRIPT_DIR" rev-list "HEAD..origin/main" --count 2>/dev/null || echo "0")
+    if ! behind_count=$(git -C "$repo" rev-list --count "HEAD..origin/main" 2>/dev/null); then
+        err "Could not compare local HEAD with origin/main (git rev-list failed)."
+        return 1
+    fi
+    case $behind_count in
+        ''|*[!0-9]*)
+            err "Unexpected output from git rev-list: '$behind_count'"
+            return 1
+            ;;
+    esac
 
     if [ "$behind_count" -eq 0 ]; then
         ok "Everything is up to date! You are running the latest version (v$VERSION - $current_sha)."
@@ -256,9 +290,9 @@ cmd_update() {
     
     if [ "${ASSUME_YES:-0}" = "1" ] || confirm "Do you want to pull and install the latest updates now?"; then
         info "Pulling latest updates..."
-        if git -C "$SCRIPT_DIR" pull --ff-only origin main; then
+        if git -C "$repo" pull --ff-only origin main; then
             local new_sha
-            new_sha=$(git -C "$SCRIPT_DIR" rev-parse --short HEAD 2>/dev/null || echo "unknown")
+            new_sha=$(git -C "$repo" rev-parse --short HEAD 2>/dev/null || echo "unknown")
             ok "Successfully updated to $new_sha! OpenSSL Homelab PKI Suite is up to date."
         else
             err "Fast-forward update failed. Please run 'git pull' manually to resolve local changes."
@@ -284,7 +318,7 @@ dispatch_cli() {
             cmd_version
             ;;
         update|upgrade)
-            cmd_update "$@"
+            cmd_update "$@" || exit $?
             ;;
         presets)
             print_presets
